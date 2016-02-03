@@ -1,0 +1,43 @@
+<div>
+ 	<md-toolbar layout="column" class="md-tall bg-schooldays-green" layout-padding >
+	  <div class="tc-white-1" flex-container="row">
+	  	<a href="javascript:;" data-activates="slide-out" class="hide-on-large-only" ng-click="toggleLeft()"><i class="mdi-navigation-menu material-icons tiny"></i></a>
+	  </div>
+	  <div layout class="tc-white-1 mt++" flex-container="row">
+	    <div flex="90"  ><span  class="fs-title display-block space-around center">Students</span></div>
+	    <div  flex="10" class="frt">
+			 <div class="mt" ng-show="checkAdmin()">
+			 	<div class="fab">
+		 		<button class="fab__primary btn btn--xl iconBg btn--fab rounded" lx-ripple >
+		            <i class="mdi mdi-apps"></i>
+		            <i class="mdi mdi-apps"></i>
+	       		</button>
+	       		<div class="fab__actions fab__actions--left" ng-init="create=false">
+	        	<button ng-hide="create" class="btn btn--l btn--black btn--fab iconBg rounded" ng-click="mainTemplate('','student-profile'); create= true;" lx-ripple lx-tooltip="Create New Student" tooltip-position="bottom">
+	        		<ng-md-icon  icon="person_add" ></ng-md-icon>
+	        	</button>
+	        	<button ng-show ="create" class="btn btn--l btn--black btn--fab iconBg rounded" ng-click="studentCreate(student)" lx-ripple lx-tooltip="Save" tooltip-position="bottom">
+	        		<ng-md-icon  icon="save" ></ng-md-icon>
+	        	</button>
+	        	<button ng-show ="create" class="btn btn--l btn--black btn--fab iconBg rounded" ng-click="mainTemplate('','classlist'); create=false;" lx-ripple lx-tooltip="Cancel" tooltip-position="bottom">
+	        		<ng-md-icon  icon="cancel" ></ng-md-icon>
+	        	</button>
+	        	 <button ng-hide="create" class="btn btn--l btn--black btn--fab iconBg rounded" lx-ripple lx-tooltip="Sort" tooltip-position="bottom" ng-click="order('firstName');">
+	        	 	<i class="mdi mdi-sort-alphabetical"></i>
+	        	 </button> 
+	        	 <button ng-hide="create" class="btn btn--l btn--black btn--fab iconBg rounded" lx-ripple lx-tooltip="Delete" tooltip-position="bottom">
+	        	 	<i class="mdi mdi-delete"></i>
+	        	 </button>
+	        	 </div>
+	       		 </div>
+   			 </div>
+	 </div>
+	 </div>
+	</md-toolbar>
+ </div>
+<div layout-fill layout-wrap ng-init="mainTemplate('evaluations','classlist')">
+  <div layout-fill class="tc-white-1" >
+  	<md-progress-linear layout-margin ng-show="loader" md-mode="indeterminate"></md-progress-linear>
+    <div layout-margin class="white"  resize style="height:{{windowHeight-150+'px'}};overflow:auto"><div ng-include="template1.pageDetails"></div></div>
+  </div>
+</div>

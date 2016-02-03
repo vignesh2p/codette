@@ -1,0 +1,21 @@
+<div resize style="height:{{windowHeight-150+'px'}}" ng-init="loadClientDetail()">
+	<div flex-container="column">
+		<div flex-item layout-margin layout-padding>
+			 <img layout-margin src="/assets/images/vernalis_home_logo.png" alt="" class="circle aligncenter" style="width:100px;height:100px">
+			 <div layout-fill layout-margin class="center center"><span class="fs-subhead display-block black-text">{{clientDetail.orgName}}</span></div>
+		</div>
+		<md-divider layout-fill></md-divider>
+		<div flex-item layout-margin layout-padding>
+	 	 	<div layout-fill layout-margin><span class="fs-title black-text display-block">Contact</span></div>
+	 	 	<div layout-fill layout-margin  ng-repeat="phoneNumber in clientDetail.phoneNumbers" ng-show="$first"><span class="fs-subhead display-block black-text">{{phoneNumber.phoneNo}}</span></div>
+	 	 	<div layout-fill layout-margin ng-repeat="emailaddress in clientDetail.emailAddresses" ng-show="$first"><span class="fs-subhead display-block black-text">{{emailaddress.emailId}}</span></div>
+	 	 	<div layout-fill layout-wrap layout-margin  ng-repeat="address in clientDetail.addresses" ng-show="$first"><span class="fs-subhead display-block black-text">{{address.line1}} {{address.state}} {{address.country}}</span></div>
+	 	</div>
+	 	<div flex-item layout-margin layout-padding>
+		 	<div layout-fill layout-margin><span class="fs-title black-text display-block">Connect</span></div>
+		 	<div layout-fill layout-margin><span class="fs-subhead display-block black-text">www.jonsnow.com</span></div>
+		 	<div layout-fill layout-margin><span class="fs-subhead display-block black-text">LinkedIn</span></div>
+		 	<div layout-fill layout-margin><span class="fs-subhead display-block black-text">Twitter</span></div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,16 @@
+<!-- <div class="input-field col s12">
+    <select>
+      <option value="" disabled selected>Choose your option</option>
+      <option value="{{items.options}}" ng-repeat="items in isMultipleChoice">{{items.options}}</option>
+    </select>
+    <label>Select</label>
+</div>
+ -->
+<lx-select id="orgType" ng-model="options"  placeholder="Choose your option" choices="isMultipleChoice" selection-to-model="toModel(data, callback)" model-to-selection="toSelection(data, callback)">
+    <lx-select-selected>
+         {{ $selected.options }}
+     </lx-select-selected>
+     <lx-select-choices >
+         {{ $choice.options }}
+     </lx-select-choices>
+</lx-select>

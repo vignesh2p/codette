@@ -1,0 +1,30 @@
+{
+    "serviceDescription": "Mystudio provides innovative design solutions to small and large buusiness. We specialize in web design,web and mobile development, and branding",
+    "promoteBusiness": "Most of our promotion id done through word-of-mouth. We also have a website and active social media presence. Our designers attend and host workshops in Manhattan.",
+    "businessProfile": [
+        {
+            "name": "Peter Dinklage Media,LLC",
+            "classification": "LLC",
+            "date": "June 3rd,2014",
+            "license": "On File",
+            "insurance": "Not On File",
+            "address": [
+                {
+                    "line1": "316 e",
+                    "line2": "108th street",
+                    "country": "NY",
+                    "city": "ManHattan",
+                    "zipcode": "10016"
+                }
+            ],
+            "officeSpace": "Yes,at business address"
+        }
+    ],
+    "employees": [
+        {
+            "employeeNo": "3",
+            "pay": "1099",
+            "payMode": "Corporate Draw"
+        }
+    ]
+}

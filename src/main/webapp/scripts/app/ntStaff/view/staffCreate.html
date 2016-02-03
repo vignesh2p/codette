@@ -1,0 +1,151 @@
+<div resize style="height:{{windowHeight-70+'px'}}">
+		<div layout-margin layout-padding flex-container="column">
+		<div flex-item layout-margin layout-padding flex-container="row">
+			<div  flex="30">
+		        <lx-select ng-model="nonTchngStaff.designation" placeholder="Designation" choices="designationList" floating-label ng-init="loadDesignationList()">
+            					<lx-select-selected>
+               						 {{ $selected.value }}
+           						 </lx-select-selected>
+           						 <lx-select-choices>
+                					{{ $choice.value }}
+            					 </lx-select-choices>
+        		</lx-select>
+		       <!--  <md-input-container style="  margin-top: 69px;" >
+		        		 <label>Designation</label>
+		          		<input ng-model="nonTchngStaff.designation">
+		        </md-input-container> -->
+	        </div> 
+	        <div  flex="40">
+			 	<img layout-margin layout-padding src="/assets/images/profile.jpg" alt="" class="circle aligncenter" style="width:150px;height:150px">
+			 </div>
+			 <div layout-fill layout-margin flex="20" class="frt">
+        	</div>
+		</div>
+		<md-divider layout-fill></md-divider>
+		<div flex-item layout-margin layout-padding>
+	 	 		<div layout-margin layout-padding flex-container="row">
+						<div flex="50" class="fs-subhead black-text">
+						 	<md-input-container > <label>First Name</label>
+	          					<input ng-model="nonTchngStaff.firstName" required>
+	        				</md-input-container> 
+						</div>	 	 		
+	 	 				<div flex="50" class="fs-subhead black-text">
+						 	<md-input-container> <label>Last Name</label>
+	          					<input ng-model="nonTchngStaff.lastName" required>
+	        				</md-input-container> 
+						</div>	
+						<!-- <div flex="20" class="fs-subhead black-text">
+						 	<md-datepicker ng-model="nonTchngStaff.submissionDate" md-placeholder="Enter date"></md-datepicker>
+						</div> -->
+	 	 		</div>
+	 	 		<div layout-margin layout-padding flex-container="row">
+	 	 			<div flex="50"  class="fs-subhead black-text">
+	 	 					<md-input-container>
+	      						<label>Date of Birth</label>
+						 		<input type="text" pick-a-date="dateOfBirth" ng-model="nonTchngStaff.dateOfBirth" md-placeholder="Enter your date" required></md-datepicker>
+	      				</md-input-container>
+	 	 			</div>
+	 	 			
+	 	 			<div  flex="50"  class="fs-subhead black-text">
+		 	 			<label> Gender </label>
+		 	 			<br>
+		 	 			<div class="radio-group">
+ 						   	<div class="radio-button">
+        						<input type="radio" id="male" name="gender" value="MALE" ng-model="nonTchngStaff.gender" class="radio-button__input">
+        						<label for="male" class="radio-button__label">Male</label>
+    					   	</div>
+
+    						<div class="radio-button">
+        						<input type="radio" id="female" name="gender" value="FEMALE" ng-model="nonTchngStaff.gender" class="radio-button__input">
+        						<label for="female" class="radio-button__label">Female</label>
+   	 						</div>
+						</div>
+ 		
+		 	 		 </div>
+   				</div>
+   				<div layout-margin layout-padding flex-container="row">
+   					<div  flex="50"  class="fs-subhead black-text">
+   						<md-input-container >
+	      					<label>Email</label>
+	      					<input ng-model="nonTchngStaff.emailAddresses" type="emailAddresses" required>
+	   					 </md-input-container>
+   					</div>
+	   				<div  flex="50"  class="fs-subhead black-text">
+	   					<md-input-container>
+	      				 	 <label>Address</label>
+	       					 <textarea ng-model="nonTchngStaff.addresses" columns="1" md-maxlength="150" ></textarea>
+	      				</md-input-container>
+	   				</div>
+   				</div>
+	 	<div layout-margin layout-padding flex-container="row">
+   					<div  flex="50"  class="fs-subhead black-text">
+   							<md-input-container >
+	      				 	 <label>Biography</label>
+	       					 <textarea ng-model="nonTchngStaff.bioGraphy" columns="1" md-maxlength="150"></textarea>
+	      				</md-input-container>
+	   				
+	 				</div>
+	 		<div  flex="50"  class="fs-subhead black-text">
+   							<md-input-container >
+	      				 	 <label>Experience</label>
+	       					 <input ng-model="nonTchngStaff.experience" ></input>
+	      				</md-input-container>	      				
+	 				</div>		
+	 	</div>
+	 		<div layout-margin layout-padding flex-container="row">
+   					<div  flex="50"  class="fs-subhead black-text">
+   						<md-input-container >
+	      				 	 <label>Date of Joining</label>
+	       					 <input type="text" pick-a-date="dateOfJoinig" ng-model="nonTchngStaff.dateOfJoining" required></input>
+	      				</md-input-container>			
+	 				</div>
+	 				<div  flex="50"  class="fs-subhead black-text">
+   							<md-input-container >
+	      				 	 <label>FatherName</label>
+	       					 <input ng-model="nonTchngStaff.fatherName" ></input>
+	      				</md-input-container>
+	 				</div>
+	 		</div>
+	 		<div layout-margin layout-padding flex-container="row" ng-init="loadCommunityList();">
+   					<div  flex="50"  class="fs-subhead black-text">
+   							 <lx-select ng-model="nonTchngStaff.community" placeholder="Community" choices="communityList" floating-label required>
+            					<lx-select-selected>
+               						 {{ $selected.value }}
+           						 </lx-select-selected>
+           						 <lx-select-choices>
+                					{{ $choice.value }}
+            					 </lx-select-choices>
+        					 </lx-select>
+   							<!-- <md-input-container >
+	      				 	 <label>Community</label>
+	       					 <input ng-model="nonTchngStaff.community" ></input>
+	      				</md-input-container> -->
+	 				</div>
+	 		<div  flex="50"  class="fs-subhead black-text" ng-init="loadReligionList();">
+   							<lx-select ng-model="nonTchngStaff.religion" placeholder="Religion" choices="religionList" floating-label required>
+            					<lx-select-selected>
+               						 {{ $selected.value }}
+           						 </lx-select-selected>
+           						 <lx-select-choices class="black-text">
+                					{{ $choice.value }}
+            					 </lx-select-choices>
+        					 </lx-select>
+   							<!-- <md-input-container >
+	      				 	 <label>Religion</label>
+	       					 <input ng-model="nonTchngStaff.religion"></input>
+	      					</md-input-container>
+	   				 -->
+	 				</div>
+	 	
+	 	</div>
+	 		<div layout-margin layout-padding flex-container="row">
+   				<div  flex="50"  class="fs-subhead black-text">
+	 				<md-input-container >
+	 	 				 <label>Contact</label>
+	          				<input ng-model="nonTchngStaff.contacts">
+	     			</md-input-container> 
+	 			</div>
+	 		</div>	
+	</div>
+</div>
+</div>

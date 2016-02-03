@@ -1,0 +1,46 @@
+{
+"questions":
+[
+    {
+        "qno": "1",
+        "question": "Question1???",
+        "type": "isOption",
+        "optionValue": true,
+        "typeList": [
+            {
+                "options": "yes"
+            },
+            {
+                "options": "no"
+            }
+        ],
+        "multipleChoiceValue": false,
+        "isFreeText": false
+    },
+    {
+        "qno": "2",
+        "question": "Question2???",
+        "type": "isMultipleChoice",
+        "optionValue": false,
+        "multipleChoiceValue": true,
+        "typeList": [
+            {
+                "options": "option1"
+            },
+            {
+                "options": "option2"
+            }
+        ],
+        "isFreeText": false
+    },
+    {
+        "qno": "3",
+        "question": "Question3???",
+        "type": "isFreeText",
+        "optionValue": false,
+        "typeList": [],
+        "multipleChoiceValue": false,
+        "isFreeText": true
+    }
+]
+}

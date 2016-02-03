@@ -1,0 +1,59 @@
+{
+	"evaluationStatus" : [
+		{
+			"type"  : "Request Pending",
+			"count" : "0"
+		},
+		{
+			"type"  : "Registration",
+			"count" : "4"
+		},
+		{
+			"type"  : "Pre-Qualification",
+			"count" : "2"
+		},
+		{
+			"type"  : "Self-Assessment",
+			"count" : "2"
+		},
+		{
+			"type"  : "Discovery",
+			"count" : "2"
+		},
+		{
+			"type"  : "Compliance Evaluation",
+			"count" : "0"
+		},
+		{
+			"type"  : "Final Determination",
+			"count" : "1"
+		},
+		{
+			"type"  : "Classification Notice",
+			"count" : "0"
+		},
+		{
+			"type"  : "Onboarding",
+			"count" : "2"
+		}
+	],
+	"documentationStatus" : [
+		{
+			"type"  : "Incomplete",
+			"count" : "2"
+		},
+		{
+			"type"  : "Pending Approval",
+			"count" : "16"
+		},
+		{
+			"type"  : "Expired",
+			"count" : "3"
+		},
+		{
+			"type"  : "Valid",
+			"count" : "218"
+		}
+	] 
+}
+

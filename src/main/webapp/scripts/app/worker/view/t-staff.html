@@ -1,0 +1,32 @@
+<div>
+ 	<md-toolbar layout="column" class="md-tall profile" layout-padding style="background: #673AB7;" >
+	  <div class="tc-white-1" flex-container="row">
+	  	<a href="javascript:;" data-activates="slide-out" class="hide-on-large-only" ng-click="toggleLeft()"><i class="mdi-navigation-menu material-icons tiny"></i></a>
+	  </div>
+	  <div  layout="row" >
+	     <div flex="80" class="aligncenter"><span class="fs-display-1 display-block">Teaching Staffs</span></div>
+	     <div flex="20" class="aligncenter" ng-init="create=false">
+	     <ng-md-icon icon="person_add" style="color : white; cursor: pointer;" size="30" ng-hide="create" ng-click="create=true;mainTemplate('','staffCreate');" >
+			<md-tooltip md-autohide="true">
+                        Create New Staff
+            </md-tooltip>
+		</ng-md-icon>
+		<ng-md-icon icon="highlight_remove" style="color : white; cursor: pointer;" size="30" ng-show="create" ng-click="create=false;mainTemplate('','list');">
+			<md-tooltip md-autohide="true">
+                       Cancel
+            </md-tooltip>
+		</ng-md-icon>
+		<ng-md-icon icon="save"  style="fill: white; cursor: pointer;" size="30" ng-show="create" ng-click="save()">
+			<md-tooltip md-autohide="true">
+                        Save
+                 </md-tooltip>
+			</ng-md-icon>
+		</div>
+	</md-toolbar>
+ </div>
+<div class="details" layout-fill layout-wrap ng-init="mainTemplate('','list')">
+  <div layout-fill class="tc-white-1" >
+  <md-progress-linear layout-margin ng-show="loader" md-mode="indeterminate"></md-progress-linear>
+    <div layout-margin class="white"  resize style="height:{{windowHeight-120+'px'}};overflow:auto"><div ng-include="template1.pageDetails"></div></div>
+  </div>
+</div>

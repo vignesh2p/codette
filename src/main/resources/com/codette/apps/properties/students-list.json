@@ -1,0 +1,76 @@
+{
+	"studentsList":	[
+		{
+		  "firstName": "Arya Strack",
+		  "id" : "123456789",
+		  "dateOfBirth" : "19-07-1994",
+		  "address" : "TNHB Colony",
+		  "gender"  : "Male",
+		  "contact" : "9629400474s"
+		},
+		{
+		  "firstName": "Arssya Strack",
+		  "id" : "123456dcdz",
+		  "dateOfBirth" : "19-07-1994",
+		  "address" : "TNHB Colony",
+		  "gender"  : "Male",
+		  "contact" : "9629400474s"
+		},
+		{
+		  "firstName": "Nam Strack",
+		  "id" : "12zdf6789",
+		  "dob" : "19-07-1994",
+		  "address" : "TNHB Colony",
+		  "gender"  : "Male",
+		  "contact" : "9629400474s"
+		},
+		{
+		  "firstName": "AAron",
+		  "id" : "12zdvcdv789",
+		  "dob" : "19-07-1994",
+		  "address" : "TNHB Colony",
+		  "gender"  : "Male",
+		  "contact" : "9629400474s"
+		},
+		{
+		  "firstName": "Alexx",
+		  "id" : "12zxf6789",
+		  "dob" : "19-07-1994",
+		  "address" : "TNHB Colony",
+		  "gender"  : "Male",
+		  "contact" : "9629400474s"
+		},
+		{
+		  "firstName": "Anto Cruiz",
+		  "id" : "12z256789",
+		  "dob" : "19-07-1994",
+		  "address" : "TNHB Colony",
+		  "gender"  : "Male",
+		  "contact" : "9629400474s"
+		},
+		{
+		  "firstName": "Roshan.K",
+		  "id" : "12zd5889",
+		  "dob" : "19-07-1994",
+		  "address" : "TNHB Colony",
+		  "gender"  : "Male",
+		  "contact" : "9629400474s"
+		},
+		{
+		  "firstName": "Samuel.R",
+		  "id" : "sdcxzcxcd",
+		  "dob" : "19-07-1994",
+		  "address" : "TNHB Colony",
+		  "gender"  : "Male",
+		  "contact" : "9629400474s"
+		},
+		{
+		  "firstName": "Vinoth.S",
+		  "id" : "sadasda",
+		  "dob" : "19-07-1994",
+		  "address" : "TNHB Colony",
+		  "gender"  : "Male",
+		  "contact" : "9629400474s"
+		}
+	]
+}

@@ -1,0 +1,48 @@
+<div ng-init="loadClientList()">
+ 	<md-toolbar layout="column" class="light-blue md-tall" layout-padding>
+	  <div layout class="tc-white-1 mt++" flex-container="row">
+	    <div flex="30" layout-align="start end" layout><span class="fs-title display-block">Clients</span></div>
+	    <div flex="50" class="mlt10">
+			<div layout-align="start start">
+			    <form>
+				    <div ng-controller="DemoCtrl as ctrl" layout="column" ng-cloak="" class="autocompletedemoCustomTemplate" ng-app="school-management">
+				       <md-autocomplete class="light-blue darken-2" ng-disabled="ctrl.isDisabled" md-no-cache="ctrl.noCache" md-selected-item="ctrl.selectedItem" 
+					     md-search-text-change="ctrl.searchTextChange(ctrl.searchText)" md-search-text="ctrl.searchText" md-selected-item-change="ctrl.selectedItemChange(item)" 
+					     md-items="item in repos" md-item-text="item.name" md-min-length="0" placeholder="Pick an Angular repository" md-menu-class="autocomplete-custom-template">
+					       <md-item-template>
+					         <span class="item-title">
+					           <!-- <md-icon md-svg-icon="img/icons/octicon-repo.svg"></md-icon> -->
+					           <span> {{item.name}} </span>
+					         </span>
+					       </md-item-template>
+					    </md-autocomplete>
+					</div>
+			    </form>
+	    	</div>
+	    </div>
+	    <div layout-align="center center" class="mlt10"><span class="fs-subhead display-block white-text">Sort By</span></div>
+	 </div>
+	</md-toolbar>
+	<div class="light-blue" flex-container="row">
+		<div flex="20"></div>
+		<div flex="50" layout-margin><span class="fs-title display-block white-text">{{clientList.count}} Clients</span></div>
+		<div class="mlt40"><a href="javascript:;" class="btn btn--m btn--white btn--raised light-blue-text">NEW CLIENT</a></div>
+	</div>
+ </div>
+<!--  <div><div class="p+ light-blue"></div></div>
+ <div><div class="p+ light-blue"></div></div> -->
+<div layout="row" layout-sm="column" layout-fill layout-wrap>
+  <div layout-fill class="tc-white-1" flex-container="row">
+    <div flex="20"></div>
+    <div flex="60" layout-margin class="white"  resize style="height:{{windowHeight-190+'px'}};border:1px solid #ddd;overflow:auto">
+		<div>
+			<ul class="collection grey-text m0">
+			    <li class="collection-item avatar" ng-repeat="client in clientList.clientUsersList" ng-click="clientView()" ng-class="{hoverClass:hovering}" ng-mouseenter="hovering=true" ng-mouseleave="hovering=false">
+			      <img src="{{client.imageUrl}}" alt="" class="circle">
+			      <p class="black-text"><span class="titles">{{client.userName}}</span></p>
+			    </li>
+			</ul>
+		</div>
+    </div>
+  </div>
+</div>

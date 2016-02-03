@@ -1,0 +1,87 @@
+{
+	"menuItems" : [
+		
+		{
+			"menuTitle": "Profile",
+			"viewby": ["ADMIN", "TEACHING STAFF","NON TEACHING STAFF"],
+			"style":"",
+			"menuItemDisplay": "profile",
+			"icon": "dashboard",
+			"url":"#profile"
+			
+		},	
+		{
+			"menuTitle": "Students",
+			"viewby": ["ADMIN","TEACHING STAFF"],
+			"style":"",
+			"menuItemDisplay": "dashboard",
+				"icon": "star",
+			"url":"#students"
+		},
+		{
+			"menuTitle": "Teaching Staffs",
+			"viewby": ["ADMIN"],
+			"style":"",
+			"menuItemDisplay": "teachingStaffs",
+				"icon": "person",
+			"url":"#teachingStaffs"
+		},
+		{
+			"menuTitle": "Non-Teaching Staffs",
+			"viewby": ["ADMIN"],
+			"style":"",
+			"menuItemDisplay": "ntStaffs",
+				"icon": "person_outline",
+			"url":"#ntStaffs"
+		},
+		{
+			"menuTitle": "Attendence",
+			"viewby": ["TEACHING STAFF"],
+			"style":"",
+			"menuItemDisplay": "attendence",
+			"icon": "spellcheck",
+			"url":"#attendence"
+			
+		},
+		{
+			"menuTitle": "Leave Management System",
+			"viewby": ["ADMIN", "TEACHING STAFF","NON TEACHING STAFF"],
+			"style":"",
+			"menuItemDisplay": "Leave Management System",
+				"icon": "mail",
+			"url":"#lms"
+		},
+		{
+			"menuTitle": "Logs",
+			"viewby": ["ADMIN"],
+			"style":"",
+			"menuItemDisplay": "reports",
+				"icon": "dialpad",
+			"url":"#reports"
+		},
+		{
+			"menuTitle": "Fees Management",
+			"viewby": ["ADMIN"],
+			"style":"",
+			"menuItemDisplay": "Fees Management System",
+			"icon": "attach_money",
+			"url":"#fms"
+		},
+		{
+			"menuTitle": "School Info",
+			"viewby": ["ADMIN","TEACHING STAFF","NON TEACHING STAFF"],
+			"style":"",
+			"menuItemDisplay": "schoolInfo",
+				"icon": "security",
+			"url":"#schoolInfo"
+		},
+		{
+			"menuTitle": "Exam",
+			"viewby": ["ADMIN"],
+			"style":"",
+			"menuItemDisplay": "exam",
+				"icon": "pages",
+			"url":"#exams"
+		}
+	]
+}

@@ -1,0 +1,35 @@
+{
+	"inboxList":	[
+		{
+		  "label" : "New Pre-Qualification Request",
+		  "createdFor": "Arya Strack",
+		  "type" : "VIEW REQUEST",
+		  "createdDate" : "today",
+		  "createdTime" : "4:15pm"
+		},
+		{
+		  "label" : "New Pre-Qualification Request",
+		  "createdFor": "xxxx",
+		  "type" : "VIEW REQUEST",
+		  "createdDate" : "today",
+		  "createdTime" : "3:15pm"
+		},
+		{
+		  "label" : "Self-Assessment Complete",
+		  "createdFor": "yyyy Strack",
+		  "type" : "VIEW ASSESSMENT",
+		  "createdDate" : "today",
+		  "createdTime" : "4:15pm"
+		},
+		{
+		  "label" : "Kelly flagged a question",
+		  "createdFor": "Arya Strack",
+		  "type" : "GO TO QUESTION",
+		  "createdDate" : "today",
+		  "createdTime" : "4:15pm"
+		}
+	],
+	
+	"activityList":	[
+	]
+}

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-4.1.xsd">
+		
+
+
+	<context:component-scan base-package="com.codette.apps.controller" />
+	<context:component-scan base-package="com.codette.apps.service" />
+	<context:component-scan base-package="com.com.codette.apps.dao" />
+	<context:component-scan base-package="com.codette.apps.dao.impl" />
+	<context:component-scan base-package="com.codette.apps.dto" />
+	<!-- To enable @RequestMapping process on type level and method level -->
+	<!-- Enables plain Controllers -->
+    <!-- <bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter" /> -->
+    <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
+	<!-- <bean
+		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<ref bean="jsonConverter" />
+			</list>
+		</property>
+	</bean> -->
+	
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+      	<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/sd" />
+		<property name="username" value="root"></property>
+		<property name="password" value=""></property>
+	</bean> 
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	<bean id="userDAO" class="com.codette.apps.dao.impl.UserDAOImpl">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<bean id="CommonDAO" class="com.codette.apps.dao.impl.CommonDAOImpl">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<bean id="leaveDAO" class="com.codette.apps.dao.impl.LeaveManagementImpl">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<bean id="StaffDAO" class="com.codette.apps.dao.impl.StaffDAOImpl">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
+		<!-- <property name="messageConverters">
+			<list>
+				<ref bean="jsonConverter" />
+			</list>
+		</property> -->
+	</bean>
+
+	<!-- <import resource="common-context.xml" /> -->
+</beans>

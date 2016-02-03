@@ -1,0 +1,14 @@
+<div ng-init="loadUserList()">
+	<ul class="collection grey-text m0">
+	    <li class="collection-item">
+		     <div flex-container="row" layout-align="space-between center">
+		     	<div><span class="fs-body-1 grey-text fontW600 display-block">4 Users</span></div>
+		     	<div><a class="fs-body-1 display-block"><md-button>New User</md-button></a></div>
+		     </div>
+	    </li>
+	    <li class="collection-item avatar" ng-repeat="users in userList" ng-class="{hoverClass:hovering}" ng-mouseenter="hovering=true" ng-mouseleave="hovering=false">
+	      <img src="/assets/images/vernalis_home_logo.png" alt="" class="circle">
+	      <p class="black-text"><span class="titles">{{users.firstName}} {{users.lastName}}</span></p>
+	    </li>
+	</ul>
+</div>

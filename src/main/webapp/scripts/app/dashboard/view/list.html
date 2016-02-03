@@ -1,0 +1,22 @@
+ <div>
+	<ul class="collection grey-text m0" >
+	    <li class="collection-item avatar cursor-pointer" ng-repeat="lists in students">
+	    <div flex-container="row">
+	    	  <div flex="10" layout-padding>
+		    	  <div class="circle profileImg">
+			      	<img src="/assets/images/no-img.jpg"  >
+			      </div>
+		      </div>
+		      <div flex="60">
+		      	 <div flex-container="column" >
+			      <div flex="20" class="black-text fs-subhead">{{lists.firstName}} {{lists.lastName}} </div>
+			      <div flex="20" class="black-text">  Register No : {{lists.id}}  </div>
+			      <div flex="20" class="black-text">DOB: {{lists.dateOfBirth}} </div>
+			     </div>
+		      </div>
+	      </div>
+	    </li>
+	    <div ng-show="!students.length" layout-padding layout-margin class="align-center"> <span>No Students</span> </div>
+  </ul>
+</div>
+

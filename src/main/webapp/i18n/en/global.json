@@ -1,0 +1,18 @@
+{
+    "global": {
+        "title": "School Management",
+        "browsehappy": "You are using an <strong>outdated</strong> browser. Please <a href=\"http://browsehappy.com/?locale=en\">upgrade your browser</a> to improve your experience.",
+        "menu": {
+            "login": "Login",
+            "logout": "Logout",
+            "dashboard": "Dashboard",
+            "testcase": "Testcases",
+            "organization": "Organizations",
+            "users": "Users"
+        },
+        "footer": "Copyright &#169; Vernalis Systems 2015.",
+        "resetPassword": "Please enter your email address below and well email you a secure link that will allow you to create a new password",
+        "getStarted": "Welcome to Personnel and Player Management System. In order to register as Player or Official please verify your details and submit your applications by making required declarations",
+        "verifyCode": "Enter verification code"
+        }
+}

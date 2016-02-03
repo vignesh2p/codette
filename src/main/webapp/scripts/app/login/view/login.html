@@ -1,0 +1,90 @@
+<div style="position: relative; " class="fs-headline display-block white-text aligncenter m20 text-darken-3">School Management</div>
+<div flex="100" layout="row" layout-fill layout-align="center center" layout-margin md-theme="default">
+	<div flex-sm="80" flex-md="50" flex-lg="40" flex="25" flex-container="column">
+	  <form name="loginForm" id="loginForm" ng-submit="login(user)">
+    	<div flex-item>
+	        <div  class="card cardBorder" layout-fill>
+	        	<md-toolbar class="white" layout="row">
+                     <div class="p20 aligncenter">
+                         <span class="fs-title display-block grey-text text-darken-2 fontW600">Sign In</span>
+                     </div>
+                 </md-toolbar>
+	        	<div class="p+">
+	            <div class="fs-body-1">
+			        <div flex-container="column">
+					    <div>
+					      <div layout layout-sm="row">
+					        <md-input-container flex=100">
+					          <label translate="login.form.login"></label>
+					          <input type="text" ng-model="user.userName" required>
+					         <!--  <div role="alert">
+					      		<span class="error" translate="error.required"></span>
+					    	  </div>-->
+					        </md-input-container>
+					     </div>
+					     <div layout layout-sm="row">
+					        <md-input-container flex="100">
+					          <label translate="login.form.password"></label>
+					          <input type="password" ng-model="user.userSecret" required>
+					          <!-- <div role="alert">
+					      		<span class="error"  translate="error.required"></span>
+					    	  </div> -->
+					        </md-input-container>
+					     </div>
+				       </div>
+			     	</div>
+	            </div>
+	            </div>
+	            <div class="card__actions" layout>
+	                <div class="tc-white-1" flex-container="row" layout-sm="column" layout-align="space-around center" layout layout-fill>
+					    <div layout layout-sm="row" layout-md="row" flex="50" layout-align="center center">
+					     	<div layout layout-sm="column" layout-md="column">
+					     		<button type="submit" class="md-button md-raised light-blue darken-2 md-primary " data-style="expand-left" ladda="spin" md-theme-watch="true">login</button>
+					     	</div>
+				    	</div>
+				    	<div layout layout-sm="column" layout-md="column" flex="50"><a href="#forgotPassword" class="fs-subhead display-block black-text">Forgot Password</a></div>
+					</div>
+	            </div>
+	        </div>
+	        <div class="aligncenter" style="margin-top: 10px;" layout-fill><span ng-click="opendDialog('helpDesk');" class="grey-text text-darken-5">Having trouble ? Send us a message</span></div>
+	      </div>
+      </form>
+    </div>
+</div>   
+<lx-dialog class="dialog dialog--l" id="helpDesk" auto-close="true" onclose="closingDialog()" style="position:absolute;top:30%">
+    <div class="dialog__header">
+        <div class="toolbar light-blue pl++">
+            <!-- <span class="toolbar__label tc-white fs-title">
+              Help
+            </span>
+            <p class="tc-white fs-title">We are sorry that you are having a trouble</p> -->
+             <div flex-container="column">
+			      <div layout layout-sm="row">
+				      <span class="tc-white fs-title">
+			              Help
+			           </span>
+			     </div>
+			     <div layout layout-sm="row">
+			     	<span class="fs-body-1 tc-white  display-block">We are sorry that you are having a trouble</span>
+			     </div>
+	     	</div>
+        </div>
+    </div>
+	<form id="updateAddressForm" ng-submit="save()">
+	    <div class="dialog__content p+">
+	    	<div class="row">
+			    <form class="col s12">
+			      <div class="row">
+			        <div class="input-field col s12">
+			          <textarea id="textarea1" class="materialize-textarea">{{helpDesk}}</textarea>
+			        </div>
+			      </div>
+			    </form>
+		   </div>
+	    </div>
+	    <div class="dialog__actions" layout-sm="column">
+	        <button layout id="closeDialog" class="btn btn--m  light-blue darken-2 btn--flat " type="submit" lx-ripple>Send to Priority Support</button>
+	        <button layout class="btn btn--m  light-blue darken-2 btn--flat " lx-ripple lx-dialog-close type="button">Cancel</button>
+	    </div>
+    </form>
+</lx-dialog>

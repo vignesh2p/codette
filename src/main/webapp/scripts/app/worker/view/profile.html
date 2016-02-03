@@ -1,0 +1,102 @@
+<div layout-margin layout-padding ng-init="getPersonProfile()">
+	<div flex-container="column">
+		<span layout-margin layout-padding class="fs-headline black-text display-block">Services and Promotions</span>
+		<div flex-item layout-margin layout-padding>
+	 	 	<div layout-fill layout-margin layout-padding style="margin-left:0px;padding-left:0px"><span class="fs-title black-text display-block">Description of Services</span></div>
+	 	 	<div layout-fill layout-margin><span class="fs-body-1 display-block black-text">{{personProfile.serviceDescription}}</span></div>
+	 	</div>
+	 	<div flex-item layout-margin layout-padding>
+		 	<div layout-fill layout-margin layout-padding style="margin-left:0px;padding-left:0px"><span class="fs-title black-text display-block">How Do You Promote Your Business</span></div>
+		 	<div layout-fill layout-margin><span class="fs-body-1 display-block black-text">{{personProfile.promoteBusiness}}</span></div>
+		</div>
+		<md-divider layout-fill></md-divider>
+	</div>
+	<div ng-repeat="businessProfile in personProfile.businessProfile">
+		<span layout-margin layout-padding class="fs-headline black-text display-block">Buisness Profile</span>
+		<div layout="row" layout-margin>
+			 	<div layout flex="30">
+					 <div><span class="fs-body-1 black-text display-block">Buisness Name:</span></div>
+				</div>
+				<div layout flex="70">
+					    <div><span class="fs-body-1 black-text display-block">{{businessProfile.name}}</span></div>
+				</div>
+		</div>
+				<div layout="row" layout-margin>
+			 	<div layout flex="30">
+					 <div><span class="fs-body-1 black-text display-block">Tax Classification:</span></div>
+				</div>
+				<div layout flex="70">
+					    <div><span class="fs-body-1 black-text display-block">{{businessProfile.classification}}</span></div>
+				</div>
+		</div>
+				<div layout="row" layout-margin>
+			 	<div layout flex="30">
+					 <div><span class="fs-body-1 black-text display-block">Date Established:</span></div>
+				</div>
+				<div layout flex="70">
+					    <div><span class="fs-body-1 black-text display-block">{{businessProfile.date}}</span></div>
+				</div>
+		</div>
+				<div layout="row" layout-margin>
+			 	<div layout flex="30">
+					 <div><span class="fs-body-1 black-text display-block">Business License:</span></div>
+				</div>
+				<div layout flex="70">
+					    <div><span class="fs-body-1 black-text display-block">{{businessProfile.license}}</span></div>
+				</div>
+		</div>
+				<div layout="row" layout-margin>
+			 	<div layout flex="30">
+					 <div><span class="fs-body-1 black-text display-block">Business Insurance:</span></div>
+				</div>
+				<div layout flex="70">
+					    <div><span class="fs-body-1 black-text display-block">{{businessProfile.insurance}}</span></div>
+				</div>
+		</div>
+		<div layout="row" layout-margin ng-repeat="address in businessProfile.address">
+			 	<div layout flex="30">
+					 <div><span class="fs-body-1 black-text display-block">Buisness Address:</span></div>
+				</div>
+				<div layout flex="70">
+					    <div><span class="fs-body-1 black-text display-block">{{address.line1}}{{address.line2}}</span></div>
+					    <div><span class="fs-body-1 black-text display-block">{{address.city}},{{address.country}}{{address.zipcode}}</span></div>
+				</div>
+		</div>
+				<div layout="row" layout-margin>
+			 	<div layout flex="30">
+					 <div><span class="fs-body-1 black-text display-block">Dedicated Office Space:</span></div>
+				</div>
+				<div layout flex="70">
+					    <div><span class="fs-body-1 black-text display-block">{{businessProfile.officeSpace}}</span></div>
+				</div>
+		</div>
+		<md-divider layout-fill></md-divider>
+	</div>
+	<div ng-repeat="employee in personProfile.employees">
+		<span layout-margin layout-padding class="fs-headline black-text display-block">Employees</span>
+		<div layout="row" layout-margin>
+		 	<div layout flex="30">
+				 <div><span class="fs-body-1 black-text display-block">Number of Employees:</span></div>
+			</div>
+			<div layout flex="70">
+				    <div><span class="fs-body-1 black-text display-block">{{employee.employeeNo}}</span></div>
+			</div>
+		</div>
+				<div layout="row" layout-margin>
+		 	<div layout flex="30">
+				 <div><span class="fs-body-1 black-text display-block">Employees Paid As:</span></div>
+			</div>
+			<div layout flex="70">
+				    <div><span class="fs-body-1 black-text display-block">{{employee.pay}}</span></div>
+			</div>
+		</div>
+				<div layout="row" layout-margin>
+		 	<div layout flex="30">
+				 <div><span class="fs-body-1 black-text display-block">How Do You Pay Yourself:</span></div>
+			</div>
+			<div layout flex="70">
+				    <div><span class="fs-body-1 black-text display-block">{{employee.payMode}}</span></div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,94 @@
+{
+	"staffList":	[
+		{
+		  "firstName": "Arya Strack",
+		  "id" : "123456789",
+		  "dateOfBirth" : "19-07-1994",
+		  "address" : "TNHB Colony",
+		  "gender"  : "Male",
+		  "contact" : "9629400474",
+		  "classTeacherID":"VI std A sec",
+		  "designation": "Accounts"
+		},
+		{
+		  "firstName": "Arssya Strack",
+		  "id" : "123456dcdz",
+		  "dateOfBirth" : "19-07-1994",
+		  "address" : "TNHB Colony",
+		  "gender"  : "Male",
+		  "contact" : "9629400474",
+		  "classTeacherID":"VII std A sec",
+		  "designation": "Accounts"
+		},
+		{
+		  "firstName": "Nam Strack",
+		  "id" : "12zdf6789",
+		  "dateOfBirth" : "19-07-1994",
+		  "address" : "TNHB Colony",
+		  "gender"  : "Male",
+		  "contact" : "9629400474",
+		  "classTeacherID":"V std B  sec",
+		  "designation": "Accounts"
+		},
+		{
+		  "firstName": "AAron",
+		  "id" : "12zdvcdv789",
+		  "dateOfBirth" : "19-07-1994",
+		  "address" : "TNHB Colony",
+		  "gender"  : "Male",
+		  "contact" : "9629400474s",
+		  "classTeacherID":"VI std E sec",
+		  "designation": "Accounts"
+		},
+		{
+		  "firstName": "Alexx",
+		  "id" : "12zxf6789",
+		  "dateOfBirth" : "19-07-1994",
+		  "address" : "TNHB Colony",
+		  "gender"  : "Male",
+		  "contact" : "9629400474s",
+		  "classTeacherID":"X std A sec",
+		  "designation": "Accounts"
+		},
+		{
+		  "firstName": "Anto Cruiz",
+		  "id" : "12z256789",
+		  "dateOfBirth" : "19-07-1994",
+		  "address" : "TNHB Colony",
+		  "gender"  : "Male",
+		  "contact" : "9629400474s",
+		  "classTeacherID":"XII std A sec",
+		  "designation": "Accounts"
+		},
+		{
+		  "firstName": "Roshan.K",
+		  "id" : "12zd5889",
+		  "dateOfBirth" : "19-07-1994",
+		  "address" : "TNHB Colony",
+		  "gender"  : "Male",
+		  "contact" : "9629400474s",
+		  "classTeacherID":"XII std B sec",
+		  "designation": "Accounts"
+		},
+		{
+		  "firstName": "Samuel.R",
+		  "id" : "sdcxzcxcd",
+		  "dateOfBirth" : "19-07-1994",
+		  "address" : "TNHB Colony",
+		  "gender"  : "Male",
+		  "contact" : "9629400474s",
+		  "classTeacherID":"III std A sec",
+		  "designation": "Accounts"
+		},
+		{
+		  "firstName": "Vinoth.S",
+		  "id" : "sadasda",
+		  "dateOfBirth" : "19-07-1994",
+		  "address" : "TNHB Colony",
+		  "gender"  : "Male",
+		  "contact" : "9629400474s",
+		  "classTeacherID":"IV std A sec",
+		  "designation": "Accounts"
+		}
+	]
+}

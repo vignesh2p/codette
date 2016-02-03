@@ -1,0 +1,50 @@
+<div>
+ 	<md-toolbar layout="column" class="md-tall profile" layout-padding style="background: #3F51B5;" >
+	  <div class="tc-white-1" flex-container="row">
+	  	<a href="javascript:;" data-activates="slide-out" class="hide-on-large-only" ng-click="toggleLeft()"><i class="mdi-navigation-menu material-icons tiny"></i></a>
+	  </div>
+	  <div  layout="row" style="height:{{windowHeight-150+'px'}}; ">
+	     <div flex="80" class="aligncenter"><span class="fs-display-1 display-block">Leave Management</span></div>
+	     <div flex="20" class="aligncenter toolbarButton " ng-init="createEdit = checkAdmin(); create = false;">
+		<div layout="row">
+		<div flex="45">
+		<button class="btn btn--m btn--transparent btn--fab iconBg"  ng-hide="createEdit || create" ng-click="create=true; mainTemplate('','details');"  lx-ripple lx-tooltip="Create New Leave Request" tooltip-position="left" ><i class="mdi mdi-plus"></i></button>
+		<ng-md-icon icon="highlight_remove" style="color : white;cursor: pointer;" size="30" ng-show="create" ng-click="create=false;mainTemplate('','list'); loader=false;">
+			<md-tooltip md-autohide="true">
+                       Cancel
+            </md-tooltip>
+		</ng-md-icon>
+		</div>
+		<div flex="10">
+		</div>
+		<div flex="45">
+		
+		<ng-md-icon icon="send" style="color : white; cursor: pointer;" size="30" ng-show="create" ng-click="createNewLeaveRequest(lms);mainTemplate('','list');create=false;">
+			<md-tooltip md-autohide="true">
+                        Send Leave Request
+             </md-tooltip>
+		</ng-md-icon>
+		</div>
+		
+		<div flex="45">
+		<ng-md-icon icon="sync" style="color : white; cursor: pointer;" size="30" ng-show="checkAdmin()" ng-click="updateLms(lmsPending)">
+			<md-tooltip md-autohide="true">
+                       Approve / Decline
+             </md-tooltip>
+		</ng-md-icon>
+		</div>
+		</div>
+		</div>
+		</div>
+	 </div>
+	</md-toolbar>
+ </div>
+ <div>
+ </div> 
+<div class="details" layout-fill layout-wrap ng-init="mainTemplate('','list')">
+  
+  <div layout-fill class="tc-white-1" >
+  	<md-progress-linear layout-margin ng-show="loader" class="md-warn md-hue-3" md-mode="indeterminate"></md-progress-linear>
+    <div layout-margin class="white"  resize style="height:{{windowHeight-120+'px'}};overflow:auto"><div ng-include="template1.pageDetails"></div></div>
+  </div>
+</div>

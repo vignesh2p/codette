@@ -1,0 +1,16 @@
+<div>
+ 	<md-toolbar layout="column" class="md-tall bg-schooldays-green" layout-padding >
+	  <div class="tc-white-1" flex-container="row">
+	  	<a href="javascript:;" data-activates="slide-out" class="hide-on-large-only" ng-click="toggleLeft()"><i class="mdi-navigation-menu material-icons tiny"></i></a>
+	  </div>
+	  <div layout class="tc-white-1 mt++" flex-container="row">
+	    <div flex="90"  ><span  class="fs-title display-block space-around center">Attendence</span></div>
+	 </div>
+	</md-toolbar>
+ </div>
+<div layout-fill layout-wrap ng-init="mainTemplate('','classlist')">
+  <div layout-fill class="tc-white-1" >
+  	<md-progress-linear layout-margin ng-show="loader" md-mode="indeterminate"></md-progress-linear>
+    <div layout-margin class="white"  resize style="height:{{windowHeight-150+'px'}};overflow:auto"><div ng-include="template1.pageDetails"></div></div>
+  </div>
+</div>

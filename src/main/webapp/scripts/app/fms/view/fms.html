@@ -1,0 +1,19 @@
+<div flex-container="column">
+<div flex="30">
+ 	<md-toolbar layout="column" class="md-tall profile" layout-padding style="background: #3F51B5;" >
+	  <div class="tc-white-1" flex-container="row">
+	  	<a href="javascript:;" data-activates="slide-out" class="hide-on-large-only" ng-click="toggleLeft()"><i class="mdi-navigation-menu material-icons tiny"></i></a>
+	  </div>
+	  <div  layout="row" style="height:{{windowHeight-150+'px'}}; ">
+	     <div flex="100" class="aligncenter"><span class="fs-display-1 display-block">Fees Management</span></div>
+	  </div>
+	</md-toolbar>
+ </div>
+
+<div flex="70"  layout-fill layout-wrap ng-init="mainTemplate('','classlist')" style="margin-top: 50px;">
+  <div layout-fill class="tc-white-1" >
+  	<md-progress-linear layout-margin ng-show="loader" md-mode="indeterminate"></md-progress-linear>
+    <div layout-margin class="white"  resize style="height:{{windowHeight-130+'px'}};overflow:auto "><div ng-include="template1.pageDetails"></div></div>
+  </div>
+</div>
+</div>

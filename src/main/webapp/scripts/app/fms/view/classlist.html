@@ -1,0 +1,9 @@
+ <div>
+  <div class="md-padding black-text"  ng-init="loadClassList()">
+    <md-tabs md-dynamic-height md-border-bottom style="    min-height: 50px;">
+      <md-tab ng-repeat="tab in classList"  label="{{tab.standard.standard}} -  {{tab.section.section}}" ng-click="loadStudentsList(tab.standard.id, tab.section.id)">
+      </md-tab>
+      </md-tabs>
+  </div> 
+   <div ng-include="'scripts/app/fms/view/list.html'"></div>
+</div>

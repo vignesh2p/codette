@@ -1,0 +1,35 @@
+<div flex="100" layout="row" layout-fill layout-align="center center" layout-margin>
+	<div  flex-sm="80" flex-md="50" flex-lg="40" flex="25" flex-container="column" layout-fill >
+    	<div flex-item>
+    	<div class="fs-headline display-block white-text aligncenter m20 text-darken-3">Independent Contractor Evaluations</div>
+	        <div class="card cardBorder" layout-fill>
+	       		 <md-toolbar class="white" layout="row">
+                     <div class="p20 aligncenter">
+                         <span class="fs-title display-block grey-text text-darken-1 fontW600">Check your Email</span>
+                     </div>
+                 </md-toolbar>
+	        	<div class="p+">
+		            <div class="fs-body-1">
+				        <div flex-container="column" ng-init="getMailedTo()">
+						      <div layout-margin layout="column" layout-sm="column" class="m20">
+						      	<div class="aligncenter"><span class="fs-body-1 display-block grey-text text-darken-1 fontW600">A link to reset your password has been sent to</span></div>
+						      	<div class="aligncenter"><span class="black-text text-darken-1 fontW600">{{mailedTo}}</span></div>
+						     </div>
+						     <div layout-margin layout="column" layout-sm="column" class="m20">
+						     	<div class="aligncenter"><span class="fs-body-1 display-block grey-text text-darken-1 fontW600">If you continue to have a trouble</span></div>
+						     	<div class="aligncenter"><span class="schooldays-text text-darken-1 fontW600" ng-click="opendDialog('helpDesk');">contact our helpdesk</span></div>
+						     </div>
+				     	</div>
+		            </div>
+	            </div>
+	            <div class="card__actions m20" layout>
+	                <div class="tc-white-1" flex-container="row" layout-align="center center" layout layout-fill>
+					    <div layout layout-sm="row"><a href="#resetPassword"><md-button class="md-raised schooldays darken-2 md-primary" md-theme-watch="true">Return to Login</md-button></a></div>
+					</div>
+	            </div>
+	        </div>
+	        <div class="aligncenter" layout-fill><span ng-click="opendDialog('helpDesk');" class="grey-text text-darken-5">Having trouble ? Send us a message</span></div>
+      </div>
+    </div>
+</div>   
+

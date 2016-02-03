@@ -1,0 +1,5 @@
+{
+"Admin" : ["search","head"],
+"Staff" : ["checkbox","status"],
+"Principal" :['Approval', "absent"]
+}

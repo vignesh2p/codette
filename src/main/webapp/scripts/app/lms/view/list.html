@@ -1,0 +1,46 @@
+<div>
+<div>
+  <md-content class="md-padding" ng-init="display = checkAdmin(); getPendingLms();">
+    <md-tabs md-dynamic-height md-border-bottom  md-stretch-tabs="always">
+      <md-tab label="LMS pending" >
+        <md-content class="md-padding" >
+        <div resize>
+          <div flex-container="column"  layout-margin ng-repeat="list in lmsPending">
+			<div flex-container="row">
+				<div flex="40"> 
+					<div class="fs-title uc" ng-show="display">{{list.staff.firstName}} {{list.staff.lastName}}</div>
+					<div class="black-text">From : {{list.from}} ( {{list.fromTime}} )</div>
+					<div class="black-text">To : {{list.to}} ({{list.toTime}})</div>
+					<div class="fs-subhead">Reason : {{list.reason}}</div>
+				</div>
+				<div flex="30"></div>
+				<div class="black-text" flex="30" ng-show="display"><md-switch ng-model="list.approveStatus"  ng-init="list.approveStatus = false" aria-label="Switch 1"><span ng-show="list.approveStatus" >Approve</span><span ng-hide="list.approveStatus">Decline</span></md-switch></div>
+				<div class="black-text flag-blue" flex="30" ng-class="statusClass(list.status)" ng-hide="display">{{list.status}}</div>
+			</div>
+			<md-divider ng-if="!$last"></md-divider>
+		</div>
+		<div ng-show="!lmsPending" class="md-content" layout-padding layout-margin ><ng-md-icon  icon="cloud_off" ></ng-md-icon>No data Found</div>
+		</div>
+        </md-content>
+      </md-tab>
+      <md-tab label="LMS History">
+        <md-content class="md-padding" ng-init="getHistoryLms();">
+			<div flex-container="column" layout-margin layout-padding ng-repeat="list in lmsHistory" >
+			<div flex-container="row">
+				<div flex="40"> 
+					<div class="fs-title uc" ng-show="display" >{{list.staff.firstName}} {{list.staff.lastName}}</div>
+					<div class="black-text">From : {{list.from}} ( {{list.fromTime}} )</div>
+					<div class="black-text">To : {{list.to}} ({{list.toTime}})</div>
+					<div class="fs-subhead">Reason : {{list.reason}}</div>
+				</div>
+				<div flex="30"></div>
+				<div  flex="30" class="" style="padding-top : 25px; padding-bottom : 25px;"> <span class="black-text " ng-class="statusClass(list.status)"> {{list.status}} </span></div>
+			</div>
+			<md-divider ng-if="!$last"></md-divider>
+		</div>
+        </md-content>
+      </md-tab>
+    </md-tabs>
+  </md-content>
+</div>
+</div>

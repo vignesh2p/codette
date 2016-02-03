@@ -1,0 +1,152 @@
+<!doctype html>
+<html class="no-js" ng-app="school-management">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title translate="global.title"></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+        <!-- build:css assets/styles/vendor.css -->
+        <!-- bower:css -->
+        <!-- <link rel="stylesheet" href="bower_components/semantic-ui/dist/semantic.min.css" /> -->
+        <link rel="stylesheet" href="bower_components/angular-bootstrap/ui-bootstrap-csp.css" />
+        <link rel="stylesheet" href="bower_components/lumx/dist/lumx.css" />
+        <link rel="stylesheet" href="bower_components/lumx/modules/icon/scss/_icon.scss" />
+        <link rel="stylesheet" href="bower_components/angular-treasure-overlay-spinner/src/treasure-overlay-spinner.css" />
+        <link rel="stylesheet" href="bower_components/materialize/dist/css/materialize.min.css" />
+        <link rel="stylesheet" href="bower_components/angular-material-icons/angular-material-icons.css" />
+        <link rel="stylesheet" href="assets/font-awesome-4.4.0/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="bower_components/textAngular/dist/textAngular.css" />
+        <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
+        <link rel="stylesheet" href="bower_components/angular-datepicker/dist/angular-datepicker.css" />
+        <link rel="stylesheet" href="bower_components/material-design-icons/css/materialdesignicons.css" />
+		<link rel="stylesheet" href="bower_components/ladda/dist/ladda-themeless.min.css">
+        
+      <!--   <link rel="stylesheet" href="bower_components/bootstrap-css-only/css/bootstrap.min.css" /> -->
+         
+        <!-- endbower -->
+        <!-- endbuild -->
+        <!-- build:css assets/styles/main.css -->
+        <link rel="stylesheet" href="assets/styles/fonts.css"/>
+        <!-- <link rel="stylesheet" href="assets/styles/main.css"/> -->
+        <link rel="stylesheet" href="assets/styles/style.css"/>
+        <!-- <link rel="stylesheet" href="assets/styles/fileUpload.css"/> -->
+        <!-- endbuild -->
+    </head>
+    
+     <body ng-app="school-management" md-theme="default" md-theme-watch layout-fill layout="row">
+         <!--[if lt IE 10]>
+      		<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    	<![endif]-->
+        <!-- <md-content layout-fill layout="row"> -->
+         <div layout="row" layout-fill style="height: 100%;">
+        <!--  <div ng-view="" layout-fill layout="row"></div> -->
+	          <div ui-view="left" class="w304"></div>
+	          <div ui-view="top"></div>
+	          <div ui-view="right" layout-fill style="height: 100%;overflow:hidden" class="login-gradient"></div>
+          </div>
+       <!-- </md-content> -->
+        
+       
+
+        <!-- Google Analytics: uncomment and change UA-XXXXX-X to be your site's ID.
+        <script>
+            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+            e.src='//www.google-analytics.com/analytics.js';
+            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+            ga('create','UA-XXXXX-X');ga('send','pageview');
+        </script>-->
+
+        <!-- build:js scripts/vendor.js -->
+        <!-- bower:js -->
+       <script src="bower_components/jquery/dist/jquery.js"></script>
+       <script src="bower_components/velocity/velocity.js"></script>
+	    <script src="bower_components/angular/angular.js"></script>
+	    <script src="bower_components/lumx/dist/js/lumx.js"></script>
+	    <script src="bower_components/angular-animate/angular-animate.js"></script>
+	    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+	    <script src="bower_components/angular-touch/angular-touch.js"></script>
+	    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+	    <script src="bower_components/angular-resource/angular-resource.js"></script>
+	    <script src="bower_components/angular-route/angular-route.js"></script>
+	    <script src="bower_components/angular-aria/angular-aria.js"></script>
+	    <!-- <script src="bower_components/semantic-ui/dist/semantic.min.js"></script> -->
+	    <script src="bower_components/angular-material/angular-material.min.js"></script>
+	    <script src="bower_components/angular-translate/angular-translate.js"></script>
+	    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+	    <script src="bower_components/angular-translate-loader-partial/angular-translate-loader-partial.js"></script>
+	    <script src="bower_components/toastr/toastr.js"></script>
+	    <script src="bower_components/lumx/modules/dialog/js/dialog_directive.js"></script>
+	    <script src="bower_components/lumx/modules/dropdown/js/dropdown_directive.js"></script>
+	    <script src="bower_components/lumx/modules/dropdown/js/dropdown_template.js"></script>
+	    <script src="bower_components/lumx/modules/select/js/select_directive.js"></script>
+	    <script src="bower_components/lumx/modules/select/js/select_template.js"></script>
+	    <script src="bower_components/angular-treasure-overlay-spinner/src/treasure-overlay-spinner.js"></script>
+	    
+	    <script src="bower_components/ng-file-upload/ng-file-upload-shim.js"></script>
+	    <script src="bower_components/ng-file-upload/ng-file-upload.js"></script>
+	    <script src="bower_components/materialize/dist/js/materialize.min.js"></script>
+	    <script src="bower_components/angular-material-icons/angular-material-icons.js"></script>
+	    <script src='bower_components/textAngular/dist/textAngular-rangy.min.js'></script>
+		<script src='bower_components/textAngular/dist/textAngular-sanitize.min.js'></script>
+		<script src='bower_components/textAngular/dist/textAngular.js'></script>
+		<script src='bower_components/angular-native-picker/build/angular-datepicker.js'></script>
+		<script src='bower_components/textAngular/dist/textAngularSetup.js'></script>
+		<!-- <script src='bower_components/textAngular-master/textAngular-dropdownToggle.js'></script>
+		<script src='bower_components/textAngular-master/bootstrap-colorpicker-module.js'></script> -->
+	    <script src='bower_components/angular-ui-router/release/angular-ui-router.min.js'></script>
+	    <script src='bower_components/angular-jquery/dist/angular-jquery.min.js'></script>
+	    <script src='bower_components/angular-datepicker/dist/angular-datepicker.js'></script>
+	    <!-- <script src="bower_components/ng-file-upload/upload.js"></script> -->
+	    <script src="bower_components/ladda/dist/spin.min.js"></script>
+		<script src="bower_components/ladda/dist/ladda.min.js"></script>
+		<script src="bower_components/angular-ladda/dist/angular-ladda.min.js"></script>
+        <!-- endbower -->
+        <!-- endbuild -->
+
+
+		<!-- build:js({.tmp,src/main/webapp}) scripts/app.js -->
+		<script src="scripts/app/config/index-module.js"></script>
+		<script src="scripts/app/components/navbar/navbar.directive.js"></script>
+		<script src="scripts/app/config/index-run.js"></script>
+		<!--  <script src="scripts/app/config/index-route.js"></script> -->
+		<script src="scripts/app/base-layout/state/index-state.js"></script>
+		<script src="scripts/app/config/index-constants.js"></script>
+		<script src="scripts/app/config/index-config.js"></script>
+		<script src="scripts/app/config/rest-service.js"></script>
+		<script src="scripts/app/base-layout/js/main-controller.js"></script>
+		<script src="scripts/app/login/js/login-controller.js"></script>
+		<script src="scripts/app/login/js/login-factory.js"></script>
+		<script src="scripts/app/login/js/login-service.js"></script>
+		<script src="scripts/app/config/temporary-storage.js"></script>
+		
+		<script src="scripts/app/ntStaff/js/ntStaffController.js"></script>
+		<script src="scripts/app/ntStaff/js/ntStaff-service.js"></script>
+
+		<script src="scripts/app/dashboard/js/dashboard-controller.js"></script>
+		<script src="scripts/app/dashboard/js/dashboard-detail-controller.js"></script>
+		<script src="scripts/app/dashboard/js/dashboard-detail-service.js"></script>
+		<script src="scripts/app/dashboard/js/dashboard-list-controller.js"></script>
+		<script src="scripts/app/dashboard/js/dashboard-list-service.js"></script>
+		 
+		<script src="scripts/app/worker/js/worker-controller.js"></script>
+		<script src="scripts/app/worker/js/worker-detail-controller.js"></script>
+		<script src="scripts/app/worker/js/worker-detail-service.js"></script>
+		<script src="scripts/app/worker/js/worker-list-controller.js"></script>
+		<script src="scripts/app/worker/js/worker-list-service.js"></script>
+    	
+    	<script src="scripts/app/profile/js/profile-controller.js"></script>
+    	<script src="scripts/app/profile/js/profile-service.js"></script>
+    	<script src="scripts/app/lms/js/lms-controller.js"></script>
+    	<script src="scripts/app/lms/js/lms-service.js"></script>
+       	<script src="scripts/app/exam/js/exam-controller.js"></script>
+    
+    	<script src="scripts/app/fms/js/fms-controller.js"></script>
+    	<script src="scripts/app/fms/js/fms-service.js"></script>
+    <!-- endbuild -->
+    
+</body>
+</html>

@@ -1,0 +1,44 @@
+{
+"status" : [
+    {
+        "type": "Request Pending",
+        "count": "2"
+    },
+    {
+        "type": "Registration",
+        "count": "4"
+    },
+    {
+        "type": "Pre-Qualification",
+        "count": "5"
+    },
+    {
+        "type": "Assessment",
+        "count": "2"
+    },
+    {
+        "type": "Discovery",
+        "count": "2"
+    },
+    {
+        "type": "Determination",
+        "count": "5"
+    },
+    {
+        "type": "Classification",
+        "count": "17"
+    },
+    {
+        "type": "On-Boarding",
+        "count": "3"
+    },
+    {
+        "type": "On-Assignment",
+        "count": "103"
+    },
+    {
+        "type": "Non-Complaint",
+        "count": "6"
+    }
+]
+}

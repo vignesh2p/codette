@@ -1,0 +1,8 @@
+<div>
+	<ul class="collection grey-text m0" ng-init="loadActivityList()">
+	    <li class="collection-item avatar" ng-repeat="activity in activityList.activityList">
+	      <img src="/assets/images/vernalis_home_logo.png" alt="" class="circle">
+	      <p class="black-text"><span class="titles">{{activity.userName}}</span> {{activity.status}} {{activity.typeOfActivity}} for <span class="titles"> {{activity.employeeName}} </span> </p>
+	    </li>
+	</ul>
+</div>

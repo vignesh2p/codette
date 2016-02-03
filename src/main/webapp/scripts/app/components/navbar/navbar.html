@@ -1,0 +1,55 @@
+<div layout-margin class="m0" layout="column" class="sidenavdemoBasicUsage" show-gt-md ng-init="rolePermission();">
+	<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
+	    <md-toolbar  class="" style="background : white; padding-top: 15px;">
+	    <div layout-fill layout="column" layout-align="center center">
+	    	<span  class="fs-title display-block schooldays" >School Management</span>
+	    	<img src="assets/images/logo.jpg"style="height: 110px;width: 135px;"/>
+	    </div>
+	    <md-divider style=" margin-top: 15px;" ></md-divider>
+	    </md-toolbar>
+	       <md-content layout="column" flex class="navbar">
+		       <div layout-fill resize style="height:{{windowHeight-215+'px'}};overflow:auto">
+		       <div  ng-repeat="permissions in permission.roleBasedPermissions.menuItems" ng-init="addSelectedClass(permissions.menuItemDisplay)">
+			    <a href="{{permissions.url}}"  id="{{permissions.menuItemDisplay}}" >
+			    	<md-list-item class="md-3-line removeClass" ng-click="changeClass('{{permissions.menuItemDisplay}}')">
+				        <div class="md-list-item-text " layout="row" >
+				          <ng-md-icon flex="20" class="schooldays" icon="{{permissions.icon}}" style="cursor: pointer;" size="20" ></ng-md-icon>
+				          <label flex="80" class="fs-subhead  black-t"> {{permissions.menuTitle}}</label>
+				        </div>
+			    	</md-list-item>
+		    	</a>
+			    </div>
+			    <!-- <md-list-item class="md-3-line aligncenter removeClass">
+			        <div class="md-list-item-text" id="profiles" ng-click="changeClass('profiles')">
+			          <h3><a class="md-raised white-text">Profiles</a></h3>
+			        </div>
+			    </md-list-item>   -->
+		       	</div> 
+		       	<div layout layout-align="center center">
+			    	<lx-dropdown class="aligncenter">
+			    		<div lx-dropdown-toggle layout="row">
+			    			<div flex="20" ><img class="circle" src="/assets/images/no-img.jpg" alt="" ></div>
+			    			<div flex="80">
+			    			<div class="fs-subhead" >{{userName}}</div>
+<!-- 							<div  class="black-text fs-caption display-block aligncenter">{{userRole}}</div>
+ -->							</div>
+							<div  class="user-options"><i class="user-options-down"></i></div>
+						</div>
+						<div class="content ">
+							<lx-dropdown-menu class="aligncenter logoutpop">
+								<ul class="user-options-menu">
+						      		<li class="md-raised fs-subhead display-block schooldays aligncenter" ng-click="logout()" translate="global.menu.logout" ></li>
+								</ul>
+							</lx-dropdown-menu>
+					    </div> 
+				    </lx-dropdown> 
+		       </div>
+	       </md-content>
+  </md-sidenav>
+</div>
+<div class="countDownRow" style="background: none repeat scroll 0% 0% rgb(233, 41, 42); padding: 10px 21px; position: relative;display:none" ng-init="setSessionTimeout()">
+	<div style="font-family:avenir-book; color:white" class="headingDiv">
+		T0 KEEP YOUR DATA SAFE, YOU WILL BE LOGGED OUT IN <span id="countDown"></span><span class="second"> SECONDS</span><span class="minute"> MINUTES</span>
+	</div>
+	<script></script>
+</div>

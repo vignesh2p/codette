@@ -1,0 +1,64 @@
+<form id="updateAddressForm" ng-submit="save()">
+<div layout="row" >
+	 <div flex="30" flex-container="column" class="light-blue">
+	 	 <div layout-margin layout-padding layout-fill><span layout-margin layout-padding class="fs-body-2 display-block white-text">Engagement Request</span></div>
+	 	 <div flex-item>
+		 	 <img layout-margin src="/assets/images/vernalis_home_logo.png" alt="" class="circle aligncenter" style="width:50px;height:50px">
+		 	 <div layout-fill layout-margin class="center center"><span class="fs-subhead display-block white-text">{{engagementDetailsList.userName}}</span></div>
+		 	 <div layout-fill layout-margin class="center center"><span class="fs-caption white-text display-block">{{engagementDetailsList.company}}</span></div>
+	 	 </div>
+	 	 <div flex-item>
+	 	 	<div layout-fill layout-margin class="center center"><span class="fs-caption white-text display-block">Connect</span></div>
+	 	 	<div layout-fill layout-margin class="center center"><span class="fs-subhead display-block white-text">{{engagementDetailsList.connect}}</span></div>
+	 	 	<div layout-fill layout-margin class="center center"><span class="fs-subhead display-block white-text">LinkedIn</span></div>
+	 	 	<div layout-fill layout-margin class="center center" ng-if="engagementDetailsList.linkedIn != ''"><span class="fs-subhead display-block white-text">{{engagementDetailsList.linkedIn}}</span></div>
+	 	 	<div layout-fill layout-margin class="center center"><span class="fs-subhead display-block white-text">Twitter</span></div>
+	 	 	<div layout-fill layout-margin class="center center" ng-if="engagementDetailsList.twitter != ''"><span class="fs-subhead display-block white-text">{{engagementDetailsList.twitter}}</span></div>
+	 	 </div>
+	 	 <div flex-item>
+	 	 	<div layout-fill layout-margin class="center center"><span class="fs-caption white-text display-block">Contact</span></div>
+	 	 	<div layout-fill layout-margin class="center center"><span class="fs-subhead display-block white-text">{{engagementDetailsList.contact.line1}}</span></div>
+	 	 	<div layout-fill layout-margin class="center center"><span class="fs-subhead display-block white-text">{{engagementDetailsList.contact.line2}}</span></div>
+	 	 	<div layout-fill layout-wrap layout-margin class="center center"><span class="fs-subhead display-block white-text">{{engagementDetailsList.contact.line3}}</span></div>
+	 	 </div>
+	 </div>
+	 <div layout flex="70">
+	 	<div layout-margin layout-padding layout-fill layout="column">
+	 		<span  layout-margin class="fs-title black-text display-block">Engagement Request</span>
+		 	<div layout layout-margin><span class="fs-subhead display-block black-text">Engagement Details</span></div>
+
+		 	<div layout="row" layout-margin>
+			 	<div layout="column" flex="50">
+				 	<div layout="column" ng-repeat="leftQuestion in leftQuestions">
+					    <div> <span class="fs-caption grey-text display-block">{{leftQuestion.question}}</span></div>
+					    <div><span class="fs-body-1 display-block">{{leftQuestion.answer}}</span></div>
+					</div>
+				</div>
+				<div layout="column" flex="50">
+					<div layout="column"  ng-repeat="rightQuestion in rightQuestions" >
+					    <div><span class="fs-caption grey-text display-block">{{rightQuestion.question}}</span></div>
+					    <div><span class="fs-body-1 display-block">{{rightQuestion.answer}}</span></div>
+					</div>
+				</div>
+			</div>
+			<div layout layout-margin flex-container="column">
+			    <div><span class="fs-caption grey-text display-block">Program Description</span></div>
+			    <div><span class="fs-body-1 display-block"></span>{{engagementDetailsList.description}}</div>
+			</div>
+			<div layout layout-margin><span class="fs-caption grey-text display-block">Invoice Approvers</span></div>
+			<div layout layout-margin flex-container="row">
+			    <div flex="40" class="input-field m0">
+			      <div><span class="fs-body-1 display-block">{{engagementDetailsList.invoice.primaryApprover}}</span></div>
+		        </div>
+			     <div flex="40" class="input-field m0">
+			     <div><span class="fs-body-1 display-block">{{engagementDetailsList.invoice.secondaryApprover}}</span></div>
+		        </div>
+			</div>
+			<div layout layout-margin flex-container="row" layout-align="end end" layout-sm="column">
+				<div><md-button class="md-raised white"> DECLINE </md-button></div>
+				<div><md-button id="closeDialog" class="md-raised light-blue" lx-ripple lx-dialog-close ng-click="openDeclrations()"> APPROVE </md-button></div>
+			</div>
+		</div>
+	 </div>
+</div>
+</form>

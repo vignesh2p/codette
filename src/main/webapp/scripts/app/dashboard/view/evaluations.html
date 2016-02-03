@@ -1,0 +1,22 @@
+<div class="white">
+   	<ul class="collection grey-text m0">
+	    <li layout-fill class="collection-item avatar" style="padding-left:0px">
+	       <div layout="column"  layout-align="center center">
+	         <span class="fs-display-1 tc-black-1 display-block" >13</span>
+			 <span class="fs-subhead tc-black-2 display-block">Active Evaluations</span>
+	        </div>
+	    </li>
+    </ul>
+    <div layout="column" layout-margin ng-init="loadEvaluationList()">
+        <span class="fs-subhead tc-black-1 display-block">Evaluation Status</span>
+    	<div layout="row" layout-padding ng-repeat="evaluationStatus in evaluationList.evaluationStatus">
+    		<div layout class="black-text">{{evaluationStatus.type}}</div>
+    		<div layout class="black-text"> {{evaluationStatus.count}}</div>
+    	</div>
+    	<span  class="fs-subhead tc-black-1 display-block">Documentation Status</span>
+    	<div layout="row" layout-padding ng-repeat="documentationStatus in evaluationList.documentationStatus">
+    		<div layout class="black-text"> {{documentationStatus.type}}</div>
+    		<div layout class="black-text"> {{documentationStatus.count}}</div>
+    	</div>
+    </div>
+</div>

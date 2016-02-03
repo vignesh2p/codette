@@ -1,0 +1,116 @@
+ <div>
+	<ul class="collection grey-text m0" >
+	    <li class="collection-item avatar cursor-pointer" ng-repeat="lists in students">
+	    <div flex-container="row" ng-click="feesDetails('fees-detais', lists);">
+	    	  <div flex="10" layout-padding>
+		    	  <div class="circle">
+			      	<img src="/assets/images/no-img.jpg"  >
+			      </div>
+		      </div>
+		      <div flex="60">
+		      	 <div flex-container="column" >
+				      <div flex="20" class="black-text fs-subhead">{{lists.firstName}} {{lists.lastName}} </div>
+				      <div flex="20" class="black-text">  Register no : {{lists.id}}  </div>
+			    </div>
+		      </div>
+		      </div>
+	    </li>
+	      <div ng-show="!students.length" layout-padding layout-margin class="align-center"> <span>No Students</span> </div>
+  </ul>
+</div>
+ <lx-dialog class="dialog dialog--l" id="fees-detais" auto-close="true" onclose="closingDialog()" class="mtop20">
+    <div class="dialog__header">
+        <div class="toolbar loginBackground">
+             <div flex-container="column">
+			      <div layout layout-sm="row">
+				      <span class="tc-white fs-title">
+			              Fees Details
+			           </span>
+			     </div>
+			     <div layout layout-sm="row">
+			     	<span class="fs-body-1 tc-white  display-block">Fees details for {{selectedStudent.firstName}} {{selectedStudent.lastName}}</span>
+			     </div>
+	     	</div>
+        </div>
+    </div>
+    <div  layout-margin layout="row">
+    		<div  flex="25">
+	     		<div  class="fs-title display-block">Fees type</div>
+	     	</div>
+	     	<div flex="25">
+	     		<div  class="fs-title display-block">Amount</div>
+	     	</div>
+	     	<div flex="25">
+	     		<div  class="fs-title display-block" >Due Date</div>
+	     	</div>
+	     	<div  flex="25"> 
+				<div  class="fs-title display-block" >Status</div>
+			</div>
+	</div>
+	  <div  layout-margin layout="row">
+    		<div  flex="25">
+	     		<div  class="fs-subhead display-block">Book Fees</div>
+	     	</div>
+	     	<div flex="25">
+	     		<div  class="fs-subhead display-block">10,000 /-</div>
+	     	</div>
+	     	<div flex="25">
+	     		<div  class="fs-subhead display-block" >25-12-2015</div>
+	     	</div>
+	     	<div  flex="25"> 
+				<div  class="fs-subhead display-block" style="color : orange;" >Not Paid</div>
+			</div>
+	</div>
+	<div  layout-margin layout="row">
+    		<div  flex="25">
+	     		<div  class="fs-subhead display-block">Tution Fees</div>
+	     	</div>
+	     	<div flex="25">
+	     		<div  class="fs-subhead display-block">5000 /-</div>
+	     	</div>
+	     	<div flex="25">
+	     		<div  class="fs-subhead display-block" >12-04-2016</div>
+	     	</div>
+	     	<div  flex="25"> 
+	     		<div flex-container="row">
+	     			<span  class="fs-subhead display-block" style="color : green;" flex="50">Paid</span>
+					<ng-md-icon class="schooldays" flex="50" lx-ripple lx-tooltip="Generate receipt" icon="cloud_download" style="cursor: pointer;" size="20"></ng-md-icon>
+	     		</div>
+			</div>
+	</div>
+	<div  layout-margin layout="row">
+    		<div  flex="25">
+	     		<div  class="fs-subhead display-block">Sports Fees</div>
+	     	</div>
+	     	<div flex="25">
+	     		<div  class="fs-subhead display-block">3500 /-</div>
+	     	</div>
+	     	<div flex="25">
+	     		<div  class="fs-subhead display-block" >12-04-2016</div>
+	     	</div>
+	     	<div  flex="25"> 
+				<div  class="fs-subhead display-block" style="color : orange;" >Not Paid</div>
+			</div>
+	</div>
+	<div  layout-margin layout="row">
+    		<div flex="25">
+	     		<div  class="fs-subhead display-block">Extra-Curicular Activities</div>
+	     	</div>
+	     	<div flex="25">
+	     		<div  class="fs-subhead display-block">2000 /-</div>
+	     	</div>
+	     	<div flex="25">
+	     		<div  class="fs-subhead display-block" >02-02-2016</div>
+	     	</div>
+	     	<div  flex="25"> 
+	     		<div flex-container="row">
+	     			<span  class="fs-subhead display-block" style="color : green;" flex="50">Paid</span>
+					<ng-md-icon class="schooldays" flex="50" lx-ripple lx-tooltip="Generate receipt" icon="cloud_download" style="cursor: pointer;" size="20"></ng-md-icon>
+	     		</div>
+			</div>
+	</div>
+</lx-dialog>
+ 
+ 
+ 
+

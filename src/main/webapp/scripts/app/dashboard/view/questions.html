@@ -1,0 +1,19 @@
+   <form id="updateAddressForm" ng-submit="save()">
+     <div class="dialog__header">
+        <div class="toolbar light-blue pl++">
+            <span class="toolbar__label tc-white fs-title">Declarations</span>
+        </div>
+    </div>
+    <div class="dialog__content p+">
+    	<div layout-margin ng-repeat="fields in dyanamicFields.questions">
+    	  <span style="margin-left:0px" layout-margin class="fs-title black-text display-block">{{fields.question}}</span>
+    	  <div my-option-directive ng-if="fields.type =='isOption'" type="{{fields.type}}" id={{fields.typeList}}></div>
+    	  <div my-multiplechoice-directive ng-if="fields.type =='isMultipleChoice'" type="{{fields.type}}" id={{fields.typeList}}></div>
+    	  <div my-freetext-directive ng-if="fields.type =='isFreeText'" type="{{fields.type}}" id={{fields.typeList}}></div>
+    	</div>
+    </div>
+    <div class="dialog__actions">
+        <button id="closeDialog" class="btn btn--m  light-blue darken-2 btn--flat iconBg" lx-ripple lx-dialog-close type="button">Cancel</button>
+        <button class="btn btn--m  light-blue darken-2 btn--flat iconBg" lx-ripple type="submit">Save</button>
+    </div>
+  </form>

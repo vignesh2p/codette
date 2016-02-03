@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+  	   xmlns:p="http://www.springframework.org/schema/p"
+  	   xmlns:ehcache="http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/mvc
+                           http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd
+                           http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context-4.1.xsd
+                           http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring
+     					   http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring/ehcache-spring-1.1.xsd">
+
+
+
+
+<!-- **************************************************************** -->
+  <!--  RESOURCE FOLDERS CONFIGURATION                                  -->
+  <!--  Dispatcher configuration for serving static resources           -->
+  <!-- **************************************************************** -->
+  <mvc:resources location="/assets/" mapping="/assets/**" />
+  <mvc:resources location="/bower_components/" mapping="/bower_components/**" />
+  <mvc:resources location="/i18n/" mapping="/i18n/**" />
+  <mvc:resources location="/scripts/" mapping="/scripts/**" />
+  <mvc:resources location="/**" mapping="/**" />
+  
+  <!-- **************************************************************** -->
+  <!--  SPRING ANNOTATION PROCESSING                                    -->
+  <!-- **************************************************************** -->
+  <mvc:annotation-driven />
+  <context:component-scan base-package="com.codette.apps.frontend.controller" />
+  <context:component-scan base-package="com.codette.apps.frontend.service" />
+  <context:component-scan base-package="com.codette.apps.frontend.translator" />
+  <context:component-scan base-package="com.codette.apps.util" />
+  
+   <mvc:annotation-driven/>
+   
+ 
+   
+  <!-- **************************************************************** -->
+  <!--  MESSAGE EXTERNALIZATION/INTERNATIONALIZATION                    -->
+  <!--  Standard Spring MessageSource implementation                    -->
+  <!-- **************************************************************** -->
+  <bean id="localeResolver"
+		class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+		<property name="defaultLocale" value="en_US" />
+	</bean>
+ 
+	<bean id="localeChangeInterceptor"
+		class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+		<property name="paramName" value="language" />
+	</bean>
+	
+	<bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping" >
+		<property name="interceptors">
+			<list><ref bean="localeChangeInterceptor" /></list>
+		</property>
+	</bean>
+ 
+	<bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping" >
+		<property name="interceptors">
+		   <list>
+			<ref bean="localeChangeInterceptor" />
+		   </list>
+		</property>
+	</bean>
+	
+  <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+    	<property name="basename" value="i18n/MessageResources" />
+  </bean> 
+  <!-- **************************************************************** -->
+  <!--  RESTTEMPLATE, JSON ARTIFACTS                                    -->
+  <!-- **************************************************************** -->
+  <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<ref bean="jsonConverter" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="jsonConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+		<property name="supportedMediaTypes" value="application/json" />
+	</bean>
+  <bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
+  </bean>
+	<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+		<property name="mediaTypes">
+		    <map>
+		        <entry key="json" value="application/json"/>
+		      </map>
+		</property>
+		<property name="viewResolvers">
+		    <list>
+		        <bean class="org.springframework.web.servlet.view.BeanNameViewResolver"/>
+		    </list>
+		</property>
+	</bean>
+ 	<!-- 	*****************  Bean for mail *******************    -->
+ 	<!-- Production implementation of the JavaMailSender interface, supporting 
+		both JavaMail MimeMessages and Spring SimpleMailMessages -->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.gmail.com" />
+		<property name="port" value="587" />
+		<property name="username" value="schooldays.svg@gmail.com" />
+		<property name="password" value="hatevernalis" />
+ 
+		<!-- The name of the property, following JavaBean naming conventions -->
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.transport.protocol">smtp</prop>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.debug">true</prop>
+			</props>
+		</property>
+	</bean>
+ 	
+ 	
+	
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	<property name="maxUploadSize"> <value>10000000</value> </property>
+	</bean>
+	<!-- <mvc:interceptors>
+    	<mvc:interceptor>
+         	<mvc:mapping path="/api/**"/>
+         	<mvc:exclude-mapping path="/api/authentication" />
+    		<bean class="com.codette.apps.interceptors.SessionCheckInterceptor"/>
+    	</mvc:interceptor>
+	</mvc:interceptors> -->
+</beans>

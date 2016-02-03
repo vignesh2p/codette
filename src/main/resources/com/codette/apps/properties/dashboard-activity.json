@@ -1,0 +1,41 @@
+{
+	"inboxList":	[
+	],
+	"activityList":	[
+		{
+		  "userName" : "xxxx",
+		  "status": "approved",
+		  "typeOfActivity" : "Pre-Qualification Call",
+		  "employeeName" : "yyyy",
+		  "createdDateTime" : "14-Aug-2015 4:15pm"
+		},
+		{
+		  "userName" : "xxxx123",
+		  "status": "completed",
+		  "typeOfActivity" : "Pre-Qualification Call",
+		  "employeeName" : "yyyy",
+		  "createdDateTime" : "13-Aug-2015 4:15pm"
+		},
+		{
+		  "userName" : "xxxx456",
+		  "status": "approved",
+		  "typeOfActivity" : "Pre-Qualification Call",
+		  "employeeName" : "yyyy123",
+		  "createdDateTime" : "14-Aug-2015 4:15pm"
+		},
+		{
+		  "userName" : "xxxx678",
+		  "status": "approved",
+		  "typeOfActivity" : "Pre-Qualification Call",
+		  "employeeName" : "yyyy",
+		  "createdDateTime" : "13-Aug-2015 4:15pm"
+		},
+		{
+		  "userName" : "xxxx910",
+		  "status": "approved",
+		  "typeOfActivity" : "Pre-Qualification Call",
+		  "employeeName" : "yyyy456",
+		  "createdDateTime" : "12-Aug-2015 4:15pm"
+		}
+	]
+}

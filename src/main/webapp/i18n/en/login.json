@@ -1,0 +1,17 @@
+{
+    "login": {
+        "title": "Authentication",
+        "form": {
+        	"login": "Login",
+        	"login.placeholder": "Your Login",
+            "password": "Password",
+            "password.placeholder": "Your password",
+            "button": "Sign In"
+        },
+        "messages": {
+            "error": {
+                "authentication": "<strong>Authentication failed!</strong> Please check your credentials and try again."
+            }
+        }
+    }
+}

@@ -1,0 +1,39 @@
+{
+	"person" : [
+    {
+        "firstName": "Arya",
+        "lastName": "Stark",
+        "designation": "User Experience Designer",
+        "phase": "Discovery",
+        "days": "3 Days On This Step, 7 Total Days"
+    },
+    {
+        "firstName": "Danerya",
+        "lastName": "Targaryen",
+        "designation": "Visual Effect Coordinator",
+        "phase": "Assessment",
+        "days": "3 Days On This Step, 7 Total Days"
+    },
+    {
+        "firstName": "Grey",
+        "lastName": "Worm",
+        "designation": "Senior Editor",
+        "phase": "Discovery",
+        "days": "3 Days On This Step, 7 Total Days"
+    },
+    {
+        "firstName": "Jamie",
+        "lastName": "Lannister",
+        "designation": "Visual Effect Coordinator",
+        "phase": "Discovery",
+        "days": "3 Days On This Step, 7 Total Days"
+    },
+    {
+        "firstName": "Peter",
+        "lastName": "Dinlage",
+        "designation": "Art Director",
+        "phase": "Non-Compliant",
+        "days": "3 Days On This Step, 7 Total Days"
+    }
+]
+}
