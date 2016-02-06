@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.codette.apps.dao.StaffDAO;
+import com.codette.apps.dto.AttendenceDTO;
 import com.codette.apps.dto.ClassesDTO;
 import com.codette.apps.dto.CommunityDTO;
 import com.codette.apps.dto.GenderDTO;
@@ -151,9 +152,14 @@ public class StaffServices {
 		return staffDAO.getAllClassList();
 	}
 
-	public List<StudentDTO> getAttendence(Integer staffId) {
+	public List<AttendenceDTO> getAttendence(Integer staffId) {
 		// TODO Auto-generated method stub
 		return staffDAO.getAttendence(staffId);
+	}
+
+	public ResponseBean enableAttendence(Integer staffId) {
+		// TODO Auto-generated method stub
+		return staffDAO.enableAttendence(staffId);
 	}
 
 }
