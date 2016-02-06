@@ -1,1 +1,11 @@
-/bower_components/
+node_modules/karma/node_modules/http-proxy/node_modules/colors/test.js
+node_modules/
+src/main/webapp/bower_components/
+target/
+src/main/webapp/dist/
+.settings/
+.classpath
+*.project
+*.MF
+.metadata/
+src/main/webapp/bower_components/
