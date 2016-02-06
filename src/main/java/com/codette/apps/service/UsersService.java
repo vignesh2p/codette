@@ -71,6 +71,7 @@ public class UsersService {
 		return userDAO.getUsers(role);
 	}
 
+	@Transactional
 	public UserDTO aurthentication(UserAuthenticationDTO userAuthenticationDTO) {
 		// TODO Auto-generated method stub
 		return userDAO.aurthentication(userAuthenticationDTO);

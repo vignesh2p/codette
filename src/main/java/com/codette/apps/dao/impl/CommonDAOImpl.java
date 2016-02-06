@@ -24,7 +24,6 @@ public class CommonDAOImpl  extends NamedParameterJdbcDaoSupport implements Comm
 
 	@Resource
 	CommonUtil commonUtil;
-	
 	@Override
 	public List<CommunityDTO> getCommunity() {
 		List<CommunityDTO> communityList = new ArrayList<CommunityDTO>();
