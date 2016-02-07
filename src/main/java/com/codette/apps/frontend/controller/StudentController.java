@@ -38,7 +38,6 @@ public class StudentController extends BaseController {
 		try {
 			studentsList = studentService.getStudentsList(standardId, sectionId, session);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		 return new ResponseEntity<List<Student>>(studentsList, HttpStatus.OK);

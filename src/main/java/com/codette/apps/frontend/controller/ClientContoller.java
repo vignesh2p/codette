@@ -11,7 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.codette.apps.frontend.model.Client;
+import com.codette.apps.frontend.model.Subject;
 import com.codette.apps.frontend.service.ClientService;
 
 /**
@@ -34,8 +34,8 @@ public class ClientContoller extends BaseController{
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	 public ResponseEntity<?> getClientLists() throws Exception{
-		Client clientList = clientService.getClientList();
-		return new ResponseEntity<Client>(clientList,HttpStatus.OK);
+		Subject clientList = clientService.getClientList();
+		return new ResponseEntity<Subject>(clientList,HttpStatus.OK);
 	 }
 	
 	/***
@@ -45,8 +45,8 @@ public class ClientContoller extends BaseController{
 	 */
 	@RequestMapping(value ="/getClientProfile")
 	public ResponseEntity<?> getClientDetails() throws Exception{
-		Client clientList = clientService.getClientList();
-		return new ResponseEntity<Client>(clientList,HttpStatus.OK);
+		Subject clientList = clientService.getClientList();
+		return new ResponseEntity<Subject>(clientList,HttpStatus.OK);
 	 }
 	
 	

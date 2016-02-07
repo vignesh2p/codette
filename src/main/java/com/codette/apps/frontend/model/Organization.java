@@ -11,7 +11,6 @@ public class Organization {
 	private String orgName;
 	private String id;
 	private String orgType;
-	private AccountLink accountLink;
 	private List<Staff> staffList;
 	private List<Address> addresses;
 	private List<EmailAddress> emailAddresses;
@@ -132,15 +131,6 @@ public class Organization {
 	/**
 	 * @return the accountLink
 	 */
-	public AccountLink getAccountLink() {
-		return accountLink;
-	}
-	/**
-	 * @param accountLink the accountLink to set
-	 */
-	public void setAccountLink(AccountLink accountLink) {
-		this.accountLink = accountLink;
-	}
 	/**
 	 * @return the persons
 	 */

@@ -41,7 +41,7 @@ public class Person {
     
     private List<Asset> assets;
     
-    private AccountLink accountLink;
+    private Exam accountLink;
     
     private List<Alias> alias;
     
@@ -205,14 +205,14 @@ public class Person {
 	/**
 	 * @return the accountLink 
 	 */
-	public AccountLink getAccountLink() {
+	public Exam getAccountLink() {
 		return accountLink;
 	}
 
 	/**
 	 * @param accountLink the accountLink to set
 	 */
-	public void setAccountLink(AccountLink accountLink) {
+	public void setAccountLink(Exam accountLink) {
 		this.accountLink = accountLink;
 	}
 

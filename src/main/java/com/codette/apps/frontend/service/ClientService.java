@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
-import com.codette.apps.frontend.model.Client;
+import com.codette.apps.frontend.model.Subject;
 import com.codette.apps.util.CommonConstants;
 import com.codette.apps.util.CommonUtil;
 
@@ -27,10 +27,10 @@ public class ClientService {
 	@Resource
 	PersonService personService;
 	
-	public Client getClientList() throws JsonSyntaxException, IOException{
+	public Subject getClientList() throws JsonSyntaxException, IOException{
 		File file = new File("clientList.json");
 		InputStream inputStream = null;
-		Client client =null;
+		Subject client =null;
 		if (!file.exists()) {
 			/* if not exists, reading file from appln file path */
 			inputStream =  this
@@ -47,7 +47,7 @@ public class ClientService {
 				throw exception;
 			}
 		}
-		client = gson.fromJson(commonUtil.getStringFromInputStream(inputStream), Client.class);
+		client = gson.fromJson(commonUtil.getStringFromInputStream(inputStream), Subject.class);
 		
 		return client;
 	}

@@ -99,4 +99,6 @@ public class CommonConstants {
 	public static final String CREATE = "/create";
 	public static final String STAFF_CLASSES_URL = "/staffClasses";
 	public static final String TEACHING_STAFF = "TEACHING STAFF";
+	public static final String EXAMS_BASE_URL = "/exams";
+	public static final String CREATE_EXAM = "/create-exam";
 }
