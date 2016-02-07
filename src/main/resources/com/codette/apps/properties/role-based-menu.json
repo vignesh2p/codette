@@ -15,7 +15,7 @@
 			"viewby": ["ADMIN","TEACHING STAFF"],
 			"style":"",
 			"menuItemDisplay": "dashboard",
-				"icon": "star",
+				"icon": "school",
 			"url":"#students"
 		},
 		{
@@ -52,19 +52,11 @@
 			"url":"#lms"
 		},
 		{
-			"menuTitle": "Logs",
-			"viewby": ["ADMIN"],
-			"style":"",
-			"menuItemDisplay": "reports",
-				"icon": "dialpad",
-			"url":"#reports"
-		},
-		{
 			"menuTitle": "Fees Management",
 			"viewby": ["ADMIN"],
 			"style":"",
 			"menuItemDisplay": "Fees Management System",
-			"icon": "attach_money",
+			"icon": "payment",
 			"url":"#fms"
 		},
 		{
@@ -72,7 +64,7 @@
 			"viewby": ["ADMIN","TEACHING STAFF","NON TEACHING STAFF"],
 			"style":"",
 			"menuItemDisplay": "schoolInfo",
-				"icon": "security",
+				"icon": "info_outline",
 			"url":"#schoolInfo"
 		},
 		{
@@ -80,7 +72,7 @@
 			"viewby": ["ADMIN"],
 			"style":"",
 			"menuItemDisplay": "exam",
-				"icon": "pages",
+				"icon": "assignment",
 			"url":"#exams"
 		}
 	]

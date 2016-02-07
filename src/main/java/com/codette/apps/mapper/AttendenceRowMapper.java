@@ -17,7 +17,6 @@ public class AttendenceRowMapper implements RowMapper<AttendenceDTO> {
 			}
 			
 			AttendenceDTO attendenceDTO = new AttendenceDTO();
-			attendenceDTO.setStudentId(rs.getInt("ID_STUDENT"));
 			attendenceDTO.setIsAbsent(rs.getInt("IS_ABSENT"));
 			return attendenceDTO;
 		}

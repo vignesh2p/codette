@@ -5,7 +5,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.annotation.Resource;
+
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -14,7 +16,9 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.codette.apps.dao.StaffDAO;
+import com.codette.apps.dto.AttendenceDTO;
 import com.codette.apps.dto.ClassesDTO;
 import com.codette.apps.dto.CommunityDTO;
 import com.codette.apps.dto.GenderDTO;
@@ -298,8 +302,8 @@ public class StaffDAOImpl extends NamedParameterJdbcDaoSupport implements StaffD
 		     		        }	
 		     		       CREATE_STUDENT = CREATE_STUDENT + "0,NOW(),"+accessId+")";
 		     		       
-		     		      String ATTENDENCE = "INSERT INTO `attendence`(`ID_STUDENT`, `IS_ABSENT`,`IS_DELETED`,`CREATED_ON`,`CREATED_BY`) "
-		     		      		+ "VALUES (?,0,0,NOW(),"+accessId+")";
+		     		      String ATTENDENCE = "INSERT INTO `attendence`(`ID_STUDENT`, `IS_ABSENT`,`IS_ENABLE`,`IS_DELETED`,`CREATED_ON`,`CREATED_BY`) "
+		     		      		+ "VALUES (?,0,0,0,NOW(),"+accessId+")";
 		     		      try{
 		     		    	  KeyHolder keyHolder = new GeneratedKeyHolder();
 		     				   SqlParameterSource namedParameters = new BeanPropertySqlParameterSource(
@@ -632,13 +636,14 @@ public class StaffDAOImpl extends NamedParameterJdbcDaoSupport implements StaffD
 	}
 
 	@Override
-	public List<StudentDTO> getAttendence(Integer staffId) {
-		List<StudentDTO> students = new ArrayList<StudentDTO>(); 
+	public List<AttendenceDTO> getAttendence(Integer staffId) {
+		List<AttendenceDTO> attendencesList = new ArrayList<AttendenceDTO>(); 
 		String CLASS_LIST = "SELECT ID_STANDARD,ID_SECTION FROM `staff_class` "
 				+ " WHERE IS_CLASS_TEACHER = 1 AND ID_STAFF = "+staffId;
 		
 		
-		String GET_STUDENTS = "SELECT * FROM student A " 
+		String GET_STUDENTS = "SELECT * FROM ATTENDENCE ATD " 
+				+ " LEFT OUTER JOIN STUDENT A ON A.ID = ATD.ID_STUDENT"
 				+ " LEFT OUTER JOIN STANDARD STD ON A.ID_STANDARD = STD.ID "
 				+ " LEFT OUTER JOIN SECTION SEC ON A.ID_SECTION = SEC.ID"
 				+ " WHERE A.IS_DELETED = 0 AND A.ID_STANDARD =? AND A.ID_SECTION =?"
@@ -655,14 +660,19 @@ public class StaffDAOImpl extends NamedParameterJdbcDaoSupport implements StaffD
 					return ids;
 				}});
 			Integer[] inputIds = {ids.get(0),ids.get(1)};
-			students = getJdbcTemplate().query(GET_STUDENTS,inputIds,new ResultSetExtractor<List<StudentDTO>>(){
+			attendencesList = getJdbcTemplate().query(GET_STUDENTS,inputIds,new ResultSetExtractor<List<AttendenceDTO>>(){
 
 			@Override
-			public List<StudentDTO> extractData(ResultSet rs) throws SQLException,
+			public List<AttendenceDTO> extractData(ResultSet rs) throws SQLException,
 					DataAccessException {
 
-				List<StudentDTO> students = new ArrayList<StudentDTO>(); 
-				while(rs.next()){
+				List<AttendenceDTO> attendences = new ArrayList<AttendenceDTO>(); 
+				while(rs.next()){		
+					
+					AttendenceDTO attencence = new AttendenceDTO();
+					attencence.setIsAbsent(rs.getInt("IS_ABSENT"));
+					attencence.setIsEnable(rs.getInt("IS_ENABLE"));
+					
 					
 					StudentDTO student = new StudentDTO();
 				student.setId(rs.getInt("ID")); 
@@ -670,6 +680,8 @@ public class StaffDAOImpl extends NamedParameterJdbcDaoSupport implements StaffD
 				student.setLastName(rs.getString("LAST_NAME"));
 				student.setDateOfBirth(rs.getString("DATE_OF_BIRTH").toString());
 				student.setEmailAddress(rs.getString("EMAIL_ADDRESS"));
+				
+						
 				
     				StandardDTO standard = new StandardDTO();
 					standard.setId(rs.getInt("ID_STANDARD"));
@@ -681,17 +693,45 @@ public class StaffDAOImpl extends NamedParameterJdbcDaoSupport implements StaffD
 					section.setSection(rs.getString("SECTION"));
 					student.setSection(section);
 				
-					students.add(student);
-				     
-			}
-			     return students;
+					attencence.setStudent(student); 
+					attendences.add(attencence);
+			    }
+			     return attendences;
 			}
 		});
 			
 		}catch(Exception e){
 			
 		}
-		return students;
+		return attendencesList;
+	}
+
+	@Override
+	public ResponseBean enableAttendence(Integer staffId) {
+		ResponseBean responseBean = new ResponseBean();
+		String CLASS_LIST = "SELECT ID_STANDARD,ID_SECTION FROM `staff_class` "
+				+ " WHERE IS_CLASS_TEACHER = 1 AND ID_STAFF = "+staffId;
+		String ENABLE = "UPDATE ATTENDENCE SET IS_ENABLE = 1 "
+				+ " WHERE ID_STUDENT IN (SELECT `ID` FROM STUDENT WHERE ID_STANDARD = ? AND ID_SECTION = ?)";
+		try
+		{
+			List<Integer> ids = getJdbcTemplate().query(CLASS_LIST, new ResultSetExtractor<List<Integer>>(){
+
+				public List<Integer> extractData(ResultSet rs)
+						throws SQLException, DataAccessException {
+					List<Integer> ids = new ArrayList<Integer>();
+					ids.add(rs.getInt("ID_STANDARD"));
+					ids.add(rs.getInt("ID_SECTION"));
+					return ids;
+				}});
+			Object[] inputIds = {ids.get(0),ids.get(1)};
+			getJdbcTemplate().update(ENABLE, inputIds);
+			
+			
+		}catch(Exception e){
+			
+		}
+		return responseBean;
 	}
 	
 

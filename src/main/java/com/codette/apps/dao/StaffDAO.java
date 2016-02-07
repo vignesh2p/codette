@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import com.codette.apps.dto.AttendenceDTO;
 import com.codette.apps.dto.ClassesDTO;
 import com.codette.apps.dto.ResponseBean;
 import com.codette.apps.dto.StaffClassDTO;
@@ -27,6 +28,8 @@ public interface StaffDAO {
 
 	public List<ClassesDTO> getAllClassList();
 
-	public List<StudentDTO> getAttendence(Integer staffId);
+	public List<AttendenceDTO> getAttendence(Integer staffId);
+
+	public ResponseBean enableAttendence(Integer staffId);
 
 }

@@ -198,7 +198,7 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 			   SqlParameterSource namedParameters = new BeanPropertySqlParameterSource(
 					   user);
 			if(user != null)
-			getNamedParameterJdbcTemplate().update(INSERT_USER, namedParameters, keyHolder );
+			getJdbcTemplate().update(INSERT_USER, namedParameters, keyHolder );
 			Number idStaff = keyHolder.getKey();
 			user.setId(idStaff.intValue());
 			System.out.println("id ------------>"+idStaff);

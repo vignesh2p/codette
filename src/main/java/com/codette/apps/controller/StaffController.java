@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.codette.apps.service.StaffServices;
+import com.codette.apps.dto.AttendenceDTO;
 import com.codette.apps.dto.ClassesDTO;
 import com.codette.apps.dto.ResponseBean;
 import com.codette.apps.dto.StaffClassDTO;
@@ -69,7 +70,7 @@ public class StaffController{
      
     @RequestMapping(value = "/staff/{staffId}", method = RequestMethod.GET)
 	@ResponseBody
-	public List<StudentDTO> getAttendence(@PathVariable( value="staffId") String staffId, HttpServletRequest requests)  {
+	public List<AttendenceDTO> getAttendence(@PathVariable( value="staffId") String staffId, HttpServletRequest requests)  {
 		 if(staffId != null){
 			 System.out.println("staffId======="+staffId);
 			return staffServices.getAttendence(Integer.valueOf(staffId));
@@ -104,10 +105,28 @@ public class StaffController{
 
 			@RequestMapping(value = "updateStudent/{studentId}", method = RequestMethod.PUT)
 			@ResponseBody
-			public ResponseBean updateBills(@PathVariable Integer studentId, @RequestBody StudentDTO studentDTO, HttpSession session, HttpServletRequest request) throws Exception {
+			public ResponseBean updateStudent(@PathVariable Integer studentId, @RequestBody StudentDTO studentDTO, HttpSession session, HttpServletRequest request) throws Exception {
 				Integer accessId = Integer.valueOf(request.getHeader(CommonConstants.SESSION_USER_ID));
 				ResponseBean responseBean = new ResponseBean();
 				responseBean = staffServices.updateStudent(studentDTO, accessId);
+				return responseBean;
+			}
+			@RequestMapping(value = "enable/{staffId}", method = RequestMethod.PUT)
+			@ResponseBody
+			public ResponseBean enableAttendence(@PathVariable( value="staffId") String staffId, HttpServletRequest requests)  {
+				 if(staffId != null){
+					 System.out.println("staffId======="+staffId);
+					return staffServices.enableAttendence(Integer.valueOf(staffId));
+			   	}
+			return null;
+			}
+			
+			@RequestMapping(value = "updateAttendance/{studentIds}", method = RequestMethod.PUT)
+			@ResponseBody
+			public ResponseBean updateAttendence(@PathVariable List<Integer> studentIds, @RequestBody StudentDTO studentDTO, HttpSession session, HttpServletRequest request) throws Exception {
+				Integer accessId = Integer.valueOf(request.getHeader(CommonConstants.SESSION_USER_ID));
+				ResponseBean responseBean = new ResponseBean();
+				responseBean = staffServices.updateAttendence(studentIds, accessId);
 				return responseBean;
 			}
 

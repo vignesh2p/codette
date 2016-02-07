@@ -137,8 +137,7 @@ public class LeaveManagementImpl  extends NamedParameterJdbcDaoSupport implement
 					if(statusId!= null)
 					{
 						  Object [] inputs = {statusId};
-						getJdbcTemplate().update(INSERT_LEAVE, inputs );
-						
+						getJdbcTemplate().update(INSERT_LEAVE, inputs );		
 					  System.out.println(INSERT_LEAVE);
 							responseBean.setStatus("SUCCESS");
 							responseBean.setMessage("Leave Is applied");
