@@ -1,7 +1,7 @@
 package com.codette.apps.dto;
 
 
-public class StaffClassDTO {
+public class StaffClassDTO extends BaseDTO{
     private Integer id;
     private Integer idYear;
     private UserDTO staff;

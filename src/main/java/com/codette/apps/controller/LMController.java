@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,7 +32,7 @@ public class LMController {
 	 */
 	@RequestMapping(value= "/PENDING")
 	@ResponseBody
-	public List<LeaveManagementDTO> getPendingLMSList(HttpEntity<String> entity, HttpServletRequest request){
+	public List<LeaveManagementDTO> getPendingLMSList(@PathVariable( value="orgId") String orgId,HttpEntity<String> entity, HttpServletRequest request){
 		List<LeaveManagementDTO> lmsList = null;
 		try {
 			String userID = request.getHeader(CommonConstants.SESSION_USER_ID);
@@ -39,6 +40,7 @@ public class LMController {
 			if(userID != null && role != null){
 				Integer userId = Integer.valueOf(userID);
 				System.out.println("userId"+userID+role);
+				
 				lmsList = lMService.getPendingLeave(CommonConstants.STATUS_PENDING, userId, role);
 			}
 			

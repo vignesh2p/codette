@@ -1,6 +1,6 @@
 package com.codette.apps.dto;
 
-public class StatusDTO {
+public class StatusDTO extends BaseDTO{
    private Integer id;
    private String status;
 public Integer getId() {

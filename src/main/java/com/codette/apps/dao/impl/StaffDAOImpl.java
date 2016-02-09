@@ -1,6 +1,7 @@
 package com.codette.apps.dao.impl;
 
 
+import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.log4j.Logger;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -27,9 +29,9 @@ import com.codette.apps.dto.ResponseBean;
 import com.codette.apps.dto.SectionDTO;
 import com.codette.apps.dto.StaffClassDTO;
 import com.codette.apps.dto.StandardDTO;
-import com.codette.apps.dto.StudentAddressDTO;
+import com.codette.apps.dto.AddressDTO;
 import com.codette.apps.dto.StudentDTO;
-import com.codette.apps.dto.StudentPhoneNumberDTO;
+import com.codette.apps.dto.PhoneNumberDTO;
 import com.codette.apps.dto.UserDTO;
 import com.codette.apps.mapper.StudentAddressResultsetExtractor;
 import com.codette.apps.mapper.StudentPhoneNumberResultsetExtractor;
@@ -38,7 +40,9 @@ import com.codette.apps.util.CommonUtil;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-public class StaffDAOImpl extends NamedParameterJdbcDaoSupport implements StaffDAO{
+public class StaffDAOImpl extends NamedParameterJdbcDaoSupport implements StaffDAO,Serializable{
+	
+	final static Logger logger = Logger.getLogger(StaffDAOImpl.class);
   @Resource
   CommonUtil commonUtil;
   public static final Gson gson = new GsonBuilder().setDateFormat(CommonConstants.ISO_DATE_FORMAT).create();
@@ -134,10 +138,10 @@ public class StaffDAOImpl extends NamedParameterJdbcDaoSupport implements StaffD
 		return responseBean;
 	}
 
-	private void updateAddress(List<StudentAddressDTO> addresses,
+	private void updateAddress(List<AddressDTO> addresses,
 			Integer accessId) {
         	String UPDATE_ADDRESS = "UPDATE `student_address` SET ";
-        	for(StudentAddressDTO address : addresses ){
+        	for(AddressDTO address : addresses ){
         		if(address.getAddress()!= null){
         			UPDATE_ADDRESS=UPDATE_ADDRESS+ "`ADDRESS`="+address.getAddress()+",";
         		}
@@ -151,10 +155,10 @@ public class StaffDAOImpl extends NamedParameterJdbcDaoSupport implements StaffD
 		}
 	}
 
-	private void updatePhone(List<StudentPhoneNumberDTO> phoneNumbers,
+	private void updatePhone(List<PhoneNumberDTO> phoneNumbers,
 			Integer accessId) {
 		  String UPDATE_PHONE = "UPDATE `student_phone` SET ";
-       	for(StudentPhoneNumberDTO phone : phoneNumbers ){
+       	for(PhoneNumberDTO phone : phoneNumbers ){
        	if(phone.getPhoneNumber() != null){
        		UPDATE_PHONE = UPDATE_PHONE+ "`PHONE_NUMBER`="+phone.getPhoneNumber()+",";
        	}if(phone.getIsPrimary() != null){
@@ -306,10 +310,8 @@ public class StaffDAOImpl extends NamedParameterJdbcDaoSupport implements StaffD
 		     		      		+ "VALUES (?,0,0,0,NOW(),"+accessId+")";
 		     		      try{
 		     		    	  KeyHolder keyHolder = new GeneratedKeyHolder();
-		     				   SqlParameterSource namedParameters = new BeanPropertySqlParameterSource(
-		     						   student);
 		     					System.out.println("query   "+CREATE_STUDENT);
-		     				   getJdbcTemplate().update(CREATE_STUDENT, namedParameters,keyHolder );
+		     				   getJdbcTemplate().update(CREATE_STUDENT,keyHolder );
 		     				   Number id = keyHolder.getKey();
 		     				   if(id!= null){
 		     					   student.setId(id.intValue());
@@ -329,15 +331,17 @@ public class StaffDAOImpl extends NamedParameterJdbcDaoSupport implements StaffD
 		     					responseBean.setMessage("The new student is added successfully");
 		     				
 		     			   }catch(Exception e){
+		     				  logger.error("This is error", e);
+		     				   e.printStackTrace();
 		     				   responseBean.setStatus("FAILED");
 		     				   String eStr = e.getMessage();
 		     					responseBean.setMessage(eStr);
 		     			   }
 		     			   return responseBean;
 	}
-	private void insertAddressses(List<StudentAddressDTO> addresses,Integer idStudent,Integer accessId) {
+	private void insertAddressses(List<AddressDTO> addresses,Integer idStudent,Integer accessId) {
 		// TODO Auto-generated method stub
-		for(StudentAddressDTO address:addresses){
+		for(AddressDTO address:addresses){
 			String ADDRESS = "INSERT INTO `student_address`(";
 			ADDRESS= ADDRESS+"`ID_STUDENT`,";
 		if(address.getAddress() != null){
@@ -366,9 +370,9 @@ public class StaffDAOImpl extends NamedParameterJdbcDaoSupport implements StaffD
 
 		}
 	}
-	private void insertPhoneNumber(List<StudentPhoneNumberDTO> phoneNumbers,Integer idStudent,Integer accessId) {
+	private void insertPhoneNumber(List<PhoneNumberDTO> phoneNumbers,Integer idStudent,Integer accessId) {
 		// TODO Auto-generated method stub
-		for(StudentPhoneNumberDTO phoneNumber: phoneNumbers){
+		for(PhoneNumberDTO phoneNumber: phoneNumbers){
 			String PhoneNumber = "INSERT INTO `student_phone`(";
 				PhoneNumber= PhoneNumber+"`ID_STUDENT`,";
 			if(phoneNumber.getPhoneNumber() != null){
@@ -412,8 +416,8 @@ public class StaffDAOImpl extends NamedParameterJdbcDaoSupport implements StaffD
 			public StudentDTO extractData(ResultSet rs) throws SQLException,
 					DataAccessException {
 				StudentDTO student = new StudentDTO();
-				List<StudentAddressDTO> addresses = new ArrayList<StudentAddressDTO>();
-				List<StudentPhoneNumberDTO> phones = new ArrayList<StudentPhoneNumberDTO>(); 
+				List<AddressDTO> addresses = new ArrayList<AddressDTO>();
+				List<PhoneNumberDTO> phones = new ArrayList<PhoneNumberDTO>(); 
              if(rs.next()){
 				
 				student.setId(rs.getInt("ID"));

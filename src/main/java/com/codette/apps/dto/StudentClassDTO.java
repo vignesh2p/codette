@@ -1,13 +1,13 @@
 package com.codette.apps.dto;
 
-public class StudentClassDTO {
+public class StudentClassDTO extends BaseDTO{
    
 	 private Integer id;
 	 private Integer idStudent;
 	 private Integer idStandard;
 	 private Integer idSection;
 	 private Integer idYear;
-	 private StudentDTO student;
+	 private UserDTO user;
 	 private StandardDTO standard;
 	 private SectionDTO section;
 	 private YearDTO year;
@@ -42,11 +42,12 @@ public class StudentClassDTO {
 	public void setIdYear(Integer idYear) {
 		this.idYear = idYear;
 	}
-	public StudentDTO getStudent() {
-		return student;
+
+	public UserDTO getUser() {
+		return user;
 	}
-	public void setStudent(StudentDTO student) {
-		this.student = student;
+	public void setUser(UserDTO user) {
+		this.user = user;
 	}
 	public StandardDTO getStandard() {
 		return standard;

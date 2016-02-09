@@ -28,23 +28,23 @@ public class CommonService {
 		return commonDAO.getReligion();
 	}
 	
-	public List<DesignationDTO> getDesignation() {
+	public List<DesignationDTO> getDesignation(String orgId) {
 		// TODO Auto-generated method stub
-		return commonDAO.getDesignation();
+		return commonDAO.getDesignation(Integer.valueOf(orgId));
 	}
 
 	public Integer getId(String entity, String type){
 		return commonDAO.getId(entity, type);
 	}
 
-	public List<StandardDTO> getStandard() {
+	public List<StandardDTO> getStandard(String orgId) {
 		// TODO Auto-generated method stub
-		return commonDAO.getStandard();
+		return commonDAO.getStandard(Integer.valueOf(orgId));
 	}
 
-	public List<SectionDTO> getSection() {
+	public List<SectionDTO> getSection(String orgId) {
 		// TODO Auto-generated method stub
-		return commonDAO.getSection();
+		return commonDAO.getSection(Integer.valueOf(orgId));
 	}
 	
 }

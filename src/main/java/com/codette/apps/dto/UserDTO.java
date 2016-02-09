@@ -2,6 +2,7 @@ package com.codette.apps.dto;
 
 
 import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -19,6 +20,11 @@ public class UserDTO extends BaseDTO {
     private String fatherName;
 
     private String dateOfBirth;
+	private StandardDTO standard;
+	private SectionDTO section;
+	private YearDTO year;
+	private String motherName;
+	private BloodGroupDTO bloodGroup;
     
     private CommunityDTO community;
     
@@ -28,7 +34,7 @@ public class UserDTO extends BaseDTO {
     
     private Integer age;
     
-    private List<StaffAddressDTO> addresses;
+    private List<AddressDTO> addresses;
     
     private String  emailAddresses;
     
@@ -40,7 +46,7 @@ public class UserDTO extends BaseDTO {
     
     private  String  dateOfJoining; 
    
-    private List<StaffPhoneNumberDTO> phoneNumbers;
+    private List<PhoneNumberDTO> phoneNumbers;
 
     private RoleDTO role;
 
@@ -75,8 +81,70 @@ public class UserDTO extends BaseDTO {
 	public void setFatherName(String fatherName) {
 		this.fatherName = fatherName;
 	}
-	
 
+	public String getDateOfBirth() {
+		return dateOfBirth;
+	}
+
+	public void setDateOfBirth(String dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
+
+	public StandardDTO getStandard() {
+		return standard;
+	}
+
+	public void setStandard(StandardDTO standard) {
+		this.standard = standard;
+	}
+
+	public SectionDTO getSection() {
+		return section;
+	}
+
+	public void setSection(SectionDTO section) {
+		this.section = section;
+	}
+
+	public YearDTO getYear() {
+		return year;
+	}
+
+	public void setYear(YearDTO year) {
+		this.year = year;
+	}
+
+	public String getMotherName() {
+		return motherName;
+	}
+
+	public void setMotherName(String motherName) {
+		this.motherName = motherName;
+	}
+
+	public BloodGroupDTO getBloodGroup() {
+		return bloodGroup;
+	}
+
+	public void setBloodGroup(BloodGroupDTO bloodGroup) {
+		this.bloodGroup = bloodGroup;
+	}
+
+	public CommunityDTO getCommunity() {
+		return community;
+	}
+
+	public void setCommunity(CommunityDTO community) {
+		this.community = community;
+	}
+
+	public ReligionDTO getReligion() {
+		return religion;
+	}
+
+	public void setReligion(ReligionDTO religion) {
+		this.religion = religion;
+	}
 
 	public GenderDTO getGender() {
 		return gender;
@@ -84,6 +152,30 @@ public class UserDTO extends BaseDTO {
 
 	public void setGender(GenderDTO gender) {
 		this.gender = gender;
+	}
+
+	public Integer getAge() {
+		return age;
+	}
+
+	public void setAge(Integer age) {
+		this.age = age;
+	}
+
+	public List<AddressDTO> getAddresses() {
+		return addresses;
+	}
+
+	public void setAddresses(List<AddressDTO> addresses) {
+		this.addresses = addresses;
+	}
+
+	public String getEmailAddresses() {
+		return emailAddresses;
+	}
+
+	public void setEmailAddresses(String emailAddresses) {
+		this.emailAddresses = emailAddresses;
 	}
 
 	public DesignationDTO getDesignation() {
@@ -109,16 +201,6 @@ public class UserDTO extends BaseDTO {
 	public void setExperience(Integer experience) {
 		this.experience = experience;
 	}
-	
-
-
-	public String getDateOfBirth() {
-		return dateOfBirth;
-	}
-
-	public void setDateOfBirth(String dateOfBirth) {
-		this.dateOfBirth = dateOfBirth;
-	}
 
 	public String getDateOfJoining() {
 		return dateOfJoining;
@@ -128,44 +210,11 @@ public class UserDTO extends BaseDTO {
 		this.dateOfJoining = dateOfJoining;
 	}
 
-	public CommunityDTO getCommunity() {
-		return community;
-	}
-
-	public void setCommunity(CommunityDTO community) {
-		this.community = community;
-	}
-
-	public ReligionDTO getReligion() {
-		return religion;
-	}
-
-	public void setReligion(ReligionDTO religion) {
-		this.religion = religion;
-	}
-
-
-	public List<StaffAddressDTO> getAddresses() {
-		return addresses;
-	}
-
-	public void setAddresses(List<StaffAddressDTO> addresses) {
-		this.addresses = addresses;
-	}
-
-	public String getEmailAddresses() {
-		return emailAddresses;
-	}
-
-	public void setEmailAddresses(String emailAddresses) {
-		this.emailAddresses = emailAddresses;
-	}
-
-	public List<StaffPhoneNumberDTO> getPhoneNumbers() {
+	public List<PhoneNumberDTO> getPhoneNumbers() {
 		return phoneNumbers;
 	}
 
-	public void setPhoneNumbers(List<StaffPhoneNumberDTO> phoneNumbers) {
+	public void setPhoneNumbers(List<PhoneNumberDTO> phoneNumbers) {
 		this.phoneNumbers = phoneNumbers;
 	}
 
@@ -177,12 +226,6 @@ public class UserDTO extends BaseDTO {
 		this.role = role;
 	}
 
-	public Integer getAge() {
-		return age;
-	}
-
-	public void setAge(Integer age) {
-		this.age = age;
-	}
+    
 
 }

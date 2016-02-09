@@ -1,7 +1,7 @@
 package com.codette.apps.dto;
 
 public class AttendenceDTO extends BaseDTO {
-	private StudentDTO student;
+	private UserDTO student;
 	private Integer isAbsent;
 	private Integer isEnable;
 	
@@ -12,10 +12,11 @@ public class AttendenceDTO extends BaseDTO {
 	public void setIsAbsent(Integer isAbsent) {
 		this.isAbsent = isAbsent;
 	}
-	public StudentDTO getStudent() {
+
+	public UserDTO getStudent() {
 		return student;
 	}
-	public void setStudent(StudentDTO student) {
+	public void setStudent(UserDTO student) {
 		this.student = student;
 	}
 	public Integer getIsEnable() {

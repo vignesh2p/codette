@@ -1,6 +1,6 @@
 package com.codette.apps.dto;
 
-public class SubjectDTO {
+public class SubjectDTO extends BaseDTO{
    private Integer id;
    private String name;
    

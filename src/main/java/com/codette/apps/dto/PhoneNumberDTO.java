@@ -1,6 +1,6 @@
 package com.codette.apps.dto;
 
-public class StudentPhoneNumberDTO {
+public class PhoneNumberDTO {
   private Integer id;
   private Integer idStudent;
   private String phoneNumber;

@@ -53,9 +53,9 @@ public class CommonDAOImpl  extends NamedParameterJdbcDaoSupport implements Comm
 		return religionList;
 	}
 	@Override
-	public List<DesignationDTO> getDesignation() {
+	public List<DesignationDTO> getDesignation(Integer orgId) {
 		List<DesignationDTO> designationList = new ArrayList<DesignationDTO>();
-		String designations = "SELECT * FROM designation";
+		String designations = "SELECT * FROM designation WHERE ID_ORGANIZATION ="+orgId;
 		try{
 			designationList =  getJdbcTemplate().query(
 					designations,new DesignationRowMapper());
@@ -79,9 +79,9 @@ public class CommonDAOImpl  extends NamedParameterJdbcDaoSupport implements Comm
 
 
 	@Override
-	public List<StandardDTO> getStandard() {
+	public List<StandardDTO> getStandard(Integer orgId) {
 		List<StandardDTO> standardList = new ArrayList<StandardDTO>();
-		String designations = "SELECT * FROM STANDARD";
+		String designations = "SELECT * FROM STANDARD  WHERE ID_ORGANIZATION = "+orgId;
 		try{
 			standardList =  getJdbcTemplate().query(
 					designations,new StandardRowMapper());
@@ -94,9 +94,9 @@ public class CommonDAOImpl  extends NamedParameterJdbcDaoSupport implements Comm
 
 
 	@Override
-	public List<SectionDTO> getSection() {
+	public List<SectionDTO> getSection(Integer orgId) {
 		List<SectionDTO> sectionList = new ArrayList<SectionDTO>();
-		String section = "SELECT * FROM SECTION";
+		String section = "SELECT * FROM SECTION  WHERE ID_ORGANIZATION = "+orgId;
 		try{
 			sectionList =  getJdbcTemplate().query(
 					section,new SectionRowMapper());

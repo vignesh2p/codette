@@ -1,6 +1,6 @@
 package com.codette.apps.dto;
 
-public class StudentMarkDTO {
+public class MarksDTO {
    
 	 private Integer id;
 	 private Integer idStudent;
@@ -10,7 +10,7 @@ public class StudentMarkDTO {
 	 private Integer idSection;
 	 private Integer idExam;
 	 private Integer idYear;
-	 private StudentDTO student;
+	 private UserDTO student;
 	 private UserDTO staff;
 	 private SubjectDTO subject;
 	 private StandardDTO standard;
@@ -24,8 +24,12 @@ public class StudentMarkDTO {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public StudentDTO getStudent() {
+	
+	public UserDTO getStudent() {
 		return student;
+	}
+	public void setStudent(UserDTO student) {
+		this.student = student;
 	}
 	public Integer getIdStudent() {
 		return idStudent;
@@ -69,9 +73,7 @@ public class StudentMarkDTO {
 	public void setIdYear(Integer idYear) {
 		this.idYear = idYear;
 	}
-	public void setStudent(StudentDTO student) {
-		this.student = student;
-	}
+	
 	public UserDTO getStaff() {
 		return staff;
 	}

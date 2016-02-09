@@ -1,6 +1,6 @@
 package com.codette.apps.dto;
 
-public class SectionDTO {
+public class SectionDTO extends BaseDTO {
   private Integer id;
   private String section;
 public Integer getId() {

@@ -1,6 +1,6 @@
 package com.codette.apps.dto;
 
-public class DesignationDTO {
+public class DesignationDTO extends BaseDTO{
 
 	private Integer id;
 	private String designation;

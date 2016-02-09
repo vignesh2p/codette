@@ -15,12 +15,12 @@ public interface CommonDAO {
 	
 	public List<ReligionDTO> getReligion();
 
-    public List<DesignationDTO> getDesignation();
+    public List<DesignationDTO> getDesignation(Integer integer);
 
 	public Integer getId(String entity, String type);
 
-	public List<StandardDTO> getStandard();
+	public List<StandardDTO> getStandard(Integer integer);
 
-	public List<SectionDTO> getSection();
+	public List<SectionDTO> getSection(Integer integer);
 
 }

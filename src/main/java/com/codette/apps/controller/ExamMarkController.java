@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,9 +33,9 @@ public class ExamMarkController {
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping(value= "/marksheets/{userId}")
+	@RequestMapping(value= "/{orgId}/marksheets/{userId}")
 	@ResponseBody
-	public List<MarkSheetDTO> getMarkSheet(@RequestBody Integer userId,HttpEntity<String> entity, HttpServletRequest request){
+	public List<MarkSheetDTO> getMarkSheet(@PathVariable( value="orgId") String orgId,@RequestBody Integer userId,HttpEntity<String> entity, HttpServletRequest request){
 		List<MarkSheetDTO> markSheet = null;
 		try {
 			String userID = request.getHeader(CommonConstants.SESSION_USER_ID);

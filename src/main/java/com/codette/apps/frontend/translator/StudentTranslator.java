@@ -19,9 +19,9 @@ import com.codette.apps.dto.GenderDTO;
 import com.codette.apps.dto.ReligionDTO;
 import com.codette.apps.dto.SectionDTO;
 import com.codette.apps.dto.StandardDTO;
-import com.codette.apps.dto.StudentAddressDTO;
+import com.codette.apps.dto.AddressDTO;
 import com.codette.apps.dto.StudentDTO;
-import com.codette.apps.dto.StudentPhoneNumberDTO;
+import com.codette.apps.dto.PhoneNumberDTO;
 import com.codette.apps.frontend.model.Class;
 import com.codette.apps.frontend.model.Section;
 import com.codette.apps.frontend.model.Standard;
@@ -142,15 +142,15 @@ public class StudentTranslator  extends BaseTranslator{
 				studentDTO.setEmailAddress(student.getEmailAddresses());
 			}
 			if(student.getAddresses() != null){
-				List<StudentAddressDTO> addresses = new ArrayList<StudentAddressDTO>();
-				StudentAddressDTO studentAddressDTO = new StudentAddressDTO();
+				List<AddressDTO> addresses = new ArrayList<AddressDTO>();
+				AddressDTO studentAddressDTO = new AddressDTO();
 				studentAddressDTO.setAddress(student.getAddresses());
 				addresses.add(studentAddressDTO);
 				studentDTO.setAddresses(addresses);
 			}
 			if(student.getContact() != null){
-				List<StudentPhoneNumberDTO> phoneNumbers = new ArrayList<StudentPhoneNumberDTO>();
-				StudentPhoneNumberDTO phoneNumber = new StudentPhoneNumberDTO();
+				List<PhoneNumberDTO> phoneNumbers = new ArrayList<PhoneNumberDTO>();
+				PhoneNumberDTO phoneNumber = new PhoneNumberDTO();
 				phoneNumber.setPhoneNumber(student.getContact());
 				phoneNumbers.add(phoneNumber);
 				studentDTO.setPhoneNumber(phoneNumbers);

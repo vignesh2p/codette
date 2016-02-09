@@ -1,6 +1,6 @@
 package com.codette.apps.dto;
 
-public class UserAuthenticationDTO {
+public class UserAuthenticationDTO extends BaseDTO{
   
 	private Integer id;
 	private String userName;

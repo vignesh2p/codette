@@ -3,11 +3,11 @@ package com.codette.apps.dto;
 import java.sql.Timestamp;
 import java.util.Date;
 
-public class DailyAbsenteesDTO {
+public class DailyAbsenteesDTO extends BaseDTO{
   private Integer studentId;
-  private StudentDTO student;
+  private UserDTO user;
   private Date dateOfLeave;
-  private Timestamp createdOn;
+ 
 public Integer getStudentId() {
 	return studentId;
 }
@@ -20,18 +20,13 @@ public Date getDateOfLeave() {
 public void setDateOfLeave(Date dateOfLeave) {
 	this.dateOfLeave = dateOfLeave;
 }
-public Timestamp getCreatedOn() {
-	return createdOn;
+public UserDTO getUser() {
+	return user;
 }
-public void setCreatedOn(Timestamp createdOn) {
-	this.createdOn = createdOn;
+public void setUser(UserDTO user) {
+	this.user = user;
 }
-public StudentDTO getStudent() {
-	return student;
-}
-public void setStudent(StudentDTO student) {
-	this.student = student;
-}
+
 
 
 }

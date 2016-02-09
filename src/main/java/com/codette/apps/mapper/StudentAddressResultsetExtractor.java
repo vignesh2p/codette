@@ -6,8 +6,7 @@ import java.sql.SQLException;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 
-import com.codette.apps.dto.StaffAddressDTO;
-import com.codette.apps.dto.StudentAddressDTO;
+import com.codette.apps.dto.AddressDTO;
 import com.codette.apps.dto.StudentRelationDTO;
 
 public class StudentAddressResultsetExtractor implements ResultSetExtractor {
@@ -16,7 +15,7 @@ public class StudentAddressResultsetExtractor implements ResultSetExtractor {
 	public Object extractData(ResultSet rs) throws SQLException,
 			DataAccessException {
 		
-		StudentAddressDTO studentAddressDTO = new StudentAddressDTO();
+		AddressDTO studentAddressDTO = new AddressDTO();
 		studentAddressDTO.setId(rs.getInt("ID"));
 		StudentRelationDTO relation = new StudentRelationDTO();
 		relation.setId(rs.getInt("ID_STUDENT_RELATION"));

@@ -3,8 +3,10 @@ package com.codette.apps.controller;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -29,10 +31,10 @@ public class CommonBaseController {
 		return commonServic.getCommunity();
 	}
 
-	@RequestMapping(value= "/"+ CommonConstants.DESIGNATION)
+	@RequestMapping(value= "/{orgId}/"+ CommonConstants.DESIGNATION)
 	@ResponseBody
-	public List<DesignationDTO> getDesignationList(){
-		return commonServic.getDesignation();
+	public List<DesignationDTO> getDesignationList(@PathVariable( value="orgId") String orgId, HttpServletRequest requests){
+		return commonServic.getDesignation(orgId);
 	}
 	
 	@RequestMapping(value= "/"+ CommonConstants.RELIGION)
@@ -40,14 +42,14 @@ public class CommonBaseController {
 	public List<ReligionDTO> getReligionList(){
 		return commonServic.getReligion();
 	}
-	@RequestMapping(value= "/"+ CommonConstants.STANDARD_URL)
+	@RequestMapping(value= "/{orgId}/"+ CommonConstants.STANDARD_URL)
 	@ResponseBody
-	public List<StandardDTO> getStandardList(){
-		return commonServic.getStandard();
+	public List<StandardDTO> getStandardList(@PathVariable( value="orgId") String orgId, HttpServletRequest requests){
+		return commonServic.getStandard(orgId);
 	}
-	@RequestMapping(value= "/"+ CommonConstants.SECTION_URL)
+	@RequestMapping(value= "/{orgId}/"+ CommonConstants.SECTION_URL)
 	@ResponseBody
-	public List<SectionDTO> getSectionList(){
-		return commonServic.getSection();
+	public List<SectionDTO> getSectionList(@PathVariable( value="orgId") String orgId, HttpServletRequest requests){
+		return commonServic.getSection(orgId);
 	}
 }

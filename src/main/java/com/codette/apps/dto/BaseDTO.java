@@ -13,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonInclude(value= JsonInclude.Include.NON_EMPTY)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class BaseDTO{
+	private Integer orgId;
 	private UserDTO createdBy;
 	private Date createdOn;
 	private UserDTO updatedBy;
@@ -20,6 +21,15 @@ public class BaseDTO{
 	private Integer isDeleted;
 	
 	
+	
+	
+	
+	public Integer getOrgId() {
+		return orgId;
+	}
+	public void setOrgId(Integer orgId) {
+		this.orgId = orgId;
+	}
 	public Integer getIsDeleted() {
 		return isDeleted;
 	}

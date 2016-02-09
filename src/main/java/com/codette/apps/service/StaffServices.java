@@ -19,9 +19,9 @@ import com.codette.apps.dto.ResponseBean;
 import com.codette.apps.dto.SectionDTO;
 import com.codette.apps.dto.StaffClassDTO;
 import com.codette.apps.dto.StandardDTO;
-import com.codette.apps.dto.StudentAddressDTO;
+import com.codette.apps.dto.AddressDTO;
 import com.codette.apps.dto.StudentDTO;
-import com.codette.apps.dto.StudentPhoneNumberDTO;
+import com.codette.apps.dto.PhoneNumberDTO;
 import com.codette.apps.dto.StudentRelationDTO;
 import com.codette.apps.util.CommonConstants;
 
@@ -42,7 +42,7 @@ public class StaffServices {
 	 * @return
 	 */
 	 @Transactional
-	public ResponseBean updateStudent(StudentDTO studentDTO, Integer accessId) {
+	public ResponseBean updateStudent(DTO studentDTO, Integer accessId) {
 		studentDTO = getBasicIds(studentDTO);
 		return staffDAO.updateStudent(studentDTO, accessId);
 	}

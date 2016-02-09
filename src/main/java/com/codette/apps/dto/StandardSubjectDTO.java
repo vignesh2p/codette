@@ -1,6 +1,6 @@
 package com.codette.apps.dto;
 
-public class StandardSubjectDTO {
+public class StandardSubjectDTO extends BaseDTO{
    private Integer id;
    private Integer idStandard;
    private Integer idSubject;
