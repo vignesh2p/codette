@@ -18,9 +18,11 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 
 import com.codette.apps.dao.UserDAO;
+import com.codette.apps.dto.AddressDTO;
 import com.codette.apps.dto.CommunityDTO;
 import com.codette.apps.dto.DesignationDTO;
 import com.codette.apps.dto.GenderDTO;
+import com.codette.apps.dto.PhoneNumberDTO;
 import com.codette.apps.dto.ReligionDTO;
 import com.codette.apps.dto.ResponseBean;
 import com.codette.apps.dto.RoleDTO;
@@ -46,192 +48,14 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 	CommonUtil commonUtil;
 	public static final Gson gson = new GsonBuilder().setDateFormat(CommonConstants.ISO_DATE_FORMAT).create();
 	
-    @Override
-    public UserDTO aurthentication(UserAuthenticationDTO userAuthenticationDTO) {
-    	UserDTO user = new UserDTO();
-            try {
-                if (userAuthenticationDTO != null) {
-                    String sql = "SELECT ID_USER FROM user_authentication WHERE USER_NAME =?"
-               + "AND USER_SECRET =?";
-                    Object[] inputs = new Object[] {userAuthenticationDTO.getUserName(),userAuthenticationDTO.getUserSecret()};
-                    Integer staffId =  getJdbcTemplate().queryForObject(
-                            sql, inputs, Integer.class);
-                    if (staffId!=null) {
-                     String USER_INFO = "SELECT A.ID,A.FIRST_NAME,A.ID_ROLE,A.LAST_NAME,"
-                     		+ "R.ID,R.ROLE,A.ID_GENDER,G.ID,G.GENDER,A.EMAIL_ADDRESS,D.ID,A.ID_DESIGNATION "
-                     		+ "FROM USER A "
-                     		+ "LEFT OUTER JOIN ROLE R ON A.ID_ROLE = R.ID "
-                     		+ " LEFT OUTER JOIN DESIGNATION D ON A.ID_DESIGNATION = D.ID "
-                     		+ "LEFT OUTER JOIN GENDER G ON A.ID_GENDER = G.ID "
-                     		+ "WHERE A.ID = ?";
-                         Object[] input = new Object[] {staffId};
-                   	       user = getJdbcTemplate().queryForObject(USER_INFO, input, 
-                			new SessionMapper());
-                	
-                    }
-                }
-            } catch (Exception ex) {
-                logger.error("Exception in authentication -- " + ex);
-               
-            }
-			return user;
-    }
+   
     public  String stringFeilds(String str){
 		return "'"+str+"'";
 	}
-	@Override
-	public List<UserDTO> getUsers(String role) {
-		List<UserDTO> userList = new ArrayList<UserDTO>();
-		    String GET_USERS = "SELECT * FROM user ";
-			String ID_ROLE = "SELECT ID FROM role WHERE ROLE = "+commonUtil.stringFeilds(role);
-		try {
-		Integer idRole =  getJdbcTemplate().queryForObject(
-                    ID_ROLE, Integer.class);
-			if(idRole != null){
-				GET_USERS = GET_USERS+ "WHERE ID_ROLE = "+idRole;
-			userList = getJdbcTemplate().query(GET_USERS, new UserListRowMapper());
-			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		return userList;
-	}
-
-	@Override
-	public ResponseBean insertUser(UserDTO user, Integer accessId) throws Exception{
-		   ResponseBean responseBean = new ResponseBean();
-		   System.out.println("Insert............");
-		   String INSERT_USER = "INSERT INTO user(";
-				   if(user.getRole() != null){
-					   INSERT_USER = INSERT_USER+ "`ID_ROLE`,";
-		   		     }
-				   if(user.getFirstName()!= null){
-				   INSERT_USER = INSERT_USER+ " `FIRST_NAME`, ";
-	               }
-				   if(user.getLastName()!=null){
-				   INSERT_USER = INSERT_USER+ "`LAST_NAME`, ";
-				   }
-				   if(user.getDateOfBirth()!=null){
-				   INSERT_USER = INSERT_USER+ "`DATE_OF_BIRTH`, ";
-				   }
-				   if(user.getEmailAddresses()!=null){
-				      INSERT_USER = INSERT_USER+ "`EMAIL_ADDRESS`, ";
-				   }
-				   if(user.getExperience()!=null){
-					   INSERT_USER = INSERT_USER+ "`EXPERIENCE`, ";
-					   }
-				   if(user.getBioGraphy()!=null){
-					   INSERT_USER = INSERT_USER+ "`BIO_GRAPHY`, ";
-					   }
-				   if(user.getDateOfJoining() !=null){
-					   INSERT_USER = INSERT_USER+ "`DATE_OF_JOINING`, ";
-					   }
-				   if(user.getDesignation() !=null && user.getDesignation().getId()!= null){
-					   INSERT_USER = INSERT_USER+ "`ID_DESIGNATION`, ";
-					   }
-				   if(user.getGender()!= null){
-				   INSERT_USER = INSERT_USER+ "`ID_GENDER`,";
-				   }
-				   if(user.getFatherName()!= null){
-				   INSERT_USER = INSERT_USER+ "`FATHER_NAME`,";
-				   }
-				   if(user.getAge() != null){
-				   INSERT_USER = INSERT_USER+ " `AGE`,";
-				   }
-				   if(user.getReligion() != null){
-				   INSERT_USER = INSERT_USER+ "`ID_RELIGION`,";
-				   }
-				   if(user.getCommunity() != null){
-				   INSERT_USER = INSERT_USER+ "`ID_COMMUNITY`,";
-				   }
-				   INSERT_USER = INSERT_USER+ "`IS_DELETED`,`CREATED_ON`,`CREATED_BY`)";
-		   		
-				   INSERT_USER = INSERT_USER+ " VALUES (";
-				   if(user.getRole() != null){
-					   INSERT_USER = INSERT_USER+ user.getRole().getId()+",";
-		   		     }
-				   if(user.getFirstName()!= null){
-				   INSERT_USER = INSERT_USER+ commonUtil.stringFeilds(user.getFirstName())+",";
-	               }
-				   if(user.getLastName()!=null){
-				   INSERT_USER = INSERT_USER+ commonUtil.stringFeilds(user.getLastName())+",";
-				   }
-				   if(user.getDateOfBirth()!=null){
-				   INSERT_USER = INSERT_USER+ commonUtil.stringFeilds(user.getDateOfBirth())+",";
-				   }
-				   if(user.getEmailAddresses()!=null){
-					      INSERT_USER = INSERT_USER+ commonUtil.stringFeilds(user.getEmailAddresses())+",";
-					   }
-				   if(user.getExperience()!=null){
-						   INSERT_USER = INSERT_USER+ user.getExperience()+",";
-						   }
-				    if(user.getBioGraphy()!=null){
-						   INSERT_USER = INSERT_USER+ commonUtil.stringFeilds(user.getBioGraphy())+",";
-						   }
-				    if(user.getDateOfJoining() !=null){
-						   INSERT_USER = INSERT_USER+ commonUtil.stringFeilds(user.getDateOfJoining())+",";
-						   }
-				    if(user.getDesignation() !=null && user.getDesignation().getId()!= null){
-						   INSERT_USER = INSERT_USER+ user.getDesignation().getId()+",";
-						   }
-				   if(user.getGender() != null){
-				   INSERT_USER = INSERT_USER+ user.getGender().getId()+",";
-				   }
-				   if(user.getFatherName()!= null){
-				   INSERT_USER = INSERT_USER+commonUtil.stringFeilds(user.getFatherName())+",";
-				   }
-				   if(user.getAge() != null){
-				   INSERT_USER = INSERT_USER+ user.getAge()+",";
-				   }
-				   if(user.getReligion() != null){
-				   INSERT_USER = INSERT_USER+user.getReligion().getId()+",";
-				   }
-				   if(user.getCommunity() != null){
-				   INSERT_USER = INSERT_USER+user.getCommunity().getId()+",";
-				   }
-				   INSERT_USER = INSERT_USER+"0,NOW(),";
-				   INSERT_USER = INSERT_USER+ accessId;
-				   INSERT_USER = INSERT_USER+ ")";
-				   System.out.println("INSERT_USER>>>...."+INSERT_USER);
-		   try{
-			   KeyHolder keyHolder = new GeneratedKeyHolder();
-			   SqlParameterSource namedParameters = new BeanPropertySqlParameterSource(
-					   user);
-			if(user != null)
-			getJdbcTemplate().update(INSERT_USER, namedParameters, keyHolder );
-			Number idStaff = keyHolder.getKey();
-			user.setId(idStaff.intValue());
-			System.out.println("id ------------>"+idStaff);
-			if(idStaff != null){
-				Integer id = idStaff.intValue();
-				if(user.getPhoneNumbers() != null){
-				insertPhoneNumber(user.getPhoneNumbers(),id,accessId);
-				}
-				if(user.getAddresses() != null){
-				insertAddressses(user.getAddresses(),id,accessId);	
-				}
-				UserAuthenticationDTO authentication = new UserAuthenticationDTO();
-				authentication.setStaff(user);
-				authentication.setUserSecret(user.getFatherName());
-				authentication.setUserName(user.getEmailAddresses());
-				insertPassword(authentication);
-/*				String msgBody = CommonConstants.USERNAME + authentication.getUserName()
-						+ CommonConstants.PASSWORD +authentication.getUserSecret(); 
-				emailService.readyToSendEmail(authentication.getUserName(), CommonConstants.CREDENTIALS, msgBody);*/
-			}
-		   }catch(Exception e){
-			   e.printStackTrace();
-			   responseBean.setStatus("FAILED");
-			   String eStr = e.getMessage();
-				responseBean.setMessage(eStr);
-		   }
-		
-		return responseBean;
-	}
   
-	private void insertAddressses(List<StaffAddressDTO> addresses,Integer idStaff,Integer accessId) {
+	private void insertAddressses(List<AddressDTO> addresses,Integer idStaff,Integer accessId) {
 		// TODO Auto-generated method stub
-		for(StaffAddressDTO address:addresses){
+		for(AddressDTO address:addresses){
 			String ADDRESS = "INSERT INTO `staff_address`(";
 			ADDRESS= ADDRESS+"`ID_STAFF`,";
 		if(address.getAddress() != null){
@@ -254,9 +78,9 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 
 		}
 	}
-	private void insertPhoneNumber(List<StaffPhoneNumberDTO> phoneNumbers,Integer idStaff,Integer accessId) {
+	private void insertPhoneNumber(List<PhoneNumberDTO> phoneNumbers,Integer idStaff,Integer accessId) {
 		// TODO Auto-generated method stub
-		for(StaffPhoneNumberDTO phoneNumber: phoneNumbers){
+		for(PhoneNumberDTO phoneNumber: phoneNumbers){
 			String PhoneNumber = "INSERT INTO `staff_phone`(";
 				PhoneNumber= PhoneNumber+"`ID_STAFF`,";
 			if(phoneNumber.getPhoneNumber() != null){
@@ -279,17 +103,7 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 		}
 	}
 	
-	public void insertPassword(UserAuthenticationDTO authentication){
-	String AUTHENTICATION = "INSERT INTO `user_authentication`( "
-			+ "`USER_NAME`, `USER_SECRET`, `ID_USER`)"
-		+"VALUES ("+
-		commonUtil.stringFeilds(authentication.getUserName())+","+
-				commonUtil.stringFeilds(authentication.getUserSecret())+","+
-						authentication.getStaff().getId()+")";
 	
-	getJdbcTemplate().update(AUTHENTICATION);
-	
-	}
 	
 	
 	@Override
@@ -367,10 +181,10 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 		   return responseBean;
 	}
 	
-	private void updateAddress(List<StaffAddressDTO> addresses,Integer idStaff,
+	private void updateAddress(List<AddressDTO> addresses,Integer idStaff,
 			Integer accessId) {
         	String UPDATE_ADDRESS = "UPDATE `staff_address` SET ";
-        	for(StaffAddressDTO address : addresses ){
+        	for(AddressDTO address : addresses ){
         		if (address.getId() != null){
         		if(address.getAddress()!= null){
         			UPDATE_ADDRESS=UPDATE_ADDRESS+ "`ADDRESS`="+address.getAddress()+",";
@@ -405,10 +219,10 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 		}
 	}
 
-	private void updatePhone(List<StaffPhoneNumberDTO> phoneNumbers,Integer idStaff,
+	private void updatePhone(List<PhoneNumberDTO> phoneNumbers,Integer idStaff,
 			Integer accessId) {
 		  String UPDATE_PHONE = "UPDATE `staff_phone` SET ";
-       	for(StaffPhoneNumberDTO phone : phoneNumbers ){
+       	for(PhoneNumberDTO phone : phoneNumbers ){
        		if(phone.getId()!= null){
        	if(phone.getPhoneNumber() != null){
        		UPDATE_PHONE = UPDATE_PHONE+ "`PHONE_NUMBER`="+phone.getPhoneNumber()+",";
@@ -444,7 +258,7 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 
 
 	@Override
-	public ResponseBean deleteUser(Integer userId, Integer phoneNumberId,Integer addressId, Integer accessId) {
+	public ResponseBean deleter(Integer userId, Integer phoneNumberId,Integer addressId, Integer accessId) {
 		ResponseBean responseBean = new ResponseBean();
 		String DELETE_USER ="UPDATE `user` SET IS_DELETED = 1,UPDATED_BY ="+accessId +" WHERE USER ="+userId;
 		String DELETE_PHONE = "UPDATE `STUDENT_PHONE` SET IS_DELETED = 0,UPDATED_BY ="+accessId +" WHERE ID = "+phoneNumberId;
@@ -546,5 +360,181 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 		}
 		return user;
 	}
+	@Override
+	public List<UserDTO> getUsers(String role, Integer stdId, Integer secId) {
+		// TODO Auto-generated method stub
+		List<UserDTO> userList = new ArrayList<UserDTO>();
+	    String GET_USERS = "SELECT * FROM user ";
+		String ID_ROLE = "SELECT ID FROM role WHERE ROLE = "+commonUtil.stringFeilds(role);
+	try {
+	Integer idRole =  getJdbcTemplate().queryForObject(
+                ID_ROLE, Integer.class);
+		if(idRole != null){
+			GET_USERS = GET_USERS+ "WHERE ID_ROLE = "+idRole;
+		userList = getJdbcTemplate().query(GET_USERS, new UserListRowMapper());
+		}
+	} catch (Exception ex) {
+		ex.printStackTrace();
+	}
+	return userList;
+}
+	@Override
+	public ResponseBean createUser(UserDTO user, String orgId,
+			Integer accessId) {
+		{
+			   ResponseBean responseBean = new ResponseBean();
+			   System.out.println("Insert............");
+			   String INSERT_USER = "INSERT INTO user(";
+					   if(user.getRole() != null){
+						   INSERT_USER = INSERT_USER+ "`ID_ROLE`,";
+			   		     }
+					   if(user.getFirstName()!= null){
+					   INSERT_USER = INSERT_USER+ " `FIRST_NAME`, ";
+		               }
+					   if(user.getLastName()!=null){
+					   INSERT_USER = INSERT_USER+ "`LAST_NAME`, ";
+					   }
+					   if(user.getDateOfBirth()!=null){
+					   INSERT_USER = INSERT_USER+ "`DATE_OF_BIRTH`, ";
+					   }
+					   if(user.getEmailAddresses()!=null){
+					      INSERT_USER = INSERT_USER+ "`EMAIL_ADDRESS`, ";
+					   }
+					   if(user.getExperience()!=null){
+						   INSERT_USER = INSERT_USER+ "`EXPERIENCE`, ";
+						   }
+					   if(user.getBioGraphy()!=null){
+						   INSERT_USER = INSERT_USER+ "`BIO_GRAPHY`, ";
+						   }
+					   if(user.getDateOfJoining() !=null){
+						   INSERT_USER = INSERT_USER+ "`DATE_OF_JOINING`, ";
+						   }
+					   if(user.getDesignation() !=null && user.getDesignation().getId()!= null){
+						   INSERT_USER = INSERT_USER+ "`ID_DESIGNATION`, ";
+						   }
+					   if(user.getGender()!= null){
+					   INSERT_USER = INSERT_USER+ "`ID_GENDER`,";
+					   }
+					   if(user.getFatherName()!= null){
+					   INSERT_USER = INSERT_USER+ "`FATHER_NAME`,";
+					   }
+					   if(user.getAge() != null){
+					   INSERT_USER = INSERT_USER+ " `AGE`,";
+					   }
+					   if(user.getReligion() != null){
+					   INSERT_USER = INSERT_USER+ "`ID_RELIGION`,";
+					   }
+					   if(user.getCommunity() != null){
+					   INSERT_USER = INSERT_USER+ "`ID_COMMUNITY`,";
+					   }
+					   INSERT_USER = INSERT_USER+ "`IS_DELETED`,`CREATED_ON`,`CREATED_BY`)";
+			   		
+					   INSERT_USER = INSERT_USER+ " VALUES (";
+					   if(user.getRole() != null){
+						   INSERT_USER = INSERT_USER+ user.getRole().getId()+",";
+			   		     }
+					   if(user.getFirstName()!= null){
+					   INSERT_USER = INSERT_USER+ commonUtil.stringFeilds(user.getFirstName())+",";
+		               }
+					   if(user.getLastName()!=null){
+					   INSERT_USER = INSERT_USER+ commonUtil.stringFeilds(user.getLastName())+",";
+					   }
+					   if(user.getDateOfBirth()!=null){
+					   INSERT_USER = INSERT_USER+ commonUtil.stringFeilds(user.getDateOfBirth())+",";
+					   }
+					   if(user.getEmailAddresses()!=null){
+						      INSERT_USER = INSERT_USER+ commonUtil.stringFeilds(user.getEmailAddresses())+",";
+						   }
+					   if(user.getExperience()!=null){
+							   INSERT_USER = INSERT_USER+ user.getExperience()+",";
+							   }
+					    if(user.getBioGraphy()!=null){
+							   INSERT_USER = INSERT_USER+ commonUtil.stringFeilds(user.getBioGraphy())+",";
+							   }
+					    if(user.getDateOfJoining() !=null){
+							   INSERT_USER = INSERT_USER+ commonUtil.stringFeilds(user.getDateOfJoining())+",";
+							   }
+					    if(user.getDesignation() !=null && user.getDesignation().getId()!= null){
+							   INSERT_USER = INSERT_USER+ user.getDesignation().getId()+",";
+							   }
+					   if(user.getGender() != null){
+					   INSERT_USER = INSERT_USER+ user.getGender().getId()+",";
+					   }
+					   if(user.getFatherName()!= null){
+					   INSERT_USER = INSERT_USER+commonUtil.stringFeilds(user.getFatherName())+",";
+					   }
+					   if(user.getAge() != null){
+					   INSERT_USER = INSERT_USER+ user.getAge()+",";
+					   }
+					   if(user.getReligion() != null){
+					   INSERT_USER = INSERT_USER+user.getReligion().getId()+",";
+					   }
+					   if(user.getCommunity() != null){
+					   INSERT_USER = INSERT_USER+user.getCommunity().getId()+",";
+					   }
+					   INSERT_USER = INSERT_USER+"0,NOW(),";
+					   INSERT_USER = INSERT_USER+ accessId;
+					   INSERT_USER = INSERT_USER+ ")";
+					   System.out.println("INSERT_USER>>>...."+INSERT_USER);
+			   try{
+				   KeyHolder keyHolder = new GeneratedKeyHolder();
+				   SqlParameterSource namedParameters = new BeanPropertySqlParameterSource(
+						   user);
+				if(user != null)
+				getJdbcTemplate().update(INSERT_USER, namedParameters, keyHolder );
+				Number idStaff = keyHolder.getKey();
+				user.setId(idStaff.intValue());
+				System.out.println("id ------------>"+idStaff);
+				if(idStaff != null){
+					Integer id = idStaff.intValue();
+					if(user.getPhoneNumbers() != null){
+					insertPhoneNumber(user.getPhoneNumbers(),id,accessId);
+					}
+					if(user.getAddresses() != null){
+					insertAddressses(user.getAddresses(),id,accessId);	
+					}
+					UserAuthenticationDTO authentication = new UserAuthenticationDTO();
+					authentication.setStaff(user);
+					authentication.setUserSecret(user.getFatherName());
+					authentication.setUserName(user.getEmailAddresses());
+					insertPassword(authentication);
+	/*				String msgBody = CommonConstants.USERNAME + authentication.getUserName()
+							+ CommonConstants.PASSWORD +authentication.getUserSecret(); 
+					emailService.readyToSendEmail(authentication.getUserName(), CommonConstants.CREDENTIALS, msgBody);*/
+				}
+			   }catch(Exception e){
+				   e.printStackTrace();
+				   responseBean.setStatus("FAILED");
+				   String eStr = e.getMessage();
+					responseBean.setMessage(eStr);
+			   }
+			
+			return responseBean;
+		}
+	@Override
+	public ResponseBean deleteUser(Integer orgId, Integer userId,
+			Integer accessId) {
+		ResponseBean responseBean = new ResponseBean();
+		String DELETE_USER ="UPDATE `user` SET IS_DELETED = 1,UPDATED_BY ="+accessId +" WHERE USER ="+userId +"AND ID_ORGANIZATION = "+orgId;
+		String DELETE_PHONE = "UPDATE `PHONE` SET IS_DELETED = 0,UPDATED_BY ="+accessId +" WHERE ID_USER = "+userId  +"AND ID_ORGANIZATION = "+orgId;
+		String DELETE_ADDRESS = "UPDATE `ADDRESS` SET IS_DELETED = 0,UPDATED_BY ="+accessId +" WHERE ID_USER ="+userId +"AND ID_ORGANIZATION = "+orgId;
+		try{
+				
+				getJdbcTemplate().update(DELETE_PHONE);
+				getJdbcTemplate().update(DELETE_ADDRESS);
+				if(userId != null){
+			    getJdbcTemplate().update(DELETE_USER );
+		        }
+				responseBean.setStatus("SUCCESS");
+				responseBean.setMessage("The user is deleted sccessfully");
+			
+		   }catch(Exception e){
+			   responseBean.setStatus("FAILED");
+			   String eStr = e.getMessage();
+				responseBean.setMessage(eStr);
+		   }
+		   return responseBean;
+	}
+
 
 }

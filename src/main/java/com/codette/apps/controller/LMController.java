@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
 import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,14 +15,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.codette.apps.service.LMService;
+import com.codette.apps.dao.impl.StaffDAOImpl;
 import com.codette.apps.dto.LeaveManagementDTO;
 import com.codette.apps.dto.ResponseBean;
 import com.codette.apps.util.CommonConstants;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 @Controller
 @RequestMapping(value= "/leaveManagement")
 public class LMController {
 
+	final static Logger logger = Logger.getLogger(StaffDAOImpl.class);
+	public static final Gson gson = new GsonBuilder().setDateFormat(CommonConstants.ISO_DATE_FORMAT).create();
 	@Resource
 	LMService lMService;
 	/**

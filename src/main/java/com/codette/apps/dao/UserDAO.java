@@ -10,17 +10,15 @@ import com.codette.apps.dto.UserDTO;
 
 public interface UserDAO {
 
-	
-	public UserDTO getUser(Integer userId);
-	
-    public UserDTO aurthentication(UserAuthenticationDTO userAuthenticationDTO);
+	ResponseBean createUser(UserDTO userDTO, String orgId, Integer accessId);
 
-	 public ResponseBean insertUser(UserDTO user, Integer accessId) throws Exception;
+	ResponseBean updateUser(UserDTO userDTO, Integer acessId, Integer userId);
 
-	 public ResponseBean updateUser(UserDTO user, Integer acessId, Integer userId);
+	ResponseBean deleteUser(Integer orgId, Integer userId, Integer accessId);
 
-	public ResponseBean deleteUser(Integer userId,Integer phoneNumberId,Integer addressId, Integer accessId);
+	UserDTO getUser(Integer userId);
 
-	public List<UserDTO> getUsers(String role);
+	List<UserDTO> getUsers(String role, Integer stdId, Integer secId);
+
 	
 }
