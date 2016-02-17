@@ -17,10 +17,11 @@ import com.codette.apps.util.CommonUtil;
 public class LeaveManagementImpl  extends NamedParameterJdbcDaoSupport implements LeaveDAO{
 
 	@Resource
-	CommonUtil commonUtil;
+	private CommonUtil commonUtil;
 	
 	@Override
-	public List<LeaveManagementDTO> getPendingLeave(String status,Integer userId,String role) {
+	public Object getPendingLeave(Integer orgId, String status, Integer userId,
+			String role) {
 		List<LeaveManagementDTO> leaveList = new ArrayList<LeaveManagementDTO>();
 		String ID_STATUS = "SELECT ID FROM status where STATUS = '"+status+"'";
 		String LEAVE_FORM = "SELECT * FROM leave_management A left outer join user U ON A.ID_STAFF = U.ID "
@@ -51,10 +52,12 @@ public class LeaveManagementImpl  extends NamedParameterJdbcDaoSupport implement
 			
 			return leaveList;
 		}
-		
-	
+
+
+
 	@Override
-	public List<LeaveManagementDTO> getHistoryLeave(String status,Integer userId,String role) {
+	public Object getHistoryLeave(Integer orgId, String status, Integer userId,
+			String role) {
 		List<LeaveManagementDTO> leaveList = new ArrayList<LeaveManagementDTO>();
 		String ID_STATUS = "SELECT ID FROM status where STATUS = '"+CommonConstants.PENDING+"'";
 		String LEAVE_FORM = "SELECT * FROM leave_management A left outer join user U ON A.ID_STAFF = U.ID "
@@ -86,10 +89,15 @@ public class LeaveManagementImpl  extends NamedParameterJdbcDaoSupport implement
 			return leaveList;
 		}
 		
+		
+
 
 	@Override
-	public ResponseBean Applyleave(LeaveManagementDTO leave,Integer accessId) {
+	public Object applyleave(LeaveManagementDTO leave, Integer orgId,
+			Integer userId, Integer accessId) {
+		// TODO Auto-generated method stub
 		ResponseBean responseBean= new ResponseBean(); 
+
 		String ID_STATUS = "SELECT ID FROM status where STATUS =? ";
 		String INSERT_LEAVE = "INSERT INTO `leave_management`(";
 				INSERT_LEAVE = INSERT_LEAVE+"`ID_STAFF`,";
@@ -125,7 +133,7 @@ public class LeaveManagementImpl  extends NamedParameterJdbcDaoSupport implement
 						INSERT_LEAVE = INSERT_LEAVE+ leave.getIsTaken()+",";
 					}
 					INSERT_LEAVE = INSERT_LEAVE+"?,";
-				INSERT_LEAVE = INSERT_LEAVE+ CommonConstants.IS_DELETED+","+"NOW()"+","+accessId
+				INSERT_LEAVE = INSERT_LEAVE+ CommonConstants.NOT_DELETED+","+"NOW()"+","+accessId
 				+")";
 				try{
 					
@@ -150,14 +158,13 @@ public class LeaveManagementImpl  extends NamedParameterJdbcDaoSupport implement
 						responseBean.setMessage( e.getMessage());
 						e.printStackTrace();
 					}
-		        return responseBean;
-				
+		return responseBean;
+	}
 
-}
 
 	@Override
-	public  ResponseBean statusChange(List<LeaveManagementDTO> leaveDTO, Integer userId) {
-		// TODO Auto-generated method stub
+	public Object statusChange(List<LeaveManagementDTO> leaveDTO,
+			Integer orgId, Integer userId, Integer accessId) {
 		ResponseBean responceBean = new ResponseBean();
 		String ID_STATUS = "SELECT ID FROM status where STATUS =? ";
 		try{
@@ -199,4 +206,5 @@ public class LeaveManagementImpl  extends NamedParameterJdbcDaoSupport implement
 		}
 		return responceBean;
 	}
+
 	}

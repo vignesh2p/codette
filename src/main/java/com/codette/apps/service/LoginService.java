@@ -40,5 +40,11 @@ public class LoginService {
 		// TODO Auto-generated method stub
 		return loginDAO.changePassword(userAuthenticationDTO);
 	}
+	
+	@Transactional
+	public UserDTO createPassword(UserAuthenticationDTO userAuthenticationDTO) {
+		// TODO Auto-generated method stub
+		return loginDAO.createPassword(userAuthenticationDTO);
+	}
 
 }

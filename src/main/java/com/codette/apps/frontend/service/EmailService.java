@@ -15,16 +15,16 @@ import com.codette.apps.util.CommonConstants;
 public class EmailService {
  
 	@Autowired
-	private MailSender emailService; // MailSender interface defines a strategy
+	private MailSender mailSender; // MailSender interface defines a strategy
 										// for sending simple mails
  
-	public String readyToSendEmail(String toAddress, String subject, String msgBody) {
+	public String emailNotification(String toAddress, String subject, String msgBody) {
 		SimpleMailMessage crunchifyMsg = new SimpleMailMessage();
 		crunchifyMsg.setFrom(CommonConstants.FROMADDRESS);
 		crunchifyMsg.setTo(toAddress);
 		crunchifyMsg.setSubject(subject);
 		crunchifyMsg.setText(msgBody);
-		emailService.send(crunchifyMsg);
+		mailSender.send(crunchifyMsg);
 		return "success";
 	}
 }

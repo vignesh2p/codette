@@ -47,7 +47,7 @@ public class CommonServices extends BaseService {
 			e.printStackTrace();
 			throw e;
 		}
-		return emailService.readyToSendEmail(email, CommonConstants.PASSWORD_RESET_SUBJECT, "Hello User,"+ CommonConstants.PASSWORD_RESET_CONTENT);
+		return emailService.emailNotification(email, CommonConstants.PASSWORD_RESET_SUBJECT, "Hello User,"+ CommonConstants.PASSWORD_RESET_CONTENT);
 		}
 	
 	/**

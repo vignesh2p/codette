@@ -33,15 +33,16 @@ public class LoginController {
 
     @RequestMapping(value = "/authentication", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<UserDTO>  authentication(@RequestBody UserAuthenticationDTO userAuthenticationDTO) throws Exception {
+    public Object authentication(@RequestBody UserAuthenticationDTO userAuthenticationDTO) throws Exception {
         UserDTO user = new UserDTO();
         user = loginService.authentication(userAuthenticationDTO);
         return new ResponseEntity<UserDTO>(user, HttpStatus.OK);
     }
     
+    
     @RequestMapping(value = "/resetpassword", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<UserDTO>  resetPassword(
+    public Object  resetPassword(
     		@RequestBody UserAuthenticationDTO userAuthenticationDTO) throws Exception {
         UserDTO user = new UserDTO();
         user = loginService.resetPassword(userAuthenticationDTO);
@@ -50,7 +51,7 @@ public class LoginController {
 
     @RequestMapping(value = "/changepassword/{newPassword}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<UserDTO>  changePassword(
+    public Object  changePassword(
     		@RequestBody UserAuthenticationDTO userAuthenticationDTO,
     		@PathVariable(value ="newPassword") String newPassword) throws Exception {
         UserDTO user = new UserDTO();

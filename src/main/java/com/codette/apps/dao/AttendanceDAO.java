@@ -7,12 +7,15 @@ import com.codette.apps.dto.ResponseBean;
 
 public interface AttendanceDAO {
 
-	ResponseBean enableAttendance(Integer orgId, Integer userId,
+	public Object enableAttendance(Integer orgId, Integer userId,
 			Integer accessId);
 
-	List<AttendenceDTO> getAttendance(Integer orgId, Integer userId);
+	public Object getAttendance(Integer orgId, Integer userId);
 
-	ResponseBean updateAttendance(Integer orgId, List<Integer> userIds,
+	public Object updateAttendance(Integer orgId, List<Integer> userIds,
+			Integer accessId);
+
+	public Object createAttendanceProfile(Integer orgId, Integer userId,
 			Integer accessId);
 
 }

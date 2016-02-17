@@ -40,56 +40,54 @@ import com.codette.apps.util.CommonConstants;
 public class UsersController {
 	
 	@Resource
-	UsersService usersService;
+	private UsersService usersService;
 	
 	@Resource
-	CommonService commonService;
+	private CommonService commonService;
 	
 	final static Logger logger = Logger.getLogger(StaffDAOImpl.class);
 	public static final Gson gson = new GsonBuilder().setDateFormat(CommonConstants.ISO_DATE_FORMAT).create();
 	
 
-	@RequestMapping(value = "/{orgId}/users/{role}/{standardId}/{sectionId}", method = RequestMethod.GET )
+	@RequestMapping(value = "/{orgId}/users/{role}", method = RequestMethod.GET )
 	@ResponseBody
-	public List<UserDTO> getUsers(
-			@RequestParam( value="role") String role,
-			@RequestParam( value="standardId") String standardId,
-			@RequestParam( value="sectionId") String sectionId ,
+	public Object getUsers(
+			@PathVariable( value="orgId") String orgId,
+			@PathVariable( value="role") String role,
+			@RequestParam( value="standardId",required = false) String standardId,
+			@RequestParam( value="sectionId",required = false) String sectionId ,
 			HttpServletRequest request, HttpSession session)  {
 		Integer stdId = Integer.valueOf(standardId);
 		Integer secId = Integer.valueOf(sectionId);
-			return usersService.getUsers(role,stdId,secId);
+			return usersService.getUsers(Integer.valueOf(orgId),role,stdId,secId);
 	}
 	
 	@RequestMapping(value = "/{orgId}/getUser/{userId}", method = RequestMethod.GET)
 	@ResponseBody
-	public UserDTO getUser(@PathVariable( value="orgId") String orgId,@PathVariable Integer userId) throws Exception {
-		return usersService.getUser(userId);
+	public Object getUser(@PathVariable( value="orgId") String orgId,@PathVariable Integer userId) throws Exception {
+		return usersService.getUser(Integer.valueOf(orgId),userId);
 	}
 	
 	@RequestMapping(value = "/{orgId}/createUser", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseBean createUser(@PathVariable( value="orgId") String orgId,@RequestBody UserDTO userDTO,  HttpSession session, HttpServletRequest request) throws Exception {
-		ResponseBean responseBean = new ResponseBean();
-		responseBean = usersService.createUser(userDTO,orgId,commonService.getAccessId(request));
-		return responseBean;
+	public Object createUser(@PathVariable( value="orgId") String orgId,@RequestBody UserDTO userDTO,  HttpSession session, HttpServletRequest request) throws Exception {
+		Object object = usersService.createUser(userDTO,orgId,commonService.getAccessId(request));
+		return object;
 	}
 
 
 	@RequestMapping(value = "{orgId}/updateuser/{userId}", method = RequestMethod.PUT)
 	@ResponseBody
-	public ResponseBean updateUser(@PathVariable( value="orgId") String orgId,@PathVariable Integer userId, @RequestBody UserDTO userDTO, HttpSession session, HttpServletRequest request) throws Exception {
-		ResponseBean responseBean = new ResponseBean();
-		responseBean = usersService.updateUser(userDTO, orgId, userId,commonService.getAccessId(request));
-		return responseBean;
+	public Object updateUser(@PathVariable( value="orgId") String orgId,@PathVariable Integer userId, @RequestBody UserDTO userDTO, HttpSession session, HttpServletRequest request) throws Exception {
+		Object  object = usersService.updateUser(userDTO, orgId, userId,commonService.getAccessId(request));
+		return object;
 	}
 
 	@RequestMapping(value = "{orgId}/deleteuser/{userId}/{accessId}", method = RequestMethod.DELETE)
 	@ResponseBody
-	public ResponseBean deleteUser(@PathVariable Integer userId,Integer orgId,HttpSession session,HttpServletRequest request) throws Exception {
-		ResponseBean responseBean = new ResponseBean();
-		responseBean = usersService.deleteUser(orgId ,userId, commonService.getAccessId(request));
-		return responseBean;
+	public Object deleteUser(@PathVariable Integer userId,Integer orgId,HttpSession session,HttpServletRequest request) throws Exception {
+		Object object = usersService.deleteUser(orgId ,userId, commonService.getAccessId(request));
+		return object;
 	}
 	
 

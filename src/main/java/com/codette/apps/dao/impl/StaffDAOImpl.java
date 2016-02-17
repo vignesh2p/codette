@@ -339,64 +339,7 @@ public class StaffDAOImpl extends NamedParameterJdbcDaoSupport implements StaffD
 		     			   }
 		     			   return responseBean;
 	}
-	private void insertAddressses(List<AddressDTO> addresses,Integer idStudent,Integer accessId) {
-		// TODO Auto-generated method stub
-		for(AddressDTO address:addresses){
-			String ADDRESS = "INSERT INTO `student_address`(";
-			ADDRESS= ADDRESS+"`ID_STUDENT`,";
-		if(address.getAddress() != null){
-			ADDRESS= ADDRESS+ " `ADDRESS`,";
-		}
-		if(address.getIsPrimary()!= null){
-			ADDRESS= ADDRESS+ " `IS_PRIMARY`, ";
-		}
-		if(address.getStudentRelation()!= null){
-			ADDRESS= ADDRESS+ " `ID_STUDENT_RELATION`, ";
-		}
-		ADDRESS= ADDRESS+ "`IS_DELETED`, `CREATED_ON`, `CREATED_BY` ) ";
-		ADDRESS= ADDRESS+ "VALUES ";
-		ADDRESS= ADDRESS+ "("+idStudent+" , ";
-		if(address.getAddress() != null){
-			ADDRESS= ADDRESS+ commonUtil.stringFeilds(address.getAddress())+" , " ;
-		}
-		if(address.getIsPrimary()!= null){
-			ADDRESS= ADDRESS+ address.getIsPrimary() +" , ";
-		}
-		if(address.getStudentRelation()!= null){
-			ADDRESS= ADDRESS+ +address.getStudentRelation().getId()+" , ";
-		}
-		ADDRESS= ADDRESS+"0,NOW(),"+accessId+")";
-		getJdbcTemplate().update(ADDRESS);
-
-		}
-	}
-	private void insertPhoneNumber(List<PhoneNumberDTO> phoneNumbers,Integer idStudent,Integer accessId) {
-		// TODO Auto-generated method stub
-		for(PhoneNumberDTO phoneNumber: phoneNumbers){
-			String PhoneNumber = "INSERT INTO `student_phone`(";
-				PhoneNumber= PhoneNumber+"`ID_STUDENT`,";
-			if(phoneNumber.getPhoneNumber() != null){
-				PhoneNumber= PhoneNumber+ " `PHONE_NUMBER`,";
-			}
-			if(phoneNumber.getIsPrimary()!= null){
-				PhoneNumber= PhoneNumber+ " `IS_PRIMARY`, ";
-			}
-			PhoneNumber= PhoneNumber+ "`IS_DELETED`, `CREATED_ON`, `CREATED_BY` ) ";
-			PhoneNumber= PhoneNumber+ "VALUES ";
-			PhoneNumber= PhoneNumber+ "("+idStudent+" , ";
-			if(phoneNumber.getPhoneNumber() != null){
-				PhoneNumber= PhoneNumber+ commonUtil.stringFeilds(phoneNumber.getPhoneNumber()) +" , ";
-			}
-			if(phoneNumber.getIsPrimary()!= null){
-				PhoneNumber= PhoneNumber+ phoneNumber.getIsPrimary() +" , ";
-			}
-			if(phoneNumber.getStudentRelation()!= null){
-				PhoneNumber= PhoneNumber +phoneNumber.getStudentRelation().getId()+" , ";
-			}
-			PhoneNumber= PhoneNumber+"0,NOW(),"+accessId+")";
-			getJdbcTemplate().update(PhoneNumber);
-		}
-	}
+	
 
 	@Override
 	public StudentDTO getStudent(Integer studentId) {
@@ -708,36 +651,8 @@ public class StaffDAOImpl extends NamedParameterJdbcDaoSupport implements StaffD
 			
 		}
 		return attendencesList;
-	}
+	}    
 
-	@Override
-	public ResponseBean enableAttendence(Integer staffId) {
-		ResponseBean responseBean = new ResponseBean();
-		String CLASS_LIST = "SELECT ID_STANDARD,ID_SECTION FROM `staff_class` "
-				+ " WHERE IS_CLASS_TEACHER = 1 AND ID_STAFF = "+staffId;
-		String ENABLE = "UPDATE ATTENDENCE SET IS_ENABLE = 1 "
-				+ " WHERE ID_STUDENT IN (SELECT `ID` FROM STUDENT WHERE ID_STANDARD = ? AND ID_SECTION = ?)";
-		try
-		{
-			List<Integer> ids = getJdbcTemplate().query(CLASS_LIST, new ResultSetExtractor<List<Integer>>(){
-
-				public List<Integer> extractData(ResultSet rs)
-						throws SQLException, DataAccessException {
-					List<Integer> ids = new ArrayList<Integer>();
-					ids.add(rs.getInt("ID_STANDARD"));
-					ids.add(rs.getInt("ID_SECTION"));
-					return ids;
-				}});
-			Object[] inputIds = {ids.get(0),ids.get(1)};
-			getJdbcTemplate().update(ENABLE, inputIds);
-			
-			
-		}catch(Exception e){
-			
-		}
-		return responseBean;
-	}
-	
 
 
 

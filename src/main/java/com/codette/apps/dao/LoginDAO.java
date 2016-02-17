@@ -11,4 +11,6 @@ public interface LoginDAO {
 
 	UserDTO changePassword(UserAuthenticationDTO userAuthenticationDTO);
 
+	UserDTO createPassword(UserAuthenticationDTO userAuthenticationDTO);
+
 }

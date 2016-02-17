@@ -1,6 +1,6 @@
 package com.codette.apps.service;
 
-import java.util.List;
+import java.util.Random;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -9,7 +9,6 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import com.codette.apps.dao.CommonDAO;
-import com.codette.apps.dao.impl.StaffDAOImpl;
 import com.codette.apps.dto.AddressDTO;
 import com.codette.apps.dto.CommunityDTO;
 import com.codette.apps.dto.DesignationDTO;
@@ -28,45 +27,65 @@ import com.google.gson.GsonBuilder;
 @Component
 public class CommonService {
 	
-	final static Logger logger = Logger.getLogger(StaffDAOImpl.class);
+	final static Logger logger = Logger.getLogger(CommonService.class);
 	public static final Gson gson = new GsonBuilder().setDateFormat(CommonConstants.ISO_DATE_FORMAT).create();
 	@Resource
-	CommonDAO commonDAO;
+	private CommonDAO commonDAO;
 	
-	public List<CommunityDTO> getCommunity() {
+	public Object getCommunity() {
 		// TODO Auto-generated method stub
 		return commonDAO.getCommunity();
 	}
 	
-	public List<ReligionDTO> getReligion() {
+	public Object getReligion() {
 		// TODO Auto-generated method stub
 		return commonDAO.getReligion();
 	}
 	
-	public List<DesignationDTO> getDesignation(String orgId) {
+	public Object getDesignation(String orgId) {
 		// TODO Auto-generated method stub
 		return commonDAO.getDesignation(Integer.valueOf(orgId));
 	}
 
-	public Integer getId(String entity, String type){
-		return commonDAO.getId(entity, type);
-	}
-
-	public List<StandardDTO> getStandard(String orgId) {
+	public Object getStandard(String orgId) {
 		// TODO Auto-generated method stub
 		return commonDAO.getStandard(Integer.valueOf(orgId));
 	}
 
-	public List<SectionDTO> getSection(String orgId) {
+	public Object getSection(String orgId) {
 		// TODO Auto-generated method stub
 		return commonDAO.getSection(Integer.valueOf(orgId));
 	}
 
+
+	
+	
+	
+	
+	//common methods used to get basic ids 
+	
+	
+	
+	public Integer getId(String entity, String type){
+		Object object = commonDAO.getId(entity, type);
+		if(object instanceof Integer){
+			return (Integer) object;
+		}
+		return null;
+
+	}
+	
+	
+	
 	public Integer getAccessId(HttpServletRequest request) {
 		
 		return Integer.valueOf(request.getHeader(CommonConstants.SESSION_USER_ID));
 	}
 	
+	public String getRole(HttpServletRequest request) {
+	String role = request.getHeader(CommonConstants.SESSION_USERROLE);
+	return role;
+	}
 
 	public UserDTO getBasicIds(UserDTO userDTO){
 		GenderDTO genderDTO = null;
@@ -132,4 +151,37 @@ public class CommonService {
 	
 		
 	}
+	
+	
+        /**
+         * This method generates random string
+         * @return
+         */
+        public String generateRandomString(){
+             
+            StringBuffer randStr = new StringBuffer();
+            for(int i=0; i<CommonConstants.RANDOM_STRING_LENGTH; i++){
+                int number = getRandomNumber();
+                char ch = CommonConstants.CHAR_LIST.charAt(number);
+                randStr.append(ch);
+            }
+            return randStr.toString();
+        }
+         
+        /**
+         * This method generates random numbers
+         * @return int
+         */
+        private int getRandomNumber() {
+            int randomInt = 0;
+            Random randomGenerator = new Random();
+            randomInt = randomGenerator.nextInt(CommonConstants.CHAR_LIST.length());
+            if (randomInt - 1 == -1) {
+                return randomInt;
+            } else {
+                return randomInt - 1;
+            }
+        }
+	
+	
 }

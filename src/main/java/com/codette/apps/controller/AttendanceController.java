@@ -2,10 +2,15 @@ package com.codette.apps.controller;
 
 import java.util.List;
 
+import javassist.tools.web.BadHttpRequest;
+
 import javax.annotation.Resource;
+import javax.net.ssl.SSLEngineResult.Status;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.xml.transform.Result;
 
+import org.apache.http.HttpStatus;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,46 +34,75 @@ import com.google.gson.GsonBuilder;
 @RequestMapping("/attendance")
 public class AttendanceController {
 	
-	final static Logger logger = Logger.getLogger(StaffDAOImpl.class);
+	final static Logger logger = Logger.getLogger(AttendanceController.class);
 	public static final Gson gson = new GsonBuilder().setDateFormat(CommonConstants.ISO_DATE_FORMAT).create();
 	
 	@Resource
-	AttendanceService attendanceService;
+	private AttendanceService attendanceService;
 	
 	@Resource
-	CommonService commonService;
+	private CommonService commonService;
+	
 	@RequestMapping(value = "/{orgId}/enableattendence/{userId}", method = RequestMethod.PUT)
 	@ResponseBody
-	public ResponseBean enableAttendence(
+	public Object enableAttendence(
 			@PathVariable( value="orgId") String orgId,
 			@PathVariable( value="userId") String userId,
 			HttpServletRequest request)  {
-			return attendanceService.enableAttendance(Integer.valueOf(orgId),Integer.valueOf(userId),commonService.getAccessId(request));
+		Object object = null;
+		try{
+			object = attendanceService.enableAttendance(Integer.valueOf(orgId),Integer.valueOf(userId),commonService.getAccessId(request));
+			if(object instanceof ResponseBean){
+				ResponseBean responseBean = (ResponseBean) object;
+				if(responseBean.getStatus().equalsIgnoreCase("SUCCESS")){
+					return HttpStatus.SC_OK;
+				}
+			}
+		} 
+		catch(Exception e){
+			
+		}
+		return object;
+
 	}   
     
    @RequestMapping(value = "/{orgId}/getattendencesheet/{userId}", method = RequestMethod.GET)
 	@ResponseBody
-	public List<AttendenceDTO> getAttendence(
+	public Object getAttendence(
 			@PathVariable( value="orgId") String orgId,
 			@PathVariable( value="userId") String userId,
 			HttpServletRequest requests)  {
-			return attendanceService.getAttendance(Integer.valueOf(orgId),Integer.valueOf(userId));
+	   Object object =null;
+	   try{
+		   object =  attendanceService.getAttendance(Integer.valueOf(orgId),Integer.valueOf(userId));
+		   if(object instanceof List){
+		   object = gson.toJson(object);
+		   }
+		   if(object instanceof ResponseBean){
+			   
+		   }
+	   	}catch(Exception e){
+	   		
 	   	}
-   
+	return object;
+   }
    
 	
 	@RequestMapping(value = "/{orgId}/updateattendance/{userIds}", method = RequestMethod.PUT)
 	@ResponseBody
-	public ResponseBean updateAttendence(
+	public Object updateAttendence(
 			@PathVariable( value="orgId") String orgId,
 			@PathVariable List<Integer> userIds, 
 			@RequestBody UserDTO userDTO,
 			HttpSession session,
 			HttpServletRequest request) throws Exception {
-		
-		ResponseBean responseBean = new ResponseBean();
-		responseBean = attendanceService.updateAttendance(Integer.valueOf(orgId),userIds, commonService.getAccessId(request));
-		return responseBean;
+		Object object = null;
+		try{
+			object = attendanceService.updateAttendance(Integer.valueOf(orgId),userIds, commonService.getAccessId(request));
+		}catch(Exception e){
+
+		}
+		return Status.OK;
 	}
 
 }

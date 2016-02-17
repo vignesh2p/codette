@@ -308,5 +308,10 @@ public class CommonUtil {
 		}
 		return value;
 	}
+	public String getCurrentTimeStampInString() {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		String string  = dateFormat.format(new Date());
+		return string;
+	}
 	
 }

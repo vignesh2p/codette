@@ -19,8 +19,8 @@ public class SessionMapper implements RowMapper<UserDTO>{
 			return null;
 		}
 
-	
 	    UserDTO user = new UserDTO();
+	    user.setOrgId(rs.getInt("ID_ORGANIZATION"));
 		user.setId(rs.getInt("ID"));
 		user.setFirstName(rs.getString("FIRST_NAME"));
 		user.setLastName(rs.getString("LAST_NAME"));

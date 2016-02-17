@@ -14,26 +14,28 @@ import com.codette.apps.dto.ExamDTO;
 import com.codette.apps.dto.MarkSheetDTO;
 import com.codette.apps.dto.ResponseBean;
 import com.codette.apps.dto.StandardDTO;
+import com.codette.apps.tbl.Exam;
 
 public class ExamMarkDAOImpl extends NamedParameterJdbcDaoSupport implements ExamMarkDAO{
 
+	
+	String NEW_EXAM = "INSERT INTO `exam`(`ID_ORGANIZATION`,`EXAM`, `IS_DELETED`, `CREATED_ON`, `CREATED_BY`) "
+			+ "VALUES ( ?,'?',0,NOW(),?)";
+	String SECTIONS ="SELECT ID_SECTION FROM CLASSES WHERE ID_STANDARD = ? AND IS_DELETED = 0 ";
+	
+	String Marksheet = "INSERT INTO MARK_SHEET "
+			+ "(ID_ORGANIZATION,ID_EXAM,ID_STANDARD,ID_SECTION,IS_DELETED,CREATED_ON,CREATED_BY)"
+			+ " VALUES (?,?,?,?,?,NOW(),?)";
+	
 	@Override
-	public ResponseBean createExam(ExamDTO exam, Integer userId) {
-		String NEW_EXAM = "INSERT INTO `exam`(`EXAM`, `IS_DELETED`, `CREATED_ON`, `CREATED_BY`) "
-				+ "VALUES ( ? ,0,NOW(),?)";
-		String SECTIONS ="SELECT ID_SECTION FROM CLASSES WHERE ID_STANDARD = ? AND IS_DELETED = 0 ";
-		
-		String Marksheet = "INSERT INTO MARK_SHEET "
-				+ "(ID_EXAM,ID_STANDARD,ID_SECTION,IS_DELETED,CREATED_ON,CREATED_BY)"
-				+ " VALUES (?,?,?,?,NOW(),?)";
-		
+	public Object createExam(ExamDTO exam, Integer orgId,Integer userId,Integer accessId) {
 		try{
-		  Integer exam_id = getJdbcTemplate().update(NEW_EXAM, new Object[] {exam.getExam(),userId}, Integer.class);
+		  Integer exam_id = getJdbcTemplate().update(NEW_EXAM, new Object[] {orgId,exam.getExam(),userId}, Integer.class);
 		  System.out.println("exam id" +exam_id);
 		  for(StandardDTO standard : exam.getStandards()){
 			  List <Integer> sectionIds = new ArrayList<Integer>();	
 			  sectionIds = getJdbcTemplate().query(
-					  SECTIONS,new ResultSetExtractor<List<Integer>>(){
+					  SECTIONS,new Object[] {standard.getId()},new ResultSetExtractor<List<Integer>>(){
 
 							@Override
 							public List<Integer> extractData(ResultSet rs) throws SQLException,
@@ -46,7 +48,7 @@ public class ExamMarkDAOImpl extends NamedParameterJdbcDaoSupport implements Exa
 								return ids;
 							}});
 			  for (Integer sectionId : sectionIds){
-				  Object[] values = {exam_id,standard.getId(),sectionId,0,userId};
+				  Object[] values = {orgId,exam_id,standard.getId(),sectionId,0,userId};
 			  getJdbcTemplate().update(Marksheet,values );
 			  }
 		  }
@@ -58,7 +60,9 @@ public class ExamMarkDAOImpl extends NamedParameterJdbcDaoSupport implements Exa
 	}
 
 	@Override
-	public List<MarkSheetDTO> getMarkSheet(Integer userId) {
+	public Object getMarkSheet(Integer orgId, Integer userId,
+			String role) {
+		String marksheet = "select * from mark_sheet left outer join";
 		return null;
 	}
 

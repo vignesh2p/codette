@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 
 import com.codette.apps.dao.CommonDAO;
@@ -18,14 +19,20 @@ import com.codette.apps.mapper.DesignationRowMapper;
 import com.codette.apps.mapper.ReligionRowMapper;
 import com.codette.apps.mapper.SectionRowMapper;
 import com.codette.apps.mapper.StandardRowMapper;
+import com.codette.apps.util.CommonConstants;
 import com.codette.apps.util.CommonUtil;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class CommonDAOImpl  extends NamedParameterJdbcDaoSupport implements CommonDAO {
 
+	final static Logger logger = Logger.getLogger(CommonDAOImpl.class);
+	public static final Gson gson = new GsonBuilder().setDateFormat(CommonConstants.ISO_DATE_FORMAT).create();
+		
 	@Resource
 	CommonUtil commonUtil;
 	@Override
-	public List<CommunityDTO> getCommunity() {
+	public Object getCommunity() {
 		List<CommunityDTO> communityList = new ArrayList<CommunityDTO>();
 		String communities = "SELECT * FROM community";
 		try{
@@ -39,7 +46,7 @@ public class CommonDAOImpl  extends NamedParameterJdbcDaoSupport implements Comm
 	}
 
 	@Override
-	public List<ReligionDTO> getReligion() {
+	public Object getReligion() {
 		List<ReligionDTO> religionList = new ArrayList<ReligionDTO>();
 		String religion = "SELECT * FROM religion";
 		try{
@@ -53,7 +60,7 @@ public class CommonDAOImpl  extends NamedParameterJdbcDaoSupport implements Comm
 		return religionList;
 	}
 	@Override
-	public List<DesignationDTO> getDesignation(Integer orgId) {
+	public Object getDesignation(Integer orgId) {
 		List<DesignationDTO> designationList = new ArrayList<DesignationDTO>();
 		String designations = "SELECT * FROM designation WHERE ID_ORGANIZATION ="+orgId;
 		try{
@@ -70,7 +77,7 @@ public class CommonDAOImpl  extends NamedParameterJdbcDaoSupport implements Comm
 
 
 	@Override
-	public Integer getId(String entity, String type) {
+	public Object getId(String entity, String type) {
 	 String GET_ID = "SELECT ID FROM "+type+" WHERE "+type+" = "+ commonUtil.stringFeilds(entity);
 	 Integer id = getJdbcTemplate().queryForObject(
 				GET_ID,Integer.class); 
@@ -79,7 +86,7 @@ public class CommonDAOImpl  extends NamedParameterJdbcDaoSupport implements Comm
 
 
 	@Override
-	public List<StandardDTO> getStandard(Integer orgId) {
+	public Object getStandard(Integer orgId) {
 		List<StandardDTO> standardList = new ArrayList<StandardDTO>();
 		String designations = "SELECT * FROM STANDARD  WHERE ID_ORGANIZATION = "+orgId;
 		try{
@@ -94,7 +101,7 @@ public class CommonDAOImpl  extends NamedParameterJdbcDaoSupport implements Comm
 
 
 	@Override
-	public List<SectionDTO> getSection(Integer orgId) {
+	public Object getSection(Integer orgId) {
 		List<SectionDTO> sectionList = new ArrayList<SectionDTO>();
 		String section = "SELECT * FROM SECTION  WHERE ID_ORGANIZATION = "+orgId;
 		try{

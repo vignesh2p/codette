@@ -5,11 +5,12 @@ import java.util.List;
 import com.codette.apps.dto.ExamDTO;
 import com.codette.apps.dto.MarkSheetDTO;
 import com.codette.apps.dto.ResponseBean;
+import com.codette.apps.tbl.Exam;
 
 public interface ExamMarkDAO {
 
-	public ResponseBean createExam(ExamDTO exam, Integer userId);
-
-	public List<MarkSheetDTO> getMarkSheet(Integer userId);
+	public Object createExam(ExamDTO exam, Integer orgId, Integer userId, Integer accessId);
+	
+	public Object getMarkSheet(Integer orgId, Integer userId, String role);
 
 }

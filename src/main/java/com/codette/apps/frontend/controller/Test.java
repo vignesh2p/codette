@@ -1,5 +1,7 @@
 package com.codette.apps.frontend.controller;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,6 +15,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.google.common.base.Preconditions;
 import com.codette.apps.frontend.service.EmailService;
+import com.codette.apps.service.CommonService;
 import com.codette.apps.util.CommonConstants;
 import com.codette.apps.util.CommonUtil;
 
@@ -21,12 +24,14 @@ public class Test {
 	static
 	HttpServletRequest httpServletRequest;
 	
-	public static void main(String args[]) throws ParseException {
-		   SimpleDateFormat displayFormat = new SimpleDateFormat("HH:mm:ss");
+	public  static void main(String args[]) throws ParseException {
+		/*   SimpleDateFormat displayFormat = new SimpleDateFormat("HH:mm:ss");
 	       SimpleDateFormat parseFormat = new SimpleDateFormat("hh:mm a");
 	       Date date = parseFormat.parse("10:30 PM");
 	       System.out.println(parseFormat.format(date) + " = " + displayFormat.format(date));
-			
+			*/
+		CommonService commonService = new CommonService();
+		System.out.println("------------------"+commonService.generateRandomString()); 
 	}
 	public static void toBeginningOfTheDay(Calendar calendar) {
         Preconditions.checkNotNull(calendar, "Calendar");
@@ -91,4 +96,9 @@ public class Test {
 				String body = "There you go.. You got an email.. Let's understand details on how Spring MVC works -- By Crunchify Admin";
 				//emailService.readyToSendEmail(toAddr, fromAddr, subject, body);
 	}
+
+	  public static  String nextSessionId() {
+		 SecureRandom random = new SecureRandom();
+	    return new BigInteger(50, random).toString(32);
+	  }
 }

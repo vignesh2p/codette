@@ -9,9 +9,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.codette.apps.dao.AttendanceDAO;
-import com.codette.apps.dao.impl.StaffDAOImpl;
 import com.codette.apps.dto.AttendenceDTO;
 import com.codette.apps.dto.ResponseBean;
+import com.codette.apps.translator.AttendanceTranslator;
 import com.codette.apps.util.CommonConstants;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -19,28 +19,37 @@ import com.google.gson.GsonBuilder;
 @Component
 public class AttendanceService {
 	
-	final static Logger logger = Logger.getLogger(StaffDAOImpl.class);
+	final static Logger logger = Logger.getLogger(AttendanceService.class);
 	public static final Gson gson = new GsonBuilder().setDateFormat(CommonConstants.ISO_DATE_FORMAT).create();
 	@Resource
-	AttendanceDAO attendanceDAO;
+	private AttendanceDAO attendanceDAO;
+	
+	@Resource
+	private AttendanceTranslator attendanceTranslator;
 
 	@Transactional
-	public  ResponseBean enableAttendance(Integer orgId,
-			Integer userId, Integer accessId) {
+	public  Object enableAttendance(Integer orgId,
+			Integer userId, Integer accessId) throws NullPointerException{
 		// TODO Auto-generated method stub
 		return attendanceDAO.enableAttendance(orgId,userId,accessId);
 	}
 
-	public  List<AttendenceDTO> getAttendance(Integer orgId,Integer userId) {
+	public  Object getAttendance(Integer orgId,
+			Integer userId)throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		return attendanceDAO.getAttendance(orgId,userId);
+		 return  attendanceDAO.getAttendance(orgId,userId);
+		 
 	}
 
 	@Transactional
-	public  ResponseBean updateAttendance(Integer orgId,List<Integer> userIds,
-			Integer accessId) {
+	public  Object updateAttendance(Integer orgId,List<Integer> userIds,
+			Integer accessId) throws IllegalArgumentException{
 		// TODO Auto-generated method stub
 		return attendanceDAO.updateAttendance(orgId,userIds,accessId);
 	}
 
+	public Object createAttendanceProfile(Integer orgId, Integer userId,
+			Integer accessId){
+		return attendanceDAO.createAttendanceProfile(orgId,userId,accessId);
+	}
 }

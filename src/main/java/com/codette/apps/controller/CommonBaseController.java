@@ -25,36 +25,43 @@ import com.google.gson.GsonBuilder;
 @Controller
 @RequestMapping(value=CommonConstants.COMMON_BASE_URL)
 public class CommonBaseController {
-	final static Logger logger = Logger.getLogger(StaffDAOImpl.class);
+	final static Logger logger = Logger.getLogger(CommonBaseController.class);
 	public static final Gson gson = new GsonBuilder().setDateFormat(CommonConstants.ISO_DATE_FORMAT).create();
 	@Resource
-	CommonService commonServic;
+	private CommonService commonServic;
 	
 	@RequestMapping(value= "/"+ CommonConstants.COMMUNITY)
 	@ResponseBody
-	public List<CommunityDTO> getCommunityList(){
-		return commonServic.getCommunity();
+	public Object getCommunityList(){
+		Object object = null;
+		object = gson.toJson(commonServic.getCommunity());
+		return object; 
 	}
 
 	@RequestMapping(value= "/{orgId}/"+ CommonConstants.DESIGNATION)
 	@ResponseBody
-	public List<DesignationDTO> getDesignationList(@PathVariable( value="orgId") String orgId, HttpServletRequest requests){
-		return commonServic.getDesignation(orgId);
+	public Object getDesignationList(@PathVariable( value="orgId") String orgId, HttpServletRequest requests){
+		Object object = null;
+		return object = gson.toJson(commonServic.getDesignation(orgId));
+		
 	}
 	
 	@RequestMapping(value= "/"+ CommonConstants.RELIGION)
 	@ResponseBody
-	public List<ReligionDTO> getReligionList(){
-		return commonServic.getReligion();
+	public Object getReligionList(){
+		Object object = null;
+		return object = gson.toJson(commonServic.getReligion());
 	}
 	@RequestMapping(value= "/{orgId}/"+ CommonConstants.STANDARD_URL)
 	@ResponseBody
-	public List<StandardDTO> getStandardList(@PathVariable( value="orgId") String orgId, HttpServletRequest requests){
-		return commonServic.getStandard(orgId);
+	public Object getStandardList(@PathVariable( value="orgId") String orgId, HttpServletRequest requests){
+		Object object = null;
+		return object = gson.toJson(commonServic.getStandard(orgId));
 	}
 	@RequestMapping(value= "/{orgId}/"+ CommonConstants.SECTION_URL)
 	@ResponseBody
-	public List<SectionDTO> getSectionList(@PathVariable( value="orgId") String orgId, HttpServletRequest requests){
-		return commonServic.getSection(orgId);
+	public Object getSectionList(@PathVariable( value="orgId") String orgId, HttpServletRequest requests){
+		Object object = null;
+		return object = gson.toJson(commonServic.getSection(orgId));
 	}
 }

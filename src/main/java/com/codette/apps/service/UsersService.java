@@ -36,7 +36,7 @@ public class UsersService {
 	CommonService commonService ;
 
 	 @Transactional
-	public ResponseBean createUser(UserDTO userDTO, String orgId,
+	public Object createUser(UserDTO userDTO, String orgId,
 				Integer accessId) {
 			userDTO = commonService.getBasicIds(userDTO);
 			return userDAO.createUser(userDTO,orgId, accessId);
@@ -44,25 +44,26 @@ public class UsersService {
 	 
 	 
 	 @Transactional
-	public ResponseBean updateUser(UserDTO userDTO, String orgId, Integer acessId,  Integer userId) {
+	public Object updateUser(UserDTO userDTO, String orgId, Integer acessId,  Integer userId) {
 		userDTO = commonService.getBasicIds(userDTO);
 		return userDAO.updateUser(userDTO, acessId, userId);
 	}
 
 	 @Transactional
-	public ResponseBean deleteUser(Integer orgId, Integer userId,
+	public Object deleteUser(Integer orgId, Integer userId,
 				Integer accessId) {
 			// TODO Auto-generated method stub
 			return userDAO.deleteUser(orgId,userId, accessId);
 	}
 	 
-	 public UserDTO getUser(Integer userId) {
+	 public Object getUser(Integer orgId, Integer userId) {
 			// TODO Auto-generated method stub
-			return userDAO.getUser(userId);
+			return userDAO.getUser(orgId,userId);
 		}
 
-	public List<UserDTO> getUsers(String role, Integer stdId, Integer secId) {
-		return userDAO.getUsers(role,stdId,secId);
+	public Object getUsers(Integer orgId, String role, Integer stdId, Integer secId) {
+		return userDAO.getUsers(orgId,role,stdId,secId);
 	}
+
 
 }

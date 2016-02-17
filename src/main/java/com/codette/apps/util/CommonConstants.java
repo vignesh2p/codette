@@ -90,7 +90,7 @@ public class CommonConstants {
 	public static final String COMMUNITY = "COMMUNITY";
 	public static final String DESIGNATION = "DESIGNATION";
 	public static final String LIST_TYPE = "type";
-	public static final String IS_DELETED = "0";
+	public static final Integer DELETED = 1;
 	public static final String GET_USER = "/getUser";
 	public static final String UPDATE_USER = "/updateUser";
 	public static final String DATE_TIME_FORMAT = "yyyy-MM-dd";
@@ -103,4 +103,10 @@ public class CommonConstants {
 	public static final String TEACHING_STAFF = "TEACHING STAFF";
 	public static final String EXAMS_BASE_URL = "/exams";
 	public static final String CREATE_EXAM = "/create-exam";
+	public static final String ERROR = "error";
+	public static final Integer NOT_DELETED = 0;
+	public static final String PRINCIPAL = "PRINCIPAL";
+	public static final String ADMIN = "ADMIN";
+	public static final String CHAR_LIST = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+	public static final int RANDOM_STRING_LENGTH = 8;
 }

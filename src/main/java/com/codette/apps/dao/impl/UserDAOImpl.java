@@ -536,5 +536,18 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 		   return responseBean;
 	}
 
+	@Override
+	public Object getUser(Integer orgId, Integer userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object getUsers(Integer orgId, String role, Integer stdId,
+			Integer secId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

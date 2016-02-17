@@ -11,16 +11,16 @@ import com.codette.apps.dto.SectionDTO;
 import com.codette.apps.dto.StandardDTO;
 public interface CommonDAO {
 
-	public List<CommunityDTO> getCommunity();
+	public Object getCommunity();
 	
-	public List<ReligionDTO> getReligion();
+	public Object getReligion();
 
-    public List<DesignationDTO> getDesignation(Integer integer);
+    public Object getDesignation(Integer orgId);
 
-	public Integer getId(String entity, String type);
+	public Object getId(String entity, String type);
 
-	public List<StandardDTO> getStandard(Integer integer);
+	public Object getStandard(Integer orgId);
 
-	public List<SectionDTO> getSection(Integer integer);
+	public Object getSection(Integer orgId);
 
 }

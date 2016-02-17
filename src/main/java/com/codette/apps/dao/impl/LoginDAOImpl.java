@@ -13,7 +13,7 @@ import com.codette.apps.util.CommonUtil;
 public class LoginDAOImpl extends NamedParameterJdbcDaoSupport implements LoginDAO{
 	
 	@Resource
-	CommonUtil commonUtil;
+	private CommonUtil commonUtil;
 
 	@Override
 	public UserDTO authentication(UserAuthenticationDTO userAuthenticationDTO)  {
@@ -21,22 +21,22 @@ public class LoginDAOImpl extends NamedParameterJdbcDaoSupport implements LoginD
         try {
             if (userAuthenticationDTO != null) {
                 String sql = "SELECT ID_USER FROM user_authentication WHERE USER_NAME =?"
-           + "AND USER_SECRET =?";
-                Object[] inputs = new Object[] {userAuthenticationDTO.getUserName(),userAuthenticationDTO.getUserSecret()};
+           + " AND USER_SECRET =? ";
+                Object[] inputs = new Object[] {userAuthenticationDTO.getUserName(),
+                		userAuthenticationDTO.getUserSecret()};
                 Integer staffId =  getJdbcTemplate().queryForObject(
                         sql, inputs, Integer.class);
                 if (staffId!=null) {
-                 String USER_INFO = "SELECT A.ID,A.FIRST_NAME,A.ID_ROLE,A.LAST_NAME,"
-                 		+ "R.ID,R.ROLE,A.ID_GENDER,G.ID,G.GENDER,A.EMAIL_ADDRESS,D.ID,A.ID_DESIGNATION "
-                 		+ "FROM USER A "
-                 		+ "LEFT OUTER JOIN ROLE R ON A.ID_ROLE = R.ID "
+                 String USER_INFO = "SELECT A.ID_ORGANIZATION,A.ID,A.FIRST_NAME,A.ID_ROLE,A.LAST_NAME, "
+                 		+ " R.ID,R.ROLE,A.ID_GENDER,G.ID,G.GENDER,A.EMAIL_ADDRESS,D.ID,A.ID_DESIGNATION "
+                 		+ " FROM USER A "
+                 		+ " LEFT OUTER JOIN ROLE R ON A.ID_ROLE = R.ID "
                  		+ " LEFT OUTER JOIN DESIGNATION D ON A.ID_DESIGNATION = D.ID "
-                 		+ "LEFT OUTER JOIN GENDER G ON A.ID_GENDER = G.ID "
-                 		+ "WHERE A.ID = ?";
+                 		+ " LEFT OUTER JOIN GENDER G ON A.ID_GENDER = G.ID "
+                 		+ " WHERE A.ID = ?";
                      Object[] input = new Object[] {staffId};
                	       user = getJdbcTemplate().queryForObject(USER_INFO, input, 
-            			new SessionMapper());
-            	
+            			new SessionMapper());           	
                 }
             }
         } catch (Exception ex) {
@@ -50,19 +50,45 @@ public class LoginDAOImpl extends NamedParameterJdbcDaoSupport implements LoginD
 	public UserDTO resetPassword(UserAuthenticationDTO userAuthenticationDTO) {
 		// TODO Auto-generated method stub
 			String AUTHENTICATION = "INSERT INTO `user_authentication`( "
-					+ "`USER_NAME`, `USER_SECRET`, `ID_USER`)"
+					+ "`USER_NAME`, `USER_SECRET`, `ID_USER` ,"
+					+ " `ID_ORGANIZATION`, `IS_DELETED`, `UPDATED_ON`, `UPDATED_BY`)"
 				+"VALUES ("+
 				commonUtil.stringFeilds(userAuthenticationDTO.getUserName())+","+
 						commonUtil.stringFeilds(userAuthenticationDTO.getUserSecret())+","+
-						userAuthenticationDTO.getStaff().getId()+")";
+						userAuthenticationDTO.getUser().getId()+","+userAuthenticationDTO.getOrgId()+",0,NOW(),"
+								+userAuthenticationDTO.getStaff().getId()+")";
+			getJdbcTemplate().update(AUTHENTICATION);
+			return null;
+			
+	}
+	@Override
+	public UserDTO changePassword(UserAuthenticationDTO userAuthenticationDTO) {
+		// TODO Auto-generated method stub
+			String AUTHENTICATION = "INSERT INTO `user_authentication`( "
+					+ "`USER_NAME`, `USER_SECRET`, `ID_USER` ,"
+					+ " `ID_ORGANIZATION`, `IS_DELETED`, `UPDATED_ON`, `UPDATED_BY`)"
+				+"VALUES ("+
+				commonUtil.stringFeilds(userAuthenticationDTO.getUserName())+","+
+						commonUtil.stringFeilds(userAuthenticationDTO.getUserSecret())+","+
+						userAuthenticationDTO.getUser().getId()+","+userAuthenticationDTO.getOrgId()+",0,NOW(),"
+								+userAuthenticationDTO.getStaff().getId()+")";
 			getJdbcTemplate().update(AUTHENTICATION);
 			return null;
 			
 	}
 
 	@Override
-	public UserDTO changePassword(UserAuthenticationDTO userAuthenticationDTO) {
+	public UserDTO createPassword(UserAuthenticationDTO userAuthenticationDTO) {
 		// TODO Auto-generated method stub
+		String AUTHENTICATION = "INSERT INTO `user_authentication`( "
+				+ "`USER_NAME`, `USER_SECRET`, `ID_USER` ,"
+				+ " `ID_ORGANIZATION`, `IS_DELETED`, `CREATED_ON`, `CREATED_BY`)"
+			+"VALUES ("+
+			commonUtil.stringFeilds(userAuthenticationDTO.getUserName())+","+
+					commonUtil.stringFeilds(userAuthenticationDTO.getUserSecret())+","+
+					userAuthenticationDTO.getUser().getId()+","+userAuthenticationDTO.getOrgId()+",0,NOW(),"
+							+userAuthenticationDTO.getStaff().getId()+")";
+		getJdbcTemplate().update(AUTHENTICATION);
 		return null;
 	}
 
