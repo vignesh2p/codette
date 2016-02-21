@@ -1,4 +1,4 @@
-package com.codette.apps.frontend.controller;
+/*package com.codette.apps.frontend.controller;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -23,10 +23,10 @@ import com.codette.apps.frontend.service.UserService;
 import com.codette.apps.util.CommonConstants;
 import com.codette.apps.util.MessageUtils;
 
-/**
+*//**
  * User : Vignesh
  * Date : 08/21/2015
- */
+ *//*
 @Controller
 @RequestMapping("/staff")
 public class UserController extends BaseController{
@@ -117,3 +117,4 @@ public class UserController extends BaseController{
 	}
 	
 }
+*/

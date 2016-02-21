@@ -8,6 +8,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 
@@ -16,11 +17,12 @@ import com.codette.apps.dao.AttendanceDAO;
 import com.codette.apps.dto.AttendenceDTO;
 import com.codette.apps.dto.ResponseBean;
 
-public class AttendenceDAOImpl extends NamedParameterJdbcDaoSupport implements AttendanceDAO{
+public class AttendanceDAOImpl  implements AttendanceDAO{
 	
 	@Resource 
 	private AttendenceExtractor attendenceExtractor;
 
+	JdbcTemplate jdbcTemplate;
 	@Override
 	public Object enableAttendance(Integer orgId, Integer userId,
 			Integer accessId) throws NullPointerException {
@@ -31,7 +33,7 @@ public class AttendenceDAOImpl extends NamedParameterJdbcDaoSupport implements A
 				+ " WHERE ID_USER IN (SELECT `ID` FROM USER WHERE ID_STANDARD = ? AND ID_SECTION = ? AND ID_ORGANIZATION = "+orgId+" AND IS_DELETED = 0) AND  ID_ORGANIZATION = "+orgId;
 		List<Integer> ids = getClassForStaff( orgId, userId);
 			Object[] inputIds = {ids.get(0),ids.get(1)};
-			getJdbcTemplate().update(ENABLE, inputIds);
+			jdbcTemplate.update(ENABLE, inputIds);
 			return responseBean;
 	}
 
@@ -59,7 +61,7 @@ public class AttendenceDAOImpl extends NamedParameterJdbcDaoSupport implements A
 				+ " ORDER BY A.FIRST_NAME ASC";	
 		List<AttendenceDTO> attendenceList = new ArrayList<AttendenceDTO>(); 
 		Integer[] inputIds = {standardId, sectionId};
-		attendenceList = getJdbcTemplate().query(GET_STUDENTS,inputIds,attendenceExtractor.getAttendenceList());
+		attendenceList = jdbcTemplate.query(GET_STUDENTS,inputIds,attendenceExtractor.getAttendenceList());
 		
 	return attendenceList;
 	}
@@ -68,7 +70,7 @@ public class AttendenceDAOImpl extends NamedParameterJdbcDaoSupport implements A
 		String CLASS_LIST = "SELECT ID_STANDARD,ID_SECTION FROM `staff_class` "
 				+ " WHERE IS_CLASS_TEACHER = 1 AND IS_DELETED = 0 AND ID_USER = "+userId+" ID_ORGANIZATION = "+orgId;
 		List<Integer> ids = new ArrayList<Integer>();
-	    ids = getJdbcTemplate().query(CLASS_LIST, new ResultSetExtractor<List<Integer>>(){
+	    ids = jdbcTemplate.query(CLASS_LIST, new ResultSetExtractor<List<Integer>>(){
 
 			public List<Integer> extractData(ResultSet rs)
 					throws SQLException, DataAccessException {
@@ -88,7 +90,7 @@ public class AttendenceDAOImpl extends NamedParameterJdbcDaoSupport implements A
 				+ " WHERE ID_USER = ? AND ID_ORGANIZATION = "+orgId;
 		for(Integer studentId : userIds){
 			Object[] inputIds = {studentId,orgId};
-		getJdbcTemplate().update(ATTENDENCE, inputIds);
+		jdbcTemplate.update(ATTENDENCE, inputIds);
 		}
 		return responseBean;
 	}
@@ -101,7 +103,7 @@ public class AttendenceDAOImpl extends NamedParameterJdbcDaoSupport implements A
 		String ATTENDENCE = "INSERT INTO `attendence`(`ID_USER`,`ID_ORGANIZATION`, `IS_ABSENT`,`IS_ENABLE`,`IS_DELETED`,`CREATED_ON`,`CREATED_BY`) "
 		      		+ "VALUES (?,?,0,0,0,NOW(),"+accessId+")";
 		Object[] inputIds = {userId,orgId};
-		getJdbcTemplate().update(ATTENDENCE, inputIds);
+		jdbcTemplate.update(ATTENDENCE, inputIds);
 		return responseBean;
 	}
 

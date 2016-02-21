@@ -1,4 +1,4 @@
-package com.codette.apps.frontend.controller;
+/*package com.codette.apps.frontend.controller;
 
 import java.util.List;
 import java.util.Map;
@@ -20,10 +20,10 @@ import com.codette.apps.frontend.model.Student;
 import com.codette.apps.frontend.service.StudentService;
 import com.codette.apps.util.CommonConstants;
 
-/**
+*//**
  * @author Vignesh
  * 
- */
+ *//*
 @Controller
 @RequestMapping("/student")
 public class StudentController extends BaseController {
@@ -91,3 +91,4 @@ public class StudentController extends BaseController {
 	 
 	 
 }
+*/

@@ -15,9 +15,10 @@
 
 	<context:component-scan base-package="com.codette.apps.controller" />
 	<context:component-scan base-package="com.codette.apps.service" />
-	<context:component-scan base-package="com.com.codette.apps.dao" />
+	<context:component-scan base-package="com.codette.apps.dao" />
 	<context:component-scan base-package="com.codette.apps.dao.impl" />
 	<context:component-scan base-package="com.codette.apps.dto" />
+	<context:component-scan base-package="com.codette.apps.ResultSetExtractor" />
 	<!-- To enable @RequestMapping process on type level and method level -->
 	<!-- Enables plain Controllers -->
     <!-- <bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter" /> -->
@@ -44,14 +45,19 @@
 	
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
       	<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost:3306/sd" />
+		<property name="url" value="jdbc:mysql://localhost:3306/school_management" />
 		<property name="username" value="root"></property>
 		<property name="password" value=""></property>
 	</bean> 
 	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>
-	<bean id="userDAO" class="com.codette.apps.dao.impl.UserDAOImpl">
+	
+	<bean id="AttendanceDAO" class="com.codette.apps.dao.impl.AttendanceDAOImpl">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<bean id="ClassRoomDAO" class="com.codette.apps.dao.impl.ClassRoomDAOImpl">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 	
@@ -59,13 +65,22 @@
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 	
+	<bean id="ExamMarkDAO" class="com.codette.apps.dao.impl.ExamMarkDAOImpl">
+		<property name="dataSource" ref="dataSource" />
+	</bean> 
+	
 	<bean id="leaveDAO" class="com.codette.apps.dao.impl.LeaveManagementImpl">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 	
-	<bean id="StaffDAO" class="com.codette.apps.dao.impl.StaffDAOImpl">
+	<bean id="AuthenticationDAO" class="com.codette.apps.dao.impl.AuthenticationDAOImpl">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
+	
+	<bean id="UserDAO" class="com.codette.apps.dao.impl.UserDAOImpl">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
 	<bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
 		<!-- <property name="messageConverters">
 			<list>

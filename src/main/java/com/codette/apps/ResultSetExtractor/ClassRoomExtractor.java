@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.stereotype.Component;
 
 import com.codette.apps.dto.ClassesDTO;
 import com.codette.apps.dto.SectionDTO;
@@ -14,13 +15,14 @@ import com.codette.apps.dto.StaffClassDTO;
 import com.codette.apps.dto.StandardDTO;
 import com.codette.apps.dto.UserDTO;
 
+
+@Component
 public class ClassRoomExtractor {
 	
 	public ResultSetExtractor<List<StaffClassDTO>> getHandlingClassesList(){
 	
 		return new ResultSetExtractor<List<StaffClassDTO>>(){
 
-			@Override
 			public List<StaffClassDTO> extractData(ResultSet rs) throws SQLException,
 					DataAccessException {
 
@@ -30,8 +32,8 @@ public class ClassRoomExtractor {
 					StaffClassDTO clases = new StaffClassDTO();
 				clases.setId(rs.getInt("ID"));
 				UserDTO user = new UserDTO();
-				user.setId(rs.getInt("ID_STAFF"));
-			    clases.setStaff(user);
+				user.setId(rs.getInt("ID_USER"));
+			    clases.setUser(user);
 				clases.setIsClassTeacher(rs.getInt("IS_CLASS_TEACHER"));
 				StandardDTO standard = new StandardDTO();
 				standard.setId(rs.getInt("ID_STANDARD"));

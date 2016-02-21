@@ -1,6 +1,6 @@
 /**
  * 
- */
+ *//*
 package com.codette.apps.frontend.translator;
 
 import java.lang.reflect.Type;
@@ -27,10 +27,10 @@ import com.codette.apps.frontend.model.Section;
 import com.codette.apps.frontend.model.Standard;
 import com.codette.apps.frontend.model.Student;
 import com.codette.apps.util.CommonConstants;
-/**
+*//**
  * @author Vignesh
  *
- */
+ *//*
 @Component
 public class StudentTranslator  extends BaseTranslator{
 
@@ -161,3 +161,4 @@ public class StudentTranslator  extends BaseTranslator{
 	
 
 }
+*/

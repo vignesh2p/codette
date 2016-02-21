@@ -2,7 +2,11 @@ package com.codette.apps.dao;
 
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import com.codette.apps.dto.LeaveManagementDTO;
+
+@Component
 public interface LeaveDAO {
 
 

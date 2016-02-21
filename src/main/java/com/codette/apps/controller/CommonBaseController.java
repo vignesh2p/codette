@@ -1,7 +1,5 @@
 package com.codette.apps.controller;
 
-import java.util.List;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,12 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.codette.apps.service.CommonService;
-import com.codette.apps.dao.impl.StaffDAOImpl;
-import com.codette.apps.dto.CommunityDTO;
-import com.codette.apps.dto.DesignationDTO;
-import com.codette.apps.dto.ReligionDTO;
-import com.codette.apps.dto.SectionDTO;
-import com.codette.apps.dto.StandardDTO;
 import com.codette.apps.util.CommonConstants;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

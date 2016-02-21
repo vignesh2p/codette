@@ -7,18 +7,20 @@ import java.util.List;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.stereotype.Component;
 
 import com.codette.apps.dto.AttendenceDTO;
 import com.codette.apps.dto.SectionDTO;
 import com.codette.apps.dto.StandardDTO;
 import com.codette.apps.dto.UserDTO;
 
+
+@Component
 public class AttendenceExtractor {
 
 	public ResultSetExtractor<List<AttendenceDTO>> getAttendenceList() {
 		return new ResultSetExtractor<List<AttendenceDTO>>(){
 
-			@Override
 			public List<AttendenceDTO> extractData(ResultSet rs) throws SQLException,
 					DataAccessException {
 
@@ -49,7 +51,7 @@ public class AttendenceExtractor {
 					section.setSection(rs.getString("SECTION"));
 					student.setSection(section);
 				
-					attencence.setStudent(student); 
+					attencence.setUser(student); 
 					attendences.add(attencence);
 			    }
 			     return attendences;

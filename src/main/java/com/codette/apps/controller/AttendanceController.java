@@ -2,27 +2,20 @@ package com.codette.apps.controller;
 
 import java.util.List;
 
-import javassist.tools.web.BadHttpRequest;
-
 import javax.annotation.Resource;
 import javax.net.ssl.SSLEngineResult.Status;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.xml.transform.Result;
 
 import org.apache.http.HttpStatus;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.codette.apps.dao.impl.StaffDAOImpl;
-import com.codette.apps.dto.AttendenceDTO;
 import com.codette.apps.dto.ResponseBean;
-import com.codette.apps.dto.UserDTO;
 import com.codette.apps.service.AttendanceService;
 import com.codette.apps.service.CommonService;
 import com.codette.apps.util.CommonConstants;
@@ -93,7 +86,6 @@ public class AttendanceController {
 	public Object updateAttendence(
 			@PathVariable( value="orgId") String orgId,
 			@PathVariable List<Integer> userIds, 
-			@RequestBody UserDTO userDTO,
 			HttpSession session,
 			HttpServletRequest request) throws Exception {
 		Object object = null;

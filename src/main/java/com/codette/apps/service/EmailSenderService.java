@@ -12,7 +12,7 @@ import com.codette.apps.util.CommonConstants;
  * 
  */
 @Component 
-public class EmailService {
+public class EmailSenderService {
  
 	@Autowired
 	private MailSender mailSender; // MailSender interface defines a strategy

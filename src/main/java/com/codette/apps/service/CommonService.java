@@ -135,14 +135,14 @@ public class CommonService {
 		if(userDTO.getPhoneNumbers()!= null){
 		for(PhoneNumberDTO phone: userDTO.getPhoneNumbers()){
 		 relation = phone.getStudentRelation();
-			relation.setId(getId(relation.getRelation(),CommonConstants.RELATION));
+			relation.setId(getId(relation.getStudentRelation(),CommonConstants.RELATION));
 			phone.setStudentRelation(relation);
 		}
 		}
 		if(userDTO.getAddresses() != null){
 			for(AddressDTO address: userDTO.getAddresses()){
 			 relation = address.getStudentRelation();
-				relation.setId(getId(relation.getRelation(),CommonConstants.RELATION));
+				relation.setId(getId(relation.getStudentRelation(),CommonConstants.RELATION));
 				address.setStudentRelation(relation);
 			}
 

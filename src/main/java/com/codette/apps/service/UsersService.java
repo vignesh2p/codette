@@ -1,42 +1,30 @@
 package com.codette.apps.service;
 
-import java.util.List;
-
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.codette.apps.dao.UserDAO;
-import com.codette.apps.dao.impl.StaffDAOImpl;
-import com.codette.apps.dto.AttendenceDTO;
-import com.codette.apps.dto.ClassesDTO;
-import com.codette.apps.dto.CommunityDTO;
-import com.codette.apps.dto.DesignationDTO;
-import com.codette.apps.dto.GenderDTO;
-import com.codette.apps.dto.ReligionDTO;
-import com.codette.apps.dto.ResponseBean;
-import com.codette.apps.dto.RoleDTO;
-import com.codette.apps.dto.UserAuthenticationDTO;
 import com.codette.apps.dto.UserDTO;
 import com.codette.apps.util.CommonConstants;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 @Component
 public class UsersService {
 
-	final static Logger logger = Logger.getLogger(StaffDAOImpl.class);
+	final static Logger logger = Logger.getLogger(UsersService.class);
 	public static final Gson gson = new GsonBuilder().setDateFormat(CommonConstants.ISO_DATE_FORMAT).create();
 	@Resource
-	UserDAO userDAO;
+	private UserDAO userDAO;
 	
 	@Resource
-	CommonService commonService ;
+	private CommonService commonService ;
 
 	 @Transactional
-	public Object createUser(UserDTO userDTO, String orgId,
+	public Object createUser(UserDTO userDTO, Integer orgId,
 				Integer accessId) {
 			userDTO = commonService.getBasicIds(userDTO);
 			return userDAO.createUser(userDTO,orgId, accessId);
@@ -44,9 +32,9 @@ public class UsersService {
 	 
 	 
 	 @Transactional
-	public Object updateUser(UserDTO userDTO, String orgId, Integer acessId,  Integer userId) {
+	public Object updateUser(UserDTO userDTO, Integer orgId, Integer accessId,  Integer userId) {
 		userDTO = commonService.getBasicIds(userDTO);
-		return userDAO.updateUser(userDTO, acessId, userId);
+		return userDAO.updateUser(userDTO,orgId, accessId, userId);
 	}
 
 	 @Transactional

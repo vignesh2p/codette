@@ -1,7 +1,6 @@
 package com.codette.apps.service;
 
 import java.text.ParseException;
-import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -10,10 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.codette.apps.dao.ExamMarkDAO;
-import com.codette.apps.dao.impl.StaffDAOImpl;
 import com.codette.apps.dto.ExamDTO;
-import com.codette.apps.dto.MarkSheetDTO;
-import com.codette.apps.dto.ResponseBean;
 import com.codette.apps.tbl.Exam;
 import com.codette.apps.translator.ExamMarkTranslator;
 import com.codette.apps.util.CommonConstants;
@@ -22,7 +18,7 @@ import com.google.gson.GsonBuilder;
 @Component
 public class ExamMarkService {
 	
-	final static Logger logger = Logger.getLogger(StaffDAOImpl.class);
+	final static Logger logger = Logger.getLogger(ExamMarkService.class);
 	public static final Gson gson = new GsonBuilder().setDateFormat(CommonConstants.ISO_DATE_FORMAT).create();
 	
 	@Resource

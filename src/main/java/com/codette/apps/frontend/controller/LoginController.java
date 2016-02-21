@@ -1,4 +1,4 @@
-package com.codette.apps.frontend.controller;
+/*package com.codette.apps.frontend.controller;
 
 import java.io.IOException;
 import javax.annotation.Resource;
@@ -34,14 +34,14 @@ public class LoginController extends BaseController{
 	
 	@Resource
 	EmailService emailService;
-	/**
+	*//**
 	 * Checking user authentication in login
 	 * @param login
 	 * @param session
 	 * @return
 	 * @throws IOException
 	 * 
-	 */
+	 *//*
 	@RequestMapping(value = "/authentication",method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> authentication(@RequestBody Login login,HttpSession session,  HttpServletRequest request) throws IOException {
 		User user = new User();
@@ -81,22 +81,22 @@ public class LoginController extends BaseController{
 		return new ResponseEntity<Roles>(roles,HttpStatus.OK);
 	}
 	
-	/**
+	*//**
 	 * User Logout 
 	 * @param session
 	 * @return
 	 * @throws IOException
-	 */
+	 *//*
 	@RequestMapping(value = "/logout",method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> logout(HttpSession session) {
 			System.out.println("Inside Logout******************************");
 			
 			
 			//loginService.logout(session);
-		/*} catch(Exception exception){
+		} catch(Exception exception){
 			exception.printStackTrace();
 			//return new ResponseEntity<>(setCustomExceptionHandler(exception, MessageUtils.getMessage("error.user.logout")), HttpStatus.INTERNAL_SERVER_ERROR);
-		}*/
+		}
     	session.removeAttribute(CommonConstants.SESSION_USER_ID);
     	session.removeAttribute(CommonConstants.SESSION_USERNAME);
     	session.removeAttribute(CommonConstants.SESSION_USERROLE);
@@ -106,15 +106,16 @@ public class LoginController extends BaseController{
     	return new ResponseEntity<>(baseController.setResponse(MessageUtils.getMessage("user.logout.success"),HttpStatus.OK.toString()),HttpStatus.OK);
 	}
 	
-	/**
+	*//**
 	 * Checking unauthorized and trigger
 	 * @param session
 	 * @return
 	 * @throws IOException
-	 */
+	 *//*
 	@RequestMapping(value = "/unauthorized",method = RequestMethod.GET,	produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> unauthorized(HttpSession session) throws IOException {
 		session.invalidate();
 	return new ResponseEntity<>(baseController.setResponse(MessageUtils.getMessage("error.user.unauthorized"),HttpStatus.UNAUTHORIZED.toString()),HttpStatus.UNAUTHORIZED);
 	}
 }
+*/
