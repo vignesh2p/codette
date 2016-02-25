@@ -8,7 +8,7 @@
 	    <md-divider style=" margin-top: 15px;" ></md-divider>
 	    </md-toolbar>
 	       <md-content layout="column" flex class="navbar">
-		       <div layout-fill resize style="height:{{windowHeight-215+'px'}};overflow:auto">
+		       <div layout-fill resize style="height:{{windowHeight-200+'px'}};overflow:auto;">
 		       <div  ng-repeat="permissions in permission.roleBasedPermissions.menuItems" ng-init="addSelectedClass(permissions.menuItemDisplay)">
 			    <a href="{{permissions.url}}"  id="{{permissions.menuItemDisplay}}" >
 			    	<md-list-item class="md-3-line removeClass" ng-click="changeClass('{{permissions.menuItemDisplay}}')">
