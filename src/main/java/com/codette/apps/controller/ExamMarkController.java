@@ -24,7 +24,7 @@ import com.google.gson.GsonBuilder;
 
 @Controller
 @RequestMapping(value= "/exam")
-public class ExamMarkController {
+public class ExamMarkController extends CommonBaseController {
 	
 	final static Logger logger = Logger.getLogger(ExamMarkController.class);
 	public static final Gson gson = new GsonBuilder().setDateFormat(CommonConstants.ISO_DATE_FORMAT).create();
@@ -32,8 +32,6 @@ public class ExamMarkController {
 	@Resource
 	private ExamMarkService ExamMarkService;
 	
-	@Resource
-	private CommonService commonService;
 	/**
 	 * 
 	 * @param status
@@ -46,7 +44,7 @@ public class ExamMarkController {
 
 		Object object = null;
 		try {
-			object = ExamMarkService.getMarkSheet(Integer.valueOf(orgId),userId,commonService.getRole(request));
+			object = ExamMarkService.getMarkSheet(Integer.valueOf(orgId),userId,getRole());
 			if(object instanceof List){
 			object = gson.toJson(object);
 			}
@@ -68,7 +66,7 @@ public class ExamMarkController {
 	public Object createExam(@PathVariable( value="orgId") String orgId,@PathVariable( value="userId") String userId,@RequestBody ExamDTO exam,HttpServletRequest request){
 		Object object = null;
 		try {
-				object = ExamMarkService.createExam(exam,Integer.valueOf(orgId),Integer.valueOf(userId),commonService.getAccessId(request));
+				object = ExamMarkService.createExam(exam,Integer.valueOf(orgId),Integer.valueOf(userId), getAccessId());
 		}catch (Exception e) {
 			e.printStackTrace();
 		}

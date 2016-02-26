@@ -22,20 +22,21 @@ import com.google.gson.GsonBuilder;
 
 @Controller
 @RequestMapping("/password")
-public class AuthenticationController {
+public class AuthenticationController extends CommonBaseController{
 	
 	final static Logger logger = Logger.getLogger(AuthenticationController.class);
 	public static final Gson gson = new GsonBuilder().setDateFormat(CommonConstants.ISO_DATE_FORMAT).create();
 	@Resource
 	private CommonService commonService;
 	@Resource
-	private AuthenticationService loginService;
+	private AuthenticationService authenticationService;
 
-    @RequestMapping(value = "/authentication", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/authentication/{userName}/{userSecret}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Object authentication(@RequestBody UserAuthenticationDTO userAuthenticationDTO,
+    public Object authentication(@PathVariable (value = "userName") String userName,
+    		@PathVariable (value = "userSecret") String userSecret,
     		HttpServletRequest request) throws Exception {
-        Object object = loginService.authentication(userAuthenticationDTO,commonService.getAccessId(request));
+        Object object = authenticationService.authentication(userName,userSecret);
         return object;
     }
     
@@ -46,7 +47,7 @@ public class AuthenticationController {
     		@RequestBody UserAuthenticationDTO userAuthenticationDTO,HttpServletRequest request) throws Exception {
     	Object object = null;
     	try{
-    	 object= loginService.resetPassword(userAuthenticationDTO,commonService.getAccessId(request));
+    	 object= authenticationService.resetPassword(userAuthenticationDTO,getAccessId());
     	 if(object instanceof ResponseBean){
     		 
     	 }
@@ -62,7 +63,7 @@ public class AuthenticationController {
     public Object  changePassword(
     		@RequestBody UserAuthenticationDTO userAuthenticationDTO,
     		@PathVariable(value ="newPassword") String newPassword,HttpServletRequest request) throws Exception {
-       Object object = loginService.changePassword(userAuthenticationDTO,newPassword,commonService.getAccessId(request));
+       Object object = authenticationService.changePassword(userAuthenticationDTO,newPassword,getAccessId());
         return object;
     }
 }

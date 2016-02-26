@@ -11,10 +11,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 
 import com.codette.apps.dao.ExamMarkDAO;
 import com.codette.apps.dto.ExamDTO;
-import com.codette.apps.dto.MarkSheetDTO;
-import com.codette.apps.dto.ResponseBean;
 import com.codette.apps.dto.StandardDTO;
-import com.codette.apps.tbl.Exam;
 
 public class ExamMarkDAOImpl extends NamedParameterJdbcDaoSupport implements ExamMarkDAO{
 

@@ -22,6 +22,7 @@ import org.springframework.stereotype.Component;
 
 import com.codette.apps.ResultSetExtractor.UserExtractor;
 import com.codette.apps.dao.AuthenticationDAO;
+import com.codette.apps.dao.ClassRoomDAO;
 import com.codette.apps.dao.UserDAO;
 import com.codette.apps.dto.AddressDTO;
 import com.codette.apps.dto.CommunityDTO;
@@ -35,6 +36,7 @@ import com.codette.apps.dto.UserAuthenticationDTO;
 import com.codette.apps.dto.UserDTO;
 import com.codette.apps.mapper.SessionMapper;
 import com.codette.apps.mapper.UserListRowMapper;
+import com.codette.apps.service.AuthenticationService;
 import com.codette.apps.service.CommonService;
 import com.codette.apps.service.EmailSenderService;
 import com.codette.apps.service.UsersService;
@@ -58,10 +60,13 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 	private UserExtractor userExtractor;
 	
 	@Resource
-	private AuthenticationDAO loginDAO;
+	private AuthenticationDAO authenticationDAO;
 	
 	@Resource
-	private EmailSenderService emailService;
+	private ClassRoomDAO classRoomDAO;
+		
+	@Resource
+	private EmailSenderService emailSenderService;
 	
 	final static Logger logger = Logger.getLogger(UserDAOImpl.class);
 	public static final Gson gson = new GsonBuilder().setDateFormat(CommonConstants.ISO_DATE_FORMAT).create();
@@ -79,8 +84,10 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 				 
 				if(user != null){
 					// create a new user
-					getJdbcTemplate().update(createNewUser(user,orgId,accessId), keyHolder );
+					SqlParameterSource sql = null ;
+					getNamedParameterJdbcTemplate().update(createNewUser(user,orgId,accessId), sql,keyHolder );
 					Number idUser = keyHolder.getKey();
+					System.out.println(" >>>>> iduser  " + keyHolder.getKey());
 					user.setId(idUser.intValue());
 				
 				   if(idUser != null){
@@ -96,17 +103,24 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 					insertAddressses(user.getAddresses(),id,accessId);	
 					}
 					
+					if(user.getRole() != null && user.getRole().getRole() == CommonConstants.ROLE_STUDENT){
+					 classRoomDAO.createNewClassRoom(orgId,user.getStandard().getId(),user.getSection().getId(),
+								 user.getId(),  accessId);
+					}
 					// provide authentication for the user
 					UserAuthenticationDTO authentication = new UserAuthenticationDTO();
+					user.setId(id);
+					System.out.println(" >>>>> id  " + user.getId());
 					authentication.setUser(user);
 					authentication.setUserSecret(commonService.generateRandomString());
 					authentication.setUserName(user.getEmailAddresses());
-					loginDAO.createPassword(authentication,accessId);
+					authentication.setOrgId(orgId);
+					authenticationDAO.createPassword(authentication,accessId);
 					
 					// Notify the user through mail
-					String msgBody = CommonConstants.USERNAME + authentication.getUserName()
+					/*String msgBody = CommonConstants.USERNAME + authentication.getUserName()
 							+ CommonConstants.PASSWORD +authentication.getUserSecret(); 
-					emailService.emailNotification(authentication.getUserName(), CommonConstants.CREDENTIALS, msgBody);
+					emailSenderService.emailNotification(authentication.getUserName(), CommonConstants.CREDENTIALS, msgBody);*/
 				}
 			 
 				}
@@ -127,12 +141,13 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 					authentication.setUser(user);
 					authentication.setUserSecret(commonService.generateRandomString());
 					authentication.setUserName(user.getEmailAddresses());
-					loginDAO.resetPassword(authentication,accessId); 
+					authentication.setOrgId(orgId);
+					authenticationDAO.resetPassword(authentication,accessId); 
 					
 					
 					String msgBody = CommonConstants.USERNAME + authentication.getUserName()
 							+ CommonConstants.PASSWORD +authentication.getUserSecret(); 
-					emailService.emailNotification(authentication.getUserName(), CommonConstants.CREDENTIALS, msgBody);
+					emailSenderService.emailNotification(authentication.getUserName(), CommonConstants.CREDENTIALS, msgBody);
 			   }
 			   
 			   
@@ -159,10 +174,13 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 		Object[] inputs = new Object[]{userId,orgId};
 		
 		List<AddressDTO> addresses = getJdbcTemplate().query(getAddressListOfUser(),inputs,userExtractor.setAddressList());
-
 	
-		List<PhoneNumberDTO> phones = getJdbcTemplate().query(getPhoneNumbers(),userExtractor.setPhonenumber());
-		 UserDTO user =  getJdbcTemplate().query(getUserDetails(),userExtractor.setUserDetails(addresses,phones));
+		
+		List<PhoneNumberDTO> phones = getJdbcTemplate().query(getPhoneNumbers(),inputs,userExtractor.setPhonenumber());
+		
+		
+		
+		 UserDTO user =  getJdbcTemplate().query(getUserDetails(),inputs,userExtractor.setUserDetails(addresses,phones));
 		 
 		
 		return user;
@@ -170,9 +188,13 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 	
 
 	@Override
-	public Object getUsers(Integer orgId, String role, Integer stdId,
-			Integer secId)  {
-	      Object object = getJdbcTemplate().query(getListOfUser(orgId,stdId,secId,commonService.getId(role,"role")), new UserListRowMapper());
+	public Object getUsers(Integer orgId, String role, Integer stdId, Integer secId,boolean includeDetails,String search)  {
+		Object object = null;
+		if(includeDetails){
+	       object = getJdbcTemplate().query(getListOfUser(orgId,stdId,secId,search,commonService.getId(role, CommonConstants.ROLE)), new UserListRowMapper());
+		}else{
+	      object = getJdbcTemplate().query(getDetailListOfUser(orgId,stdId,secId,search,commonService.getId(role, CommonConstants.ROLE)), new UserListRowMapper());
+		}	           
 	  return object;
 }
 
@@ -186,6 +208,7 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 				getJdbcTemplate().update(DELETE_ADDRESS,inputs);
 				if(userId != null){
 			    getJdbcTemplate().update(DELETE_USER,inputs );
+			    getJdbcTemplate().update(DELETE_USER_CREDENTIALS,inputs );
 		        }
 			
 		   return "success";
@@ -238,6 +261,22 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 		return responseBean;
        	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/*==============================================sql====================================================*/
 
 
@@ -246,29 +285,30 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 	
 	
 	private String getPhoneNumbers() {
-		String GET_PHONES = "SELECT * FROM PHONE_NUMBER S "
+		String GET_PHONES = "SELECT * FROM PHONE S "
 				+ "WHERE S.IS_DELETED = 0 AND S.ID_USER = ? AND S.ID_ORGANIZATION = ?";
 		return GET_PHONES;
 	}
 
 	private String getAddressListOfUser() {
 		String GET_ADDRESSES = "SELECT * FROM ADDRESS S "
-				+ " WHERE S.IS_DELETED = 0 AND S.ID_USER = ? S.ID_ORGANIZATION = ?";
+				+ " WHERE S.IS_DELETED = 0 AND S.ID_USER = ? AND S.ID_ORGANIZATION = ?";
 		return GET_ADDRESSES;
 	}
 
 	private String getUserDetails() {
 		String GET_USER = "SELECT * FROM USER A "
 				+ "LEFT OUTER JOIN ROLE R ON A.ID_ROLE = R.ID "
+				+ "LEFT OUTER JOIN ORGANIZATION ORG ON A.ID_ORGANIZATION = ORG.ID "
 				+ "LEFT OUTER JOIN DESIGNATION D ON A.ID_DESIGNATION = D.ID "
 				+ "LEFT OUTER JOIN GENDER G ON A.ID_GENDER = G.ID "
 				+ "LEFT OUTER JOIN RELIGION REL ON A.ID_RELIGION = REL.ID "
 				+ "LEFT OUTER JOIN COMMUNITY C ON A.ID_COMMUNITY = C.ID "
 				+ "LEFT OUTER JOIN IMAGE I ON A.ID_IMAGE = I.ID "
-				+ "LEFT OUTER JOIN STANDARD STD A.ID_STANDARD = STD.ID "
-				+ "LEFT OUTER JOIN SECTION SEC A.ID_SECTION = SEC.ID "
-				+ "LEFT OUTER JOIN YEAR Y A.ID_YEAR = Y.ID "
-				+ "LEFT OUTER JOIN BLOOD_GROUP BG A.ID_BLOOD_GROUP = BG.ID "
+				+ "LEFT OUTER JOIN STANDARD STD ON A.ID_STANDARD = STD.ID "
+				+ "LEFT OUTER JOIN SECTION SEC ON A.ID_SECTION = SEC.ID "
+				+ "LEFT OUTER JOIN YEAR Y ON A.ID_YEAR = Y.ID "
+				+ "LEFT OUTER JOIN BLOOD_GROUP BG ON A.ID_BLOOD_GROUP = BG.ID "
 				+ " WHERE A.ID = ? AND A.ID_ORGANIZATION = ? AND A.IS_DELETED = 0";
 		return GET_USER;
 	}
@@ -320,13 +360,13 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 		return ADDRESS;
 	}
 
-	static String DELETE_USER ="UPDATE `user` SET IS_DELETED = 1,UPDATED_BY = ? WHERE USER = ? AND ID_ORGANIZATION = ?";
+	static String DELETE_USER ="UPDATE `user` SET IS_DELETED = 1,UPDATED_BY = ? WHERE ID = ? AND ID_ORGANIZATION = ?";
 	static String DELETE_PHONE = "UPDATE `PHONE` SET IS_DELETED = 1,UPDATED_BY = ? WHERE ID_USER = ? AND ID_ORGANIZATION = ?";
 	static String DELETE_ADDRESS = "UPDATE `ADDRESS` SET IS_DELETED = 1,UPDATED_BY =? WHERE ID_USER = ? AND ID_ORGANIZATION = ?";
+	static String DELETE_USER_CREDENTIALS = "UPDATE `user_authentication` SET `IS_DELETED`=1,`UPDATED_ON`=NOW(),`UPDATED_BY`=? WHERE ID_USER = ? AND ID_ORGANIZATION = ?";
 	
 	
-	
-	private String getListOfUser(Integer orgId, Integer stdId, Integer secId, Integer idRole) {
+	private String getListOfUser(Integer orgId, Integer stdId, Integer secId, String search, Integer idRole) {
 
 		 String GET_USERS = "SELECT * FROM user ";
 		 if(idRole != null){
@@ -340,8 +380,36 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 		 }
 		return GET_USERS;
 	}
+
+	private String getDetailListOfUser(Integer orgId, Integer stdId, Integer secId, String search, Integer idRole) {
+	String GET_USERS = "SELECT * FROM USER A "
+			+ "LEFT OUTER JOIN ROLE R ON A.ID_ROLE = R.ID "
+			+ "LEFT OUTER JOIN ORGANIZATION ORG ON A.ID_ORGANIZATION = ORG.ID "
+			+ "LEFT OUTER JOIN DESIGNATION D ON A.ID_DESIGNATION = D.ID "
+			+ "LEFT OUTER JOIN GENDER G ON A.ID_GENDER = G.ID "
+			+ "LEFT OUTER JOIN RELIGION REL ON A.ID_RELIGION = REL.ID "
+			+ "LEFT OUTER JOIN COMMUNITY C ON A.ID_COMMUNITY = C.ID "
+			+ "LEFT OUTER JOIN IMAGE I ON A.ID_IMAGE = I.ID "
+			+ "LEFT OUTER JOIN STANDARD STD ON A.ID_STANDARD = STD.ID "
+			+ "LEFT OUTER JOIN SECTION SEC ON A.ID_SECTION = SEC.ID "
+			+ "LEFT OUTER JOIN YEAR Y ON A.ID_YEAR = Y.ID "
+			+ "LEFT OUTER JOIN BLOOD_GROUP BG ON A.ID_BLOOD_GROUP = BG.ID "
+			+ " WHERE A.ID = ? AND A.ID_ORGANIZATION = ? AND A.IS_DELETED = 0";
+				 if(idRole != null){
+						GET_USERS = GET_USERS+ " ID_ROLE = "+idRole;
+					if(stdId != null){
+						GET_USERS = GET_USERS+" AND ID_STANDARD = "+stdId;
+					}
+					if(secId != null){
+						GET_USERS = GET_USERS+ " AND ID_SECTION = "+secId;
+					}
+	 }
+	return GET_USERS;
+	
+	}
 	private String createNewUser(UserDTO user,Integer orgId,Integer accessId) {
 		
+		Integer idYear = commonService.getAcademicYearId();
 		 String INSERT_USER = "INSERT INTO user(";
 		 if(user.getOrgId() != null){
 			   INSERT_USER = INSERT_USER+ "`ID_ORGANIZATION`,";
@@ -397,9 +465,9 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 		   if(user.getAge() != null){
 		   INSERT_USER = INSERT_USER+ " `AGE`,";
 		   }
-		   if(user.getYear() != null){
+		   if(idYear != null && idYear > 0){
 			   INSERT_USER = INSERT_USER+ "`ID_YEAR`,";
-			}
+		   }
 		   if(user.getReligion() != null){
 		   INSERT_USER = INSERT_USER+ "`ID_RELIGION`,";
 		   }
@@ -463,8 +531,8 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 		   if(user.getAge() != null){
 		   INSERT_USER = INSERT_USER+ user.getAge()+",";
 		   }
-		   if(user.getYear() != null){
-		   INSERT_USER = INSERT_USER+user.getYear().getId()+",";
+		   if(idYear != null && idYear > 0){
+		   INSERT_USER = INSERT_USER+ idYear+",";
 		   }
 		   if(user.getReligion() != null){
 		   INSERT_USER = INSERT_USER+user.getReligion().getId()+",";

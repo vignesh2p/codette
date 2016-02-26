@@ -23,7 +23,7 @@ import com.google.gson.GsonBuilder;
 
 @Controller
 @RequestMapping(value= "/leavemanagement")
-public class LeaveController {
+public class LeaveController extends CommonBaseController {
 
 	final static Logger logger = Logger.getLogger(LeaveController.class);
 	public static final Gson gson = new GsonBuilder().setDateFormat(CommonConstants.ISO_DATE_FORMAT).create();
@@ -47,7 +47,7 @@ public class LeaveController {
 		try {
 				
 		    object = lMService.getPendingLeave(Integer.valueOf(orgId),CommonConstants.STATUS_PENDING,
-		    		Integer.valueOf(userId),commonService.getRole(request));
+		    		Integer.valueOf(userId),getRole());
 		    if(object instanceof List){
 		    	object = gson.toJson(object);
 		    }
@@ -67,7 +67,7 @@ public class LeaveController {
 		Object object = null;
 		try {
 				object = lMService.getHistoryLeave(Integer.valueOf(orgId),CommonConstants.STATUS_HISTORY, 
-						Integer.valueOf(userId), commonService.getRole(request));
+						Integer.valueOf(userId),getRole());
 				  if(object instanceof List){
 				    	object = gson.toJson(object);
 				    }
@@ -93,7 +93,8 @@ public class LeaveController {
 		try {
 					object = lMService.Applyleave(leaveManagementListDTO,
 							Integer.valueOf(orgId),Integer.valueOf(userId),
-							commonService.getAccessId(request));
+							getAccessId());
+
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -115,7 +116,7 @@ public class LeaveController {
 			HttpServletRequest request){
 		Object object = null;
 		try {
-					object = lMService.statusChange(leaveManagementListDTO,leaveManagementListDTO,Integer.valueOf(orgId),Integer.valueOf(userId),commonService.getAccessId(request));
+					object = lMService.statusChange(leaveManagementListDTO,leaveManagementListDTO,Integer.valueOf(orgId),Integer.valueOf(userId), getAccessId());
 		} catch (Exception e) {
 				e.printStackTrace();
 		}

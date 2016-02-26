@@ -16,7 +16,7 @@ public interface UserDAO {
 
 	public Object getUser(Integer orgId, Integer userId);
 
-	public Object getUsers(Integer orgId, String role, Integer stdId, Integer secId);
+	public Object getUsers(Integer orgId, String role, Integer stdId, Integer secId,boolean includeDetails,String search);
 
 	
 }

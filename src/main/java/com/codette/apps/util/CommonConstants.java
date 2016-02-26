@@ -66,8 +66,8 @@ public class CommonConstants {
 	public static final String ROLE_ADMIN = "ADMIN";
 	public static final String ROLE_T_STAFF = "TEACHING STAFF";
 	public static final String ROLE_NT_STAFF = "NON TEACHING STAFF";
-	public static final String STUDENT = "STUDENT";
-	public static final String PARENT = "PARENT";
+	public static final String ROLE_STUDENT = "STUDENT";
+	public static final String ROLE_PARENT = "PARENT";
 	public static final String STATUS_HISTORY = "HISTORY";
 	public static final String CREATE_LEAVE_REQUEST = "/createRequest";
 	public static final String UPDATE_REQUEST = "/updateRequest";
@@ -89,6 +89,7 @@ public class CommonConstants {
 	public static final String RELIGION = "RELIGION";
 	public static final String COMMUNITY = "COMMUNITY";
 	public static final String DESIGNATION = "DESIGNATION";
+	public static final String BLOOD_GROUP = "BLOOD_GROUP";
 	public static final String LIST_TYPE = "type";
 	public static final Integer DELETED = 1;
 	public static final String GET_USER = "/getUser";

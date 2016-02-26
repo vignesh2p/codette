@@ -1,13 +1,7 @@
 package com.codette.apps.dao.impl;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-
 import javax.annotation.Resource;
 
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 
 import com.codette.apps.dao.AuthenticationDAO;
@@ -22,7 +16,7 @@ public class AuthenticationDAOImpl extends NamedParameterJdbcDaoSupport implemen
 	private CommonUtil commonUtil;
 
 	@Override
-	public Object authentication(UserAuthenticationDTO userAuthenticationDTO, Integer accessId)  {
+	public Object authentication(UserAuthenticationDTO userAuthenticationDTO)  {
     	UserDTO user = new UserDTO();
         try {
             if (userAuthenticationDTO != null) {
@@ -51,19 +45,11 @@ public class AuthenticationDAOImpl extends NamedParameterJdbcDaoSupport implemen
 	@Override
 	public Object createPassword(UserAuthenticationDTO userAuthenticationDTO, Integer accessId) {
 		// TODO Auto-generated method stub
-		   		
-				Object[] input = new Object[] {
-						                       userAuthenticationDTO.getUserName(),
-						                       userAuthenticationDTO.getUserSecret(),
-						                       accessId,
-						                       userAuthenticationDTO.getOrgId(),	
-						                       userAuthenticationDTO.getUser().getId()
-				                              };
-			getJdbcTemplate().update(getCreatePassword());
-			return "success";
-			
+			getJdbcTemplate().update(getCreatePassword(userAuthenticationDTO,accessId));
+			return "success";		
 	}
-	
+
+
 
 	@Override
 	public Object changePassword(UserAuthenticationDTO userAuthenticationDTO,String newPassword, Integer accessId) {
@@ -79,7 +65,7 @@ public class AuthenticationDAOImpl extends NamedParameterJdbcDaoSupport implemen
                  accessId,
                  userAuthenticationDTO.getUser().getId()
                 };
-                getJdbcTemplate().update(getUpdatePassword());
+                getJdbcTemplate().update(getUpdatePassword(),input);
                 return "success";
         }else{
         	return "your user name or password is wrong";
@@ -97,7 +83,7 @@ public class AuthenticationDAOImpl extends NamedParameterJdbcDaoSupport implemen
                  accessId,          
                  userAuthenticationDTO.getUser().getId()
                };
-               getJdbcTemplate().update(getUpdatePassword());
+               getJdbcTemplate().update(getUpdatePassword(),input);
 		 return "success";
 	}
 	
@@ -112,17 +98,20 @@ public class AuthenticationDAOImpl extends NamedParameterJdbcDaoSupport implemen
 	
 	
 	
-	private String getCreatePassword() {
-		String createPassword = "INSERT INTO `user_authentication`( "
-				+ "`USER_NAME`, `USER_SECRET`, `ID_USER` ,"
-				+ " `ID_ORGANIZATION`, `IS_DELETED`, `UPDATED_ON`, `UPDATED_BY`)"
-			+"VALUES ('?','?',?,?,0,NOW(),?)";
-		return createPassword;
-	}
+	private String getCreatePassword(
+			UserAuthenticationDTO userAuthenticationDTO, Integer accessId) {
+		
+			String createPassword = "INSERT INTO `user_authentication`( "
+					+ "`USER_NAME`, `USER_SECRET`, `ID_USER` ,"
+					+ " `ID_ORGANIZATION`, `IS_DELETED`, `CREATED_ON`, `CREATED_BY`)"
+				+"VALUES ('"+userAuthenticationDTO.getUserName().trim()+"','"+userAuthenticationDTO.getUserSecret().trim()+"', "
+						+ +userAuthenticationDTO.getUser().getId()+","+ userAuthenticationDTO.getOrgId()+",0,NOW(),"+accessId+")";
+			return createPassword;
+		}
 
 	private String getSessionparams() {
-		String sessionParams = "SELECT O.ID,O.NAME,A.ID,A.FIRST_NAME,A.ID_ROLE,A.LAST_NAME, "
-         		+ " R.ID,R.ROLE,A.ID_GENDER,G.ID,G.GENDER,A.EMAIL_ADDRESS,D.ID,A.ID_DESIGNATION "
+		String sessionParams = "SELECT A.ID_ORGANIZATION,O.NICK_NAME,O.ORGANIZATION_NAME,A.ID,A.FIRST_NAME,A.ID_ROLE,A.LAST_NAME, "
+         		+ " R.ROLE,A.ID_GENDER,G.ID,G.GENDER,A.EMAIL_ADDRESS,D.ID,A.ID_DESIGNATION "
          		+ " FROM USER A "
          		+ " LEFT OUTER JOIN ORGANIZATION O ON A.ID_ORGANIZATION = O.ID"
          		+ " LEFT OUTER JOIN ROLE R ON A.ID_ROLE = R.ID "

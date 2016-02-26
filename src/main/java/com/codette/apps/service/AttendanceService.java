@@ -24,8 +24,6 @@ public class AttendanceService {
 	@Resource
 	private AttendanceDAO attendanceDAO;
 	
-	@Resource
-	private AttendanceTranslator attendanceTranslator;
 
 	@Transactional
 	public  Object enableAttendance(Integer orgId,
@@ -48,6 +46,7 @@ public class AttendanceService {
 		return attendanceDAO.updateAttendance(orgId,userIds,accessId);
 	}
 
+	@Transactional
 	public Object createAttendanceProfile(Integer orgId, Integer userId,
 			Integer accessId){
 		return attendanceDAO.createAttendanceProfile(orgId,userId,accessId);

@@ -25,7 +25,7 @@ import com.google.gson.GsonBuilder;
 
 @Controller
 @RequestMapping("/attendance")
-public class AttendanceController {
+public class AttendanceController extends CommonBaseController {
 	
 	final static Logger logger = Logger.getLogger(AttendanceController.class);
 	public static final Gson gson = new GsonBuilder().setDateFormat(CommonConstants.ISO_DATE_FORMAT).create();
@@ -44,7 +44,7 @@ public class AttendanceController {
 			HttpServletRequest request)  {
 		Object object = null;
 		try{
-			object = attendanceService.enableAttendance(Integer.valueOf(orgId),Integer.valueOf(userId),commonService.getAccessId(request));
+			object = attendanceService.enableAttendance(Integer.valueOf(orgId),Integer.valueOf(userId),getAccessId());
 			if(object instanceof ResponseBean){
 				ResponseBean responseBean = (ResponseBean) object;
 				if(responseBean.getStatus().equalsIgnoreCase("SUCCESS")){
@@ -90,7 +90,7 @@ public class AttendanceController {
 			HttpServletRequest request) throws Exception {
 		Object object = null;
 		try{
-			object = attendanceService.updateAttendance(Integer.valueOf(orgId),userIds, commonService.getAccessId(request));
+			object = attendanceService.updateAttendance(getOrganizationId(), userIds, getAccessId());
 		}catch(Exception e){
 
 		}

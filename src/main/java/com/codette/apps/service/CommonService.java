@@ -1,5 +1,7 @@
 package com.codette.apps.service;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Random;
 
 import javax.annotation.Resource;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import com.codette.apps.dao.CommonDAO;
 import com.codette.apps.dto.AddressDTO;
+import com.codette.apps.dto.BloodGroupDTO;
 import com.codette.apps.dto.CommunityDTO;
 import com.codette.apps.dto.DesignationDTO;
 import com.codette.apps.dto.GenderDTO;
@@ -42,22 +45,26 @@ public class CommonService {
 		return commonDAO.getReligion();
 	}
 	
-	public Object getDesignation(String orgId) {
+	public Object getDesignation(Integer orgId) {
 		// TODO Auto-generated method stub
-		return commonDAO.getDesignation(Integer.valueOf(orgId));
+		return commonDAO.getDesignation(orgId);
 	}
 
-	public Object getStandard(String orgId) {
+	public Object getStandard(Integer orgId) {
 		// TODO Auto-generated method stub
 		return commonDAO.getStandard(Integer.valueOf(orgId));
 	}
 
-	public Object getSection(String orgId) {
+	public Object getSection(Integer orgId) {
 		// TODO Auto-generated method stub
-		return commonDAO.getSection(Integer.valueOf(orgId));
+		return commonDAO.getSection(orgId);
 	}
 
-
+  public Integer getAcademicYearId(){
+	  Calendar cal = Calendar.getInstance();
+	  Date date = cal.getTime();
+	  return commonDAO.getAcademinYearId(date);
+  }
 	
 	
 	
@@ -76,16 +83,6 @@ public class CommonService {
 	}
 	
 	
-	
-	public Integer getAccessId(HttpServletRequest request) {
-		
-		return Integer.valueOf(request.getHeader(CommonConstants.SESSION_USER_ID));
-	}
-	
-	public String getRole(HttpServletRequest request) {
-	String role = request.getHeader(CommonConstants.SESSION_USERROLE);
-	return role;
-	}
 
 	public UserDTO getBasicIds(UserDTO userDTO){
 		GenderDTO genderDTO = null;
@@ -93,6 +90,7 @@ public class CommonService {
 		ReligionDTO religionDTO =null;
 		CommunityDTO communityDTO = null;
 		DesignationDTO designationDTO = null;
+		BloodGroupDTO bloodGroup = null;
 		StandardDTO standard = null;
 		SectionDTO section = null; 
 		StudentRelationDTO relation = null;
@@ -131,6 +129,11 @@ public class CommonService {
 			designationDTO = userDTO.getDesignation() ;
 			designationDTO.setId(getId(designationDTO.getDesignation(), CommonConstants.DESIGNATION));
 			userDTO.setDesignation(designationDTO);
+		}
+		if(userDTO.getBloodGroup() != null){
+			bloodGroup = userDTO.getBloodGroup() ;
+			bloodGroup.setId(getId(bloodGroup.getBloodGroup(), CommonConstants.BLOOD_GROUP));
+			userDTO.setBloodGroup(bloodGroup);
 		}
 		if(userDTO.getPhoneNumbers()!= null){
 		for(PhoneNumberDTO phone: userDTO.getPhoneNumbers()){

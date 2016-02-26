@@ -17,30 +17,34 @@ public class AuthenticationService {
 	final static Logger logger = Logger.getLogger(AuthenticationService.class);
 	public static final Gson gson = new GsonBuilder().setDateFormat(CommonConstants.ISO_DATE_FORMAT).create();
 	@Resource
-	private AuthenticationDAO loginDAO;
+	private AuthenticationDAO authenticationDAO;
 	
 
-	public Object authentication(UserAuthenticationDTO userAuthenticationDTO, Integer accessId) {
+	public Object authentication(String userName, String userSecret) {
 		// TODO Auto-generated method stub
-		return loginDAO.authentication(userAuthenticationDTO,accessId);
+		UserAuthenticationDTO userAuthenticationDTO = new UserAuthenticationDTO();
+		userAuthenticationDTO.setUserName(userName);
+		userAuthenticationDTO.setUserSecret(userSecret);
+		return authenticationDAO.authentication(userAuthenticationDTO);
 	}
 
 	@Transactional
 	public Object resetPassword(UserAuthenticationDTO userAuthenticationDTO, Integer accessId) {
 		// TODO Auto-generated method stub
-		return loginDAO.resetPassword(userAuthenticationDTO, accessId);
+		return authenticationDAO.resetPassword(userAuthenticationDTO, accessId);
 	}
     
 	@Transactional
 	public Object changePassword(UserAuthenticationDTO userAuthenticationDTO, String newPassword, Integer accessId) {
 		// TODO Auto-generated method stub
-		return loginDAO.changePassword(userAuthenticationDTO,newPassword,accessId);
+		return authenticationDAO.changePassword(userAuthenticationDTO,newPassword,accessId);
 	}
 	
 	@Transactional
 	public Object createPassword(UserAuthenticationDTO userAuthenticationDTO, Integer accessId) {
 		// TODO Auto-generated method stub
-		return loginDAO.createPassword(userAuthenticationDTO,accessId);
+		return authenticationDAO.createPassword(userAuthenticationDTO,accessId);
 	}
+
 
 }

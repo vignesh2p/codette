@@ -4,9 +4,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.codette.apps.dto.AttendenceDTO;
-import com.codette.apps.dto.ResponseBean;
-
 @Component
 public interface AttendanceDAO {
 

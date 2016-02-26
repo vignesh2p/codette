@@ -24,14 +24,12 @@ public class ExamMarkService {
 	@Resource
 	private ExamMarkDAO examMarkDAO;
 	
-	@Resource
-	private ExamMarkTranslator examMarkTranslator;
 	
 	@Transactional
 	public Object createExam(ExamDTO examDto, Integer orgId, Integer userId, Integer accessId) throws ParseException {
 		// TODO Auto-generated method stub
-		Exam exam = examMarkTranslator.translateExamdtoToexam(examDto, orgId);
-		examMarkTranslator.translateExamdtoToMarksheet(examDto.getStandards(), orgId);
+		//Exam exam = examMarkTranslator.translateExamdtoToexam(examDto, orgId);
+		//examMarkTranslator.translateExamdtoToMarksheet(examDto.getStandards(), orgId);
 		return examMarkDAO.createExam(examDto,orgId,userId,accessId);
 	}
 

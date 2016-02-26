@@ -7,6 +7,8 @@ import java.util.List;
 
 public class UserDTO extends BaseDTO {
 
+	private OrganizationDTO organizationDTO;
+	
 	private RoleDTO role;
 	
 	private String registrationNumber;
@@ -235,6 +237,14 @@ public class UserDTO extends BaseDTO {
 
 	public void setPhoneNumbers(List<PhoneNumberDTO> phoneNumbers) {
 		this.phoneNumbers = phoneNumbers;
+	}
+
+	public OrganizationDTO getOrganizationDTO() {
+		return organizationDTO;
+	}
+
+	public void setOrganizationDTO(OrganizationDTO organizationDTO) {
+		this.organizationDTO = organizationDTO;
 	}
 
 

@@ -7,7 +7,7 @@ import com.codette.apps.dto.UserAuthenticationDTO;
 @Component
 public interface AuthenticationDAO {
 
-	public Object authentication(UserAuthenticationDTO userAuthenticationDTO, Integer accessId);
+	public Object authentication(UserAuthenticationDTO userAuthenticationDTO);
 
 	public Object resetPassword(UserAuthenticationDTO userAuthenticationDTO, Integer accessId);
 

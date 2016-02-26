@@ -1,11 +1,13 @@
 package com.codette.apps.dao.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 
 import com.codette.apps.dao.CommonDAO;
@@ -113,6 +115,13 @@ public class CommonDAOImpl  extends NamedParameterJdbcDaoSupport implements Comm
 			   
 		}		
 		return sectionList;
+	}
+
+	@Override
+	public Integer getAcademinYearId(Date date) {
+		String getAcademicYearId = "SELECT ID FROM YEAR WHERE end_date > ? order by end_date desc ";
+		Object[] inputs = new Object[]{date};
+		return getJdbcTemplate().queryForObject(getAcademicYearId, inputs,Integer.class);
 	}
 
 

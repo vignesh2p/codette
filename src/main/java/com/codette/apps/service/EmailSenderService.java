@@ -1,9 +1,9 @@
 package com.codette.apps.service;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.Resource;
+
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import com.codette.apps.util.CommonConstants;
  
@@ -14,7 +14,7 @@ import com.codette.apps.util.CommonConstants;
 @Component 
 public class EmailSenderService {
  
-	@Autowired
+	@Resource
 	private MailSender mailSender; // MailSender interface defines a strategy
 										// for sending simple mails
  

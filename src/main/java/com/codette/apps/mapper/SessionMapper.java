@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.RowMapper;
 import com.codette.apps.dto.CommunityDTO;
 import com.codette.apps.dto.DesignationDTO;
 import com.codette.apps.dto.GenderDTO;
+import com.codette.apps.dto.OrganizationDTO;
 import com.codette.apps.dto.RoleDTO;
 import com.codette.apps.dto.UserDTO;
 
@@ -20,7 +21,11 @@ public class SessionMapper implements RowMapper<UserDTO>{
 		}
 
 	    UserDTO user = new UserDTO();
-	    user.setOrgId(rs.getInt("ID_ORGANIZATION"));
+	    OrganizationDTO organizationDTO = new OrganizationDTO();
+	    organizationDTO.setOrgId(rs.getInt("ID_ORGANIZATION"));
+	    organizationDTO.setOrganizationName(rs.getString("ORGANIZATION_NAME"));
+	    organizationDTO.setNickName(rs.getString("NICK_NAME"));
+	    user.setOrganizationDTO(organizationDTO);
 		user.setId(rs.getInt("ID"));
 		user.setFirstName(rs.getString("FIRST_NAME"));
 		user.setLastName(rs.getString("LAST_NAME"));
@@ -30,22 +35,22 @@ public class SessionMapper implements RowMapper<UserDTO>{
 		//user.setBioGraphy(rs.getString("BIO_GRAPHY"));
 		//user.setDateOfJoining(rs.getDate("DATE_OF_JOINING"));
 		//user.setFatherName(rs.getString("FATHER_NAME"));
-		//user.setAge(rs.getInt("AGE"));
+		//user.setAge(rs.getInt("AGE"))
 		if(rs.getInt("ID_ROLE")!= 0){
 			RoleDTO role = new RoleDTO();
-			role.setId(rs.getInt("ID"));
+			role.setId(rs.getInt("ID_ROLE"));
 			role.setRole(rs.getString("ROLE"));
 		    user.setRole(role);
 		}
-	/*	if(rs.getInt("ID_DESIGNATION")!= 0){
+		if(rs.getInt("ID_DESIGNATION")!= 0){
 			DesignationDTO designation = new DesignationDTO();
-			designation.setId(rs.getInt("ID"));
+			designation.setId(rs.getInt("ID_DESIGNATION"));
 			designation.setDesignation(rs.getString("DESIGNATION"));
 		    user.setDesignation(designation);
-		}*/
+		}
 		if((rs.getInt("ID_GENDER")) != 0){
 			GenderDTO gender = new GenderDTO();
-			gender.setId(rs.getInt("ID"));
+			gender.setId(rs.getInt("ID_GENDER"));
 			gender.setGender(rs.getString("GENDER"));
 			user.setGender(gender);
 		}

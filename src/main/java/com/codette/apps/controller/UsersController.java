@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,22 +16,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.codette.apps.dto.UserDTO;
 import com.codette.apps.service.CommonService;
 import com.codette.apps.service.UsersService;
-import com.codette.apps.dto.UserDTO;
 import com.codette.apps.util.CommonConstants;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 @Controller
 @RequestMapping("/users")
-public class UsersController {
+public class UsersController extends CommonBaseController {
 	
 	@Resource
 	private UsersService usersService;
-	
-	@Resource
-	private CommonService commonService;
 	
 	final static Logger logger = Logger.getLogger(UsersController.class);
 	public static final Gson gson = new GsonBuilder().setDateFormat(CommonConstants.ISO_DATE_FORMAT).create();
@@ -38,56 +36,65 @@ public class UsersController {
 	@RequestMapping(value = "/ping", method = RequestMethod.GET )
 	@ResponseBody
 	public Object test(){
-		return "success";
+		
+		return getRole();
 		
 	}
 	
 
-	@RequestMapping(value = "/{orgId}/users/{role}", method = RequestMethod.GET )
+	@RequestMapping(value = "/{role}/list", method = RequestMethod.GET )
 	@ResponseBody
-	public Object getUsers(
-			@PathVariable( value="orgId") String orgId,
-			@PathVariable( value="role") String role,
-			@RequestParam( value="standardId",required = false) String standardId,
-			@RequestParam( value="sectionId",required = false) String sectionId ,
+	public Object getUsers(@PathVariable(value="role") String role,
+			@RequestParam( value="standardId",required = false) Integer standardId,
+			@RequestParam( value="sectionId",required = false) Integer sectionId ,
+			@RequestParam( value="orgId",required = false) Integer orgId ,
+			@RequestParam( value="search",required = false) String search,
+			@RequestParam( value="includeDetails",required = false) boolean includeDetails,
 			HttpServletRequest request, HttpSession session)  {
-		Integer stdId = Integer.valueOf(standardId);
-		Integer secId = Integer.valueOf(sectionId);
-			return usersService.getUsers(Integer.valueOf(orgId),role,stdId,secId);
+			if(orgId!= null && orgId != 0){
+				return usersService.getUsers(orgId, role, standardId, sectionId,includeDetails,search);
+			}
+			return usersService.getUsers(getOrganizationId(), role, standardId, sectionId,includeDetails,search);
 	}
 	
 	
 	
-	@RequestMapping(value = "/{orgId}/getUser/{userId}", method = RequestMethod.GET)
+
+
+	@RequestMapping(value = "/{userId}", method = RequestMethod.GET)
 	@ResponseBody
-	public Object getUser(@PathVariable( value="orgId") Integer orgId,@PathVariable Integer userId) throws Exception {
-		return usersService.getUser(Integer.valueOf(orgId),userId);
+	public Object getUser(@RequestParam( value="orgId", required=false) Integer orgId,
+			HttpServletRequest request,
+			@PathVariable(value="userId") Integer userId) throws Exception {
+		return usersService.getUser(getOrganizationId(),userId);
 	}
 	
 	
 	
-	@RequestMapping(value = "/{orgId}/createUser", method = RequestMethod.POST)
+	@RequestMapping(value = "/{orgId}/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public Object createUser(@PathVariable( value="orgId") Integer orgId,@RequestBody UserDTO userDTO,  HttpSession session, HttpServletRequest request) throws Exception {
-		Object object = usersService.createUser(userDTO,orgId,commonService.getAccessId(request));
+	public Object createUser(@RequestBody UserDTO userDTO,
+			HttpSession session, HttpServletRequest request) throws Exception {
+		Object object = usersService.createUser(userDTO,getOrganizationId(), getAccessId());
 		return object;
 	}
 
 
 	
-	@RequestMapping(value = "{orgId}/updateuser/{userId}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/updateuser/{userId}", method = RequestMethod.PUT)
 	@ResponseBody
-	public Object updateUser(@PathVariable( value="orgId") Integer orgId,@PathVariable Integer userId, @RequestBody UserDTO userDTO, HttpSession session, HttpServletRequest request) throws Exception {
-		Object  object = usersService.updateUser(userDTO, orgId, userId,commonService.getAccessId(request));
+	public Object updateUser(
+			@PathVariable Integer userId, @RequestBody UserDTO userDTO, HttpSession session, HttpServletRequest request) throws Exception {
+		Object  object = usersService.updateUser(userDTO, getOrganizationId(), userId,getAccessId());
 		return object;
 	}
 
 	
 	
-	@RequestMapping(value = "{orgId}/deleteuser/{userId}/{accessId}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/delete/{userId}", method = RequestMethod.DELETE)
 	@ResponseBody
-	public Object deleteUser(@PathVariable Integer userId,Integer orgId,HttpSession session,HttpServletRequest request) throws Exception {
-		Object object = usersService.deleteUser(orgId ,userId, commonService.getAccessId(request));
+	public Object deleteUser(@PathVariable Integer userId,HttpSession session,HttpServletRequest request) throws Exception {
+		Object object = usersService.deleteUser(getOrganizationId() ,userId, getAccessId());
 		return object;
 	}
 	

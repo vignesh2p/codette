@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.stereotype.Component;
+
 import com.codette.apps.dto.ExamDTO;
 import com.codette.apps.dto.StandardDTO;
 import com.codette.apps.tbl.Exam;
@@ -13,6 +15,7 @@ import com.codette.apps.tbl.MarkSheet;
 import com.codette.apps.util.CommonConstants;
 import com.codette.apps.util.CommonUtil;
 
+@Component
 public class ExamMarkTranslator {
 	@Resource
 	CommonUtil commonUtil;

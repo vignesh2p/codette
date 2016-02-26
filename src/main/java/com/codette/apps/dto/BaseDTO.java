@@ -1,15 +1,15 @@
 package com.codette.apps.dto;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 
 public class BaseDTO{
 	private Integer id;
 	private Integer orgId;
 	private Integer createdBy;
-	private Date createdOn;
+	private Timestamp createdOn;
 	private Integer updatedBy;
-	private Date updatedOn;
+	private Timestamp updatedOn;
 	private Integer isDeleted;
 	
 	
@@ -41,10 +41,10 @@ public class BaseDTO{
 	public void setCreatedBy(Integer createdBy) {
 		this.createdBy = createdBy;
 	}
-	public Date getCreatedOn() {
+	public Timestamp getCreatedOn() {
 		return createdOn;
 	}
-	public void setCreatedOn(Date createdOn) {
+	public void setCreatedOn(Timestamp createdOn) {
 		this.createdOn = createdOn;
 	}
 	public Integer getUpdatedBy() {
@@ -53,11 +53,12 @@ public class BaseDTO{
 	public void setUpdatedBy(Integer updatedBy) {
 		this.updatedBy = updatedBy;
 	}
-	public Date getUpdatedOn() {
+	public Timestamp getUpdatedOn() {
 		return updatedOn;
 	}
-	public void setUpdatedOn(Date updatedOn) {
+	public void setUpdatedOn(Timestamp updatedOn) {
 		this.updatedOn = updatedOn;
 	}
+
 
 }

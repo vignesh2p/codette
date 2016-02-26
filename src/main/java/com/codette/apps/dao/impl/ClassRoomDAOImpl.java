@@ -19,6 +19,7 @@ import com.codette.apps.util.CommonConstants;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+
 public class ClassRoomDAOImpl extends NamedParameterJdbcDaoSupport implements ClassRoomDAO{
 	
 	@Resource
@@ -81,12 +82,28 @@ public class ClassRoomDAOImpl extends NamedParameterJdbcDaoSupport implements Cl
 			Integer sectionId, Integer userId, Integer accessId) {
 		ResponseBean responseBean = new ResponseBean();
 		String CREATE_CLASS_ROOM = "INSERT INTO `classes` (`ID_STANDARD`, `ID_SECTION`, `ID_ORGANIZATION`, `IS_DELETED`, `CREATED_ON`, `CREATED_BY`)"
-				+ " VALUES ("+standardId+","+sectionId+","+orgId+",0,NOW(),"+accessId+")";
-		//Object[] ids = {standardId,sectionId,orgId,accessId};
+				+ " VALUES(?,?,?,0,NOW(),?)";
+		Object[] ids = {standardId,sectionId,orgId,accessId};
 		KeyHolder key = null ;
 		Integer id =null;
-		id = getJdbcTemplate().update(CREATE_CLASS_ROOM, key);
+		if(checkForClass( standardId,sectionId))
+		id = getJdbcTemplate().update(CREATE_CLASS_ROOM,ids, key);
 		return responseBean;
+	}
+
+
+
+
+
+
+
+	private boolean checkForClass(Integer standardId,Integer sectionId) {
+		String checkForClass = "SELECT COUNT(*) FROM CLASSES WHERE IS_DELETED = 0 AND ID_STANDARD = "+standardId+" AND ID_SECTION = "+sectionId;
+		Integer count = getJdbcTemplate().update(checkForClass);
+		if(count == 0){
+			return true;
+		}
+		return false;
 	}
 
 }
