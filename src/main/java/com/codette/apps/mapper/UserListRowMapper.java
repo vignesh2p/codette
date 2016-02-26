@@ -36,6 +36,7 @@ public class UserListRowMapper implements RowMapper<UserDTO> {
 		user.setBioGraphy(rs.getString("BIO_GRAPHY"));
 		user.setDateOfJoining(rs.getString("DATE_OF_JOINING"));
 		user.setFatherName(rs.getString("FATHER_NAME"));
+		user.setMotherName(rs.getString("MOTHER_NAME"));
 		user.setAge(rs.getInt("AGE"));
 		if(rs.getInt("ID_DESIGNATION")!= 0){
 			DesignationDTO designation = new DesignationDTO();

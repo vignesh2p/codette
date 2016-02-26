@@ -135,7 +135,7 @@ public class CommonService {
 			bloodGroup.setId(getId(bloodGroup.getBloodGroup(), CommonConstants.BLOOD_GROUP));
 			userDTO.setBloodGroup(bloodGroup);
 		}
-		if(userDTO.getPhoneNumbers()!= null){
+/*		if(userDTO.getPhoneNumbers()!= null){
 		for(PhoneNumberDTO phone: userDTO.getPhoneNumbers()){
 		 relation = phone.getStudentRelation();
 			relation.setId(getId(relation.getStudentRelation(),CommonConstants.RELATION));
@@ -149,7 +149,7 @@ public class CommonService {
 				address.setStudentRelation(relation);
 			}
 
-	}
+	}*/
 		return userDTO;
 	
 		

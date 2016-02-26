@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.codette.apps.service.ClassRoomService;
@@ -32,20 +33,20 @@ public class ClassRoomController {
 	@Resource
 	private CommonService commonService ;
 	
-	  @RequestMapping(value =  "/{orgId}/staffclasses/{userId}/{role}", method = RequestMethod.GET)
+	  @RequestMapping(value =  "/staffclasses/{userId}/{role}", method = RequestMethod.GET)
 		 @ResponseBody
 		 public Object getClassList(
-				 @PathVariable(value ="orgId") String orgId,
-				 @PathVariable(value ="userId") String userId,
+				 @RequestParam(value ="orgId") Integer orgId,
+				 @RequestParam(value ="userId") Integer userId,
 				 @PathVariable(value ="role") String role,
 				 HttpServletRequest request, HttpSession session){
 		  Object object = null;
 		  try{
 			  if(role == CommonConstants.TEACHING_STAFF){
-			     object =  classRoomService.getClassList(Integer.valueOf(orgId),Integer.valueOf(userId),role);
+			     object =  classRoomService.getClassList(orgId,userId,role);
 			  }
 			  if(role.equalsIgnoreCase(CommonConstants.PRINCIPAL) || role.equalsIgnoreCase(CommonConstants.ADMIN)){
-			     object = classRoomService.getClassList(Integer.valueOf(orgId),null,null);	  
+			     object = classRoomService.getClassList(orgId,null,null);	  
 			  }
 			object = gson.toJson(object);
 		  }
@@ -53,7 +54,14 @@ public class ClassRoomController {
 			 
 		  }
 		  return object;
-		 }
-	   
+		 }	   
 
-}
+	  
+	  @RequestMapping(value =  "/createstaffclasses/{userId}/{role}", method = RequestMethod.POST)
+		 @ResponseBody
+		 public Object createHandlingClassforStaff(){
+		  Object object = null;
+			return object;
+	  }
+	  
+  }

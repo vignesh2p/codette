@@ -81,7 +81,7 @@ public class UsersController extends CommonBaseController {
 
 
 	
-	@RequestMapping(value = "/updateuser/{userId}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/update/{userId}", method = RequestMethod.PUT)
 	@ResponseBody
 	public Object updateUser(
 			@PathVariable Integer userId, @RequestBody UserDTO userDTO, HttpSession session, HttpServletRequest request) throws Exception {

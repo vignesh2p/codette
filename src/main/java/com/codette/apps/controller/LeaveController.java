@@ -22,13 +22,13 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 @Controller
-@RequestMapping(value= "/leavemanagement")
+@RequestMapping(value= "/leave")
 public class LeaveController extends CommonBaseController {
 
 	final static Logger logger = Logger.getLogger(LeaveController.class);
 	public static final Gson gson = new GsonBuilder().setDateFormat(CommonConstants.ISO_DATE_FORMAT).create();
 	@Resource
-	private LeaveService lMService;
+	private LeaveService leaveService;
 	
 	@Resource
 	private CommonService commonService;
@@ -38,7 +38,7 @@ public class LeaveController extends CommonBaseController {
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping(value= "/{orgId}/pending/{userId}")
+	@RequestMapping(value= "/pending/{userId}")
 	@ResponseBody
 	public Object getPendingLMSList(@PathVariable( value="orgId") String orgId,
 			@PathVariable( value="userId") String userId,
@@ -46,7 +46,7 @@ public class LeaveController extends CommonBaseController {
 		Object object = null;
 		try {
 				
-		    object = lMService.getPendingLeave(Integer.valueOf(orgId),CommonConstants.STATUS_PENDING,
+		    object = leaveService.getPendingLeave(Integer.valueOf(orgId),CommonConstants.STATUS_PENDING,
 		    		Integer.valueOf(userId),getRole());
 		    if(object instanceof List){
 		    	object = gson.toJson(object);
@@ -59,14 +59,14 @@ public class LeaveController extends CommonBaseController {
 	}
 	
 	
-	@RequestMapping(value= "/{orgId}/history/{userId}")
+	@RequestMapping(value= "/history/{userId}")
 	@ResponseBody
 	public Object getHistoryLMSList(@PathVariable( value="orgId") String orgId,
 			@PathVariable( value="userId") String userId, HttpServletRequest request){
 
 		Object object = null;
 		try {
-				object = lMService.getHistoryLeave(Integer.valueOf(orgId),CommonConstants.STATUS_HISTORY, 
+				object = leaveService.getHistoryLeave(Integer.valueOf(orgId),CommonConstants.STATUS_HISTORY, 
 						Integer.valueOf(userId),getRole());
 				  if(object instanceof List){
 				    	object = gson.toJson(object);
@@ -83,7 +83,7 @@ public class LeaveController extends CommonBaseController {
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping(value ="{orgId}/createleave/userId",method = RequestMethod.POST)
+	@RequestMapping(value ="/create/userId",method = RequestMethod.POST)
 	@ResponseBody
 	public Object createLeaveRequest(@RequestBody LeaveManagementDTO leaveManagementListDTO,
 			@PathVariable( value="orgId") String orgId,
@@ -91,7 +91,7 @@ public class LeaveController extends CommonBaseController {
 			HttpServletRequest request){
 		Object object= null;
 		try {
-					object = lMService.Applyleave(leaveManagementListDTO,
+					object = leaveService.Applyleave(leaveManagementListDTO,
 							Integer.valueOf(orgId),Integer.valueOf(userId),
 							getAccessId());
 
@@ -116,7 +116,7 @@ public class LeaveController extends CommonBaseController {
 			HttpServletRequest request){
 		Object object = null;
 		try {
-					object = lMService.statusChange(leaveManagementListDTO,leaveManagementListDTO,Integer.valueOf(orgId),Integer.valueOf(userId), getAccessId());
+					object = leaveService.statusChange(leaveManagementListDTO,leaveManagementListDTO,Integer.valueOf(orgId),Integer.valueOf(userId), getAccessId());
 		} catch (Exception e) {
 				e.printStackTrace();
 		}

@@ -1,7 +1,5 @@
 package com.codette.apps.service;
 
-import java.text.ParseException;
-
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
@@ -10,8 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.codette.apps.dao.ExamMarkDAO;
 import com.codette.apps.dto.ExamDTO;
-import com.codette.apps.tbl.Exam;
-import com.codette.apps.translator.ExamMarkTranslator;
 import com.codette.apps.util.CommonConstants;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -26,11 +22,11 @@ public class ExamMarkService {
 	
 	
 	@Transactional
-	public Object createExam(ExamDTO examDto, Integer orgId, Integer userId, Integer accessId) throws ParseException {
+	public Object createExam(ExamDTO examDto, Integer orgId, Integer accessId)  {
 		// TODO Auto-generated method stub
 		//Exam exam = examMarkTranslator.translateExamdtoToexam(examDto, orgId);
 		//examMarkTranslator.translateExamdtoToMarksheet(examDto.getStandards(), orgId);
-		return examMarkDAO.createExam(examDto,orgId,userId,accessId);
+		return examMarkDAO.createExam(examDto,orgId,accessId);
 	}
 
 	public Object getMarkSheet(Integer orgId, Integer userId, String role) {

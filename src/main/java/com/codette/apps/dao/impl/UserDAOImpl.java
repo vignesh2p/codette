@@ -1,45 +1,28 @@
 package com.codette.apps.dao.impl;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
-import org.springframework.dao.DataAccessException;
-import org.springframework.dao.DuplicateKeyException;
-import org.springframework.jdbc.core.ConnectionCallback;
-import org.springframework.jdbc.core.PreparedStatementCreator;
-import org.springframework.jdbc.core.ResultSetExtractor;
-import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-import org.springframework.stereotype.Component;
 
 import com.codette.apps.ResultSetExtractor.UserExtractor;
+import com.codette.apps.dao.AttendanceDAO;
 import com.codette.apps.dao.AuthenticationDAO;
 import com.codette.apps.dao.ClassRoomDAO;
 import com.codette.apps.dao.UserDAO;
 import com.codette.apps.dto.AddressDTO;
-import com.codette.apps.dto.CommunityDTO;
-import com.codette.apps.dto.DesignationDTO;
-import com.codette.apps.dto.GenderDTO;
 import com.codette.apps.dto.PhoneNumberDTO;
-import com.codette.apps.dto.ReligionDTO;
 import com.codette.apps.dto.ResponseBean;
-import com.codette.apps.dto.RoleDTO;
 import com.codette.apps.dto.UserAuthenticationDTO;
 import com.codette.apps.dto.UserDTO;
-import com.codette.apps.mapper.SessionMapper;
 import com.codette.apps.mapper.UserListRowMapper;
-import com.codette.apps.service.AuthenticationService;
 import com.codette.apps.service.CommonService;
 import com.codette.apps.service.EmailSenderService;
-import com.codette.apps.service.UsersService;
 import com.codette.apps.util.CommonConstants;
 import com.codette.apps.util.CommonUtil;
 import com.google.gson.Gson;
@@ -61,6 +44,9 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 	
 	@Resource
 	private AuthenticationDAO authenticationDAO;
+	
+	@Resource
+	private AttendanceDAO attendanceDAO;
 	
 	@Resource
 	private ClassRoomDAO classRoomDAO;
@@ -95,15 +81,18 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 					
 					//save phone numbers for the user
 					if(user.getPhoneNumbers() != null){
-					insertPhoneNumber(user.getPhoneNumbers(),id,accessId);
+					insertPhoneNumber(user.getPhoneNumbers(),orgId,id,accessId);
 					}
 					
 					//save  address for the user
 					if(user.getAddresses() != null){
-					insertAddressses(user.getAddresses(),id,accessId);	
+					insertAddressses(user.getAddresses(),orgId,id,accessId);	
 					}
 					
-					if(user.getRole() != null && user.getRole().getRole() == CommonConstants.ROLE_STUDENT){
+					//Create Attendance for the profile
+					attendanceDAO.createAttendanceProfile(orgId, id, accessId);
+					
+					if(user.getRole() != null && user.getRole().getRole().equalsIgnoreCase(CommonConstants.ROLE_STUDENT)){
 					 classRoomDAO.createNewClassRoom(orgId,user.getStandard().getId(),user.getSection().getId(),
 								 user.getId(),  accessId);
 					}
@@ -215,10 +204,10 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 	}
 
 
-	private Object insertAddressses(List<AddressDTO> addresses,Integer idUser,Integer accessId) {
+	private Object insertAddressses(List<AddressDTO> addresses,Integer orgId,Integer idUser,Integer accessId) {
 		// TODO Auto-generated method stub
 		ResponseBean responseBean= new ResponseBean();
-		Object [] inputs = new Object[] {idUser,accessId};
+		Object [] inputs = new Object[] {orgId,idUser,accessId};
 		for(AddressDTO address:addresses){
 		getJdbcTemplate().update(createAddress(address),inputs);
          
@@ -227,9 +216,9 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 	}
 	
 	
-	private Object insertPhoneNumber(List<PhoneNumberDTO> phoneNumbers,Integer idUser,Integer accessId) {
+	private Object insertPhoneNumber(List<PhoneNumberDTO> phoneNumbers, Integer orgId,Integer idUser,Integer accessId) {
 		ResponseBean responseBean= new ResponseBean();
-		Object [] inputs = new Object[] {idUser,accessId};
+		Object [] inputs = new Object[] {orgId,idUser,accessId};
 		for(PhoneNumberDTO phoneNumber: phoneNumbers){
 			getJdbcTemplate().update(createPhoneNumber(phoneNumber),inputs);
 		}
@@ -316,16 +305,16 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 	
 	private String createPhoneNumber(PhoneNumberDTO phoneNumber) {
 		String PhoneNumber = "INSERT INTO `phone`(";
-		PhoneNumber= PhoneNumber+"`ID_USER`,";
+		PhoneNumber= PhoneNumber+"`ID_ORGANIZATION`,`ID_USER`, ";
 	if(phoneNumber.getPhoneNumber() != null){
 		PhoneNumber= PhoneNumber+ " `PHONE_NUMBER`,";
 	}
 	if(phoneNumber.getIsPrimary()!= null){
 		PhoneNumber= PhoneNumber+ " `IS_PRIMARY`, ";
 	}
-	PhoneNumber= PhoneNumber+ "`IS_DELETED`, `CREATED_ON`, `CREATED_BY`, ) ";
+	PhoneNumber= PhoneNumber+ "`IS_DELETED`, `CREATED_ON`, `CREATED_BY` ) ";
 	PhoneNumber= PhoneNumber+ "VALUES ";
-	PhoneNumber= PhoneNumber+ "(? , ";
+	PhoneNumber= PhoneNumber+ "(? , ? ,";
 	if(phoneNumber.getPhoneNumber() != null){
 		PhoneNumber= PhoneNumber+ commonUtil.stringFeilds(phoneNumber.getPhoneNumber())+",";
 	}
@@ -340,21 +329,21 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 	
 	private String createAddress(AddressDTO address) {
 			String ADDRESS = "INSERT INTO `address`(";
-			ADDRESS= ADDRESS+"`ID_USER`,";
+			ADDRESS= ADDRESS+"`ID_ORGANIZATION`,`ID_USER`, ";
 		if(address.getAddress() != null){
 			ADDRESS= ADDRESS+ " `ADDRESS`,";
 		}
 		if(address.getIsPrimary()!= null){
 			ADDRESS= ADDRESS+ " `IS_PRIMARY`, ";
 		}
-		ADDRESS= ADDRESS+ "`IS_DELETED`, `CREATED_ON`, `CREATED_BY`, ) ";
+		ADDRESS= ADDRESS+ "`IS_DELETED`, `CREATED_ON`, `CREATED_BY` ) ";
 		ADDRESS= ADDRESS+ "VALUES ";
-		ADDRESS= ADDRESS+ "(?, ";
+		ADDRESS= ADDRESS+ "(?, ?, ";
 		if(address.getAddress() != null){
-			ADDRESS= ADDRESS+ commonUtil.stringFeilds(address.getAddress()) ;
+			ADDRESS= ADDRESS+ commonUtil.stringFeilds(address.getAddress())+"," ;
 		}
 		if(address.getIsPrimary()!= null){
-			ADDRESS= ADDRESS+ address.getIsPrimary() ;
+			ADDRESS= ADDRESS+ address.getIsPrimary()+"," ;
 		}
 		ADDRESS= ADDRESS+"0,NOW(),?)";
 		return ADDRESS;
@@ -394,9 +383,9 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 			+ "LEFT OUTER JOIN SECTION SEC ON A.ID_SECTION = SEC.ID "
 			+ "LEFT OUTER JOIN YEAR Y ON A.ID_YEAR = Y.ID "
 			+ "LEFT OUTER JOIN BLOOD_GROUP BG ON A.ID_BLOOD_GROUP = BG.ID "
-			+ " WHERE A.ID = ? AND A.ID_ORGANIZATION = ? AND A.IS_DELETED = 0";
+			+ " WHERE A.ID_ORGANIZATION = "+orgId+" AND A.IS_DELETED = 0";
 				 if(idRole != null){
-						GET_USERS = GET_USERS+ " ID_ROLE = "+idRole;
+						GET_USERS = GET_USERS+ " AND ID_ROLE = "+idRole;
 					if(stdId != null){
 						GET_USERS = GET_USERS+" AND ID_STANDARD = "+stdId;
 					}
@@ -628,16 +617,16 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 		if(address.getIsPrimary()!= null){
 			ADDRESS= ADDRESS+ " `IS_PRIMARY`, ";
 		}
-		ADDRESS= ADDRESS+ "`IS_DELETED`, `CREATED_ON`, `CREATED_BY`, ) ";
+		ADDRESS= ADDRESS+ "`IS_DELETED`, `CREATED_ON`, `CREATED_BY`) ";
 		ADDRESS= ADDRESS+ "VALUES ";
 		ADDRESS= ADDRESS+ "("+orgId+","+idUser+" , ";
 		if(address.getAddress() != null){
-			ADDRESS= ADDRESS+ address.getAddress() ;
+			ADDRESS= ADDRESS+ address.getAddress()+"," ;
 		}
 		if(address.getIsPrimary()!= null){
 			ADDRESS= ADDRESS+ address.getIsPrimary() ;
 		}
-		ADDRESS= ADDRESS+"0,NOW(),"+accessId+")";
+		ADDRESS= ADDRESS+",0,NOW(),"+accessId+")";
 		return ADDRESS;
 		}
 		
@@ -664,7 +653,7 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 		if(phone.getIsPrimary()!= null){
 			PhoneNumber= PhoneNumber+ " `IS_PRIMARY`, ";
 		}
-		PhoneNumber= PhoneNumber+ "`IS_DELETED`, `CREATED_ON`, `CREATED_BY`, ) ";
+		PhoneNumber= PhoneNumber+ "`IS_DELETED`, `CREATED_ON`, `CREATED_BY` ) ";
 		PhoneNumber= PhoneNumber+ "VALUES ";
 		PhoneNumber= PhoneNumber+ "("+orgId+","+idUser+" , ";
 		if(phone.getPhoneNumber() != null){
