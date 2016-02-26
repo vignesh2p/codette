@@ -29,7 +29,7 @@ public class CommonBaseController {
 	@ResponseBody
 	public Object getCommunityList(){
 		Object object = null;
-		object = gson.toJson(commonServic.getCommunity());
+		object = gson.toJson(commonServic.getCommunity(getOrganizationId()));
 		return object; 
 	}
 
@@ -45,7 +45,7 @@ public class CommonBaseController {
 	@ResponseBody
 	public Object getReligionList(){
 		Object object = null;
-		return object = gson.toJson(commonServic.getReligion());
+		return object = gson.toJson(commonServic.getReligion(getOrganizationId()));
 	}
 	@RequestMapping(value= "/standard")
 	@ResponseBody
@@ -59,7 +59,12 @@ public class CommonBaseController {
 		Object object = null;
 		return object = gson.toJson(commonServic.getSection(getOrganizationId()));
 	}
-	
+	@RequestMapping(value= "/subject")
+	@ResponseBody
+	public Object getSubjectList( HttpServletRequest requests){
+		Object object = null;
+		return object = gson.toJson(commonServic.getSubject(getOrganizationId()));
+	}
 	public Integer getAccessId() {
 		if(request.getHeader(CommonConstants.SESSION_USER_ID) != null){
 			return Integer.valueOf(request.getHeader(CommonConstants.SESSION_USER_ID));	

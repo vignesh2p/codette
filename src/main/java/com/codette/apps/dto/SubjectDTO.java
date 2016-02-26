@@ -1,20 +1,22 @@
 package com.codette.apps.dto;
 
 public class SubjectDTO extends BaseDTO{
-   private Integer id;
-   private String name;
+   private String subject;
+   private String subjectCode;
    
-public Integer getId() {
-	return id;
+
+public String getSubjectCode() {
+	return subjectCode;
 }
-public void setId(Integer id) {
-	this.id = id;
+public void setSubjectCode(String subjectCode) {
+	this.subjectCode = subjectCode;
 }
-public String getName() {
-	return name;
+public String getSubject() {
+	return subject;
 }
-public void setName(String name) {
-	this.name = name;
+public void setSubject(String subject) {
+	this.subject = subject;
 }
+
    
 }

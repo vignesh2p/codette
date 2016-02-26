@@ -398,7 +398,6 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 	}
 	private String createNewUser(UserDTO user,Integer orgId,Integer accessId) {
 		
-		Integer idYear = commonService.getAcademicYearId();
 		 String INSERT_USER = "INSERT INTO user(";
 		 if(user.getOrgId() != null){
 			   INSERT_USER = INSERT_USER+ "`ID_ORGANIZATION`,";
@@ -454,7 +453,7 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 		   if(user.getAge() != null){
 		   INSERT_USER = INSERT_USER+ " `AGE`,";
 		   }
-		   if(idYear != null && idYear > 0){
+		   if(user.getYear() != null){
 			   INSERT_USER = INSERT_USER+ "`ID_YEAR`,";
 		   }
 		   if(user.getReligion() != null){
@@ -520,8 +519,8 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 		   if(user.getAge() != null){
 		   INSERT_USER = INSERT_USER+ user.getAge()+",";
 		   }
-		   if(idYear != null && idYear > 0){
-		   INSERT_USER = INSERT_USER+ idYear+",";
+		   if(user.getYear() != null && user.getYear().getId() != null){
+		   INSERT_USER = INSERT_USER+ user.getYear().getId()+",";
 		   }
 		   if(user.getReligion() != null){
 		   INSERT_USER = INSERT_USER+user.getReligion().getId()+",";

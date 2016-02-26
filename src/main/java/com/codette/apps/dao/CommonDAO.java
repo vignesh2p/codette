@@ -7,18 +7,20 @@ import org.springframework.stereotype.Component;
 @Component
 public interface CommonDAO {
 
-	public Object getCommunity();
+	public Object getCommunity(Integer orgId);
 	
-	public Object getReligion();
+	public Object getReligion(Integer orgId);
 
     public Object getDesignation(Integer orgId);
 
-	public Object getId(String entity, String type);
+	public Object getId(String entity, String type, Integer orgId);
 
 	public Object getStandard(Integer orgId);
 
 	public Object getSection(Integer orgId);
 
-	public Integer getAcademinYearId(Date date);
+	public Object getAcademinYearId(Date date, Integer orgId);
+
+	public Object getSubject(Integer orgId);
 
 }

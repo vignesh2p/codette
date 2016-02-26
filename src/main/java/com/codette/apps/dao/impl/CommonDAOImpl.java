@@ -16,11 +16,13 @@ import com.codette.apps.dto.DesignationDTO;
 import com.codette.apps.dto.ReligionDTO;
 import com.codette.apps.dto.SectionDTO;
 import com.codette.apps.dto.StandardDTO;
+import com.codette.apps.dto.SubjectDTO;
 import com.codette.apps.mapper.CommunityRowMapper;
 import com.codette.apps.mapper.DesignationRowMapper;
 import com.codette.apps.mapper.ReligionRowMapper;
 import com.codette.apps.mapper.SectionRowMapper;
 import com.codette.apps.mapper.StandardRowMapper;
+import com.codette.apps.mapper.SubjectRowMapper;
 import com.codette.apps.util.CommonConstants;
 import com.codette.apps.util.CommonUtil;
 import com.google.gson.Gson;
@@ -34,9 +36,9 @@ public class CommonDAOImpl  extends NamedParameterJdbcDaoSupport implements Comm
 	@Resource
 	CommonUtil commonUtil;
 	@Override
-	public Object getCommunity() {
+	public Object getCommunity(Integer orgId) {
 		List<CommunityDTO> communityList = new ArrayList<CommunityDTO>();
-		String communities = "SELECT * FROM community";
+		String communities = "SELECT * FROM community WHERE ID_ORGANIZATION = "+orgId;
 		try{
 		  communityList =  getJdbcTemplate().query(
 				  communities,new CommunityRowMapper());
@@ -48,9 +50,9 @@ public class CommonDAOImpl  extends NamedParameterJdbcDaoSupport implements Comm
 	}
 
 	@Override
-	public Object getReligion() {
+	public Object getReligion(Integer orgId) {
 		List<ReligionDTO> religionList = new ArrayList<ReligionDTO>();
-		String religion = "SELECT * FROM religion";
+		String religion = "SELECT * FROM religion  WHERE ID_ORGANIZATION = "+orgId;
 		try{
 		  religionList =  getJdbcTemplate().query(
 				  religion,new ReligionRowMapper());
@@ -79,8 +81,8 @@ public class CommonDAOImpl  extends NamedParameterJdbcDaoSupport implements Comm
 
 
 	@Override
-	public Object getId(String entity, String type) {
-	 String GET_ID = "SELECT ID FROM "+type+" WHERE "+type+" = "+ commonUtil.stringFeilds(entity);
+	public Object getId(String entity, String type, Integer orgId) {
+	 String GET_ID = "SELECT ID FROM "+type+" WHERE "+type+" = "+ commonUtil.stringFeilds(entity)+" AND ID_ORGANIZATION = "+orgId;
 	 Integer id = getJdbcTemplate().queryForObject(
 				GET_ID,Integer.class); 
 	return id;
@@ -118,10 +120,26 @@ public class CommonDAOImpl  extends NamedParameterJdbcDaoSupport implements Comm
 	}
 
 	@Override
-	public Integer getAcademinYearId(Date date) {
-		String getAcademicYearId = "SELECT ID FROM YEAR WHERE end_date > ? order by end_date desc ";
-		Object[] inputs = new Object[]{date};
+	public Object getAcademinYearId(Date date,Integer orgId) {
+		String getAcademicYearId = "SELECT ID FROM YEAR WHERE ID_ORGANIZATION = ? end_date > ? order by end_date desc ";
+		Object[] inputs = new Object[]{orgId,date};
 		return getJdbcTemplate().queryForObject(getAcademicYearId, inputs,Integer.class);
+	}
+
+	@Override
+	public Object getSubject(Integer orgId) {
+		// TODO Auto-generated method stub
+		List<SubjectDTO> subjectList = new ArrayList<SubjectDTO>();
+		String subject = "SELECT * FROM SUBJECT WHERE ID_ORGANIZATION = "+orgId;
+		try{
+			subjectList =  getJdbcTemplate().query(
+					subject,new SubjectRowMapper());
+		}
+		catch (Exception e){
+			System.out.println( e.getMessage());
+			   
+		}		
+		return subjectList;
 	}
 
 

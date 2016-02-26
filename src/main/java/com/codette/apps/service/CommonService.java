@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.codette.apps.dao.CommonDAO;
@@ -23,26 +24,30 @@ import com.codette.apps.dto.SectionDTO;
 import com.codette.apps.dto.StandardDTO;
 import com.codette.apps.dto.StudentRelationDTO;
 import com.codette.apps.dto.UserDTO;
+import com.codette.apps.dto.YearDTO;
 import com.codette.apps.util.CommonConstants;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
 
 @Component
 public class CommonService {
 	
 	final static Logger logger = Logger.getLogger(CommonService.class);
 	public static final Gson gson = new GsonBuilder().setDateFormat(CommonConstants.ISO_DATE_FORMAT).create();
+	@Autowired
+	HttpServletRequest request;
 	@Resource
 	private CommonDAO commonDAO;
 	
-	public Object getCommunity() {
+	public Object getCommunity(Integer orgId) {
 		// TODO Auto-generated method stub
-		return commonDAO.getCommunity();
+		return commonDAO.getCommunity(orgId);
 	}
 	
-	public Object getReligion() {
+	public Object getReligion(Integer orgId) {
 		// TODO Auto-generated method stub
-		return commonDAO.getReligion();
+		return commonDAO.getReligion(orgId);
 	}
 	
 	public Object getDesignation(Integer orgId) {
@@ -54,6 +59,10 @@ public class CommonService {
 		// TODO Auto-generated method stub
 		return commonDAO.getStandard(Integer.valueOf(orgId));
 	}
+	public Object getSubject(Integer orgId) {
+		// TODO Auto-generated method stub
+		return commonDAO.getSubject(orgId);
+	}
 
 	public Object getSection(Integer orgId) {
 		// TODO Auto-generated method stub
@@ -63,7 +72,8 @@ public class CommonService {
   public Integer getAcademicYearId(){
 	  Calendar cal = Calendar.getInstance();
 	  Date date = cal.getTime();
-	  return commonDAO.getAcademinYearId(date);
+	   Integer idYear = (Integer) commonDAO.getAcademinYearId(date,getOrganizationId());
+	return idYear;
   }
 	
 	
@@ -74,7 +84,7 @@ public class CommonService {
 	
 	
 	public Integer getId(String entity, String type){
-		Object object = commonDAO.getId(entity, type);
+		Object object = commonDAO.getId(entity, type,getOrganizationId());
 		if(object instanceof Integer){
 			return (Integer) object;
 		}
@@ -135,6 +145,8 @@ public class CommonService {
 			bloodGroup.setId(getId(bloodGroup.getBloodGroup(), CommonConstants.BLOOD_GROUP));
 			userDTO.setBloodGroup(bloodGroup);
 		}
+		YearDTO yearDto = userDTO.getYear();
+		yearDto.setId(getAcademicYearId());
 /*		if(userDTO.getPhoneNumbers()!= null){
 		for(PhoneNumberDTO phone: userDTO.getPhoneNumbers()){
 		 relation = phone.getStudentRelation();
@@ -185,6 +197,14 @@ public class CommonService {
                 return randomInt - 1;
             }
         }
+
+        private Integer getOrganizationId() {
+    		if(request.getHeader(CommonConstants.SESSION_ORG_ID) != null){
+    			return Integer.valueOf(request.getHeader(CommonConstants.SESSION_ORG_ID));
+    		}
+    		return null;
+    	}
+
 	
 	
 }

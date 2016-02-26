@@ -71,11 +71,17 @@ public class UsersController extends CommonBaseController {
 	
 	
 	
-	@RequestMapping(value = "/{orgId}/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public Object createUser(@RequestBody UserDTO userDTO,
+			@RequestParam( value="orgId",required = false) Integer orgId ,
 			HttpSession session, HttpServletRequest request) throws Exception {
-		Object object = usersService.createUser(userDTO,getOrganizationId(), getAccessId());
+		Object object = null;
+		if(orgId != null && orgId != 0){
+		    object = usersService.createUser(userDTO,orgId, getAccessId());
+		}else{
+			object  = usersService.createUser(userDTO,getOrganizationId(), getAccessId());
+		}
 		return object;
 	}
 
