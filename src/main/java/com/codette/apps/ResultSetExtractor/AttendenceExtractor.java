@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Component;
 
 import com.codette.apps.dto.AttendenceDTO;
+import com.codette.apps.dto.ClassesDTO;
 import com.codette.apps.dto.SectionDTO;
 import com.codette.apps.dto.StandardDTO;
 import com.codette.apps.dto.UserDTO;
@@ -29,7 +30,7 @@ public class AttendenceExtractor {
 					
 					AttendenceDTO attencence = new AttendenceDTO();
 					attencence.setIsAbsent(rs.getInt("IS_ABSENT"));
-					attencence.setIsEnable(rs.getInt("IS_ENABLE"));
+					
 					
 					
 					UserDTO student = new UserDTO();
@@ -39,18 +40,22 @@ public class AttendenceExtractor {
 				student.setDateOfBirth(rs.getString("DATE_OF_BIRTH").toString());
 				student.setEmailAddresses(rs.getString("EMAIL_ADDRESS"));
 				
-						
+				ClassesDTO classRoom = new ClassesDTO();	
 				
+					classRoom.setIsAttendanceEnable(rs.getInt("IS_ATTENDENCE_ENABLE"));
 					StandardDTO standard = new StandardDTO();
 					standard.setId(rs.getInt("ID_STANDARD"));
 					standard.setStandard(rs.getString("STANDARD"));
-					student.setStandard(standard);
+					classRoom.setStandard(standard);
 					
 					SectionDTO section = new SectionDTO();
 					section.setId(rs.getInt("ID_SECTION"));
 					section.setSection(rs.getString("SECTION"));
-					student.setSection(section);
-				
+					classRoom.setSection(section);
+					
+			   student.setClassRoom(classRoom);
+				     
+				     
 					attencence.setUser(student); 
 					attendences.add(attencence);
 			    }

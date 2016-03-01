@@ -1,7 +1,9 @@
 package com.codette.apps.service;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 import javax.annotation.Resource;
@@ -12,23 +14,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.codette.apps.dao.CommonDAO;
-import com.codette.apps.dto.AddressDTO;
 import com.codette.apps.dto.BloodGroupDTO;
+import com.codette.apps.dto.ClassesDTO;
 import com.codette.apps.dto.CommunityDTO;
 import com.codette.apps.dto.DesignationDTO;
 import com.codette.apps.dto.GenderDTO;
-import com.codette.apps.dto.PhoneNumberDTO;
 import com.codette.apps.dto.ReligionDTO;
 import com.codette.apps.dto.RoleDTO;
 import com.codette.apps.dto.SectionDTO;
+import com.codette.apps.dto.StaffClassDTO;
 import com.codette.apps.dto.StandardDTO;
 import com.codette.apps.dto.StudentRelationDTO;
+import com.codette.apps.dto.SubjectDTO;
 import com.codette.apps.dto.UserDTO;
 import com.codette.apps.dto.YearDTO;
 import com.codette.apps.util.CommonConstants;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
 
 @Component
 public class CommonService {
@@ -73,10 +75,16 @@ public class CommonService {
 	  Calendar cal = Calendar.getInstance();
 	  Date date = cal.getTime();
 	   Integer idYear = (Integer) commonDAO.getAcademinYearId(date,getOrganizationId());
+	   System.out.println("year >>>>>>>>>>>  "+ idYear);
 	return idYear;
   }
 	
 	
+  
+	public Integer getIdClass(Integer standardId, Integer sectionId) {
+		// TODO Auto-generated method stub
+		return (Integer) commonDAO.getclassId(standardId,sectionId,getOrganizationId());
+	}
 	
 	
 	//common methods used to get basic ids 
@@ -104,17 +112,23 @@ public class CommonService {
 		StandardDTO standard = null;
 		SectionDTO section = null; 
 		StudentRelationDTO relation = null;
-			
-		if(userDTO.getStandard() != null){
-				standard = userDTO.getStandard() ;
-				standard.setId(getId(standard.getStandard(), CommonConstants.STANDARD));
-				userDTO.setStandard(standard);
-			}
-		if(userDTO.getSection() != null){
-				section = userDTO.getSection() ;
-				section.setId(getId(section.getSection(), CommonConstants.SECTION));
-				userDTO.setSection(section);
-			}
+		ClassesDTO classes = null;	
+		YearDTO yearDto = new YearDTO();
+		
+		if(userDTO.getClassRoom() != null){
+			classes = userDTO.getClassRoom() ;
+			if(classes.getStandard() != null){
+					standard = classes.getStandard() ;
+					standard.setId(getId(standard.getStandard(), CommonConstants.STANDARD));
+					classes.setStandard(standard);
+				}
+			if(classes.getSection() != null){
+					section = classes.getSection() ;
+					section.setId(getId(section.getSection(), CommonConstants.SECTION));
+					classes.setSection(section);
+				}
+		userDTO.setClassRoom(classes);
+		}
 		if(userDTO.getGender() != null){
 			genderDTO = userDTO.getGender() ;
 			genderDTO.setId(getId(genderDTO.getGender(), CommonConstants.GENDER));
@@ -145,8 +159,8 @@ public class CommonService {
 			bloodGroup.setId(getId(bloodGroup.getBloodGroup(), CommonConstants.BLOOD_GROUP));
 			userDTO.setBloodGroup(bloodGroup);
 		}
-		YearDTO yearDto = userDTO.getYear();
 		yearDto.setId(getAcademicYearId());
+		userDTO.setYear(yearDto);
 /*		if(userDTO.getPhoneNumbers()!= null){
 		for(PhoneNumberDTO phone: userDTO.getPhoneNumbers()){
 		 relation = phone.getStudentRelation();
@@ -167,8 +181,53 @@ public class CommonService {
 		
 	}
 	
+	public List<StaffClassDTO> getBasicIds(List<StaffClassDTO> staffClasses){
+
+		StandardDTO standard = null;
+		SectionDTO section = null;
+		SubjectDTO subject = null;
+		List<StaffClassDTO> classes = new ArrayList<StaffClassDTO>();
+		ClassesDTO classeRoom = null;
+		YearDTO yearDto = new YearDTO();
+		for(StaffClassDTO staffClass : staffClasses){	
+			if(staffClass.getClassRoom() != null){
+				classeRoom = staffClass.getClassRoom() ;
+				if(classeRoom.getId() == null){
+				if(classeRoom.getStandard() != null){
+						standard = classeRoom.getStandard() ;
+						standard.setId(getId(standard.getStandard(), CommonConstants.STANDARD));
+						classeRoom.setStandard(standard);
+					}
+				if(classeRoom.getSection() != null){
+						section = classeRoom.getSection() ;
+						section.setId(getId(section.getSection(), CommonConstants.SECTION));
+						classeRoom.setSection(section);
+					}
+				classeRoom.setId(getIdClass(standard.getId(),section.getId()));
+				}else{
+					staffClass.setClassRoom(classeRoom);
+				}
+				staffClass.setClassRoom(classeRoom);
+			}
+			if(staffClass.getSubject() != null){
+				subject = staffClass.getSubject() ;
+				subject.setId(getId(subject.getSubject(), CommonConstants.SUBJECT));
+				staffClass.setSubject(subject);
+			}
+			yearDto.setId(getAcademicYearId());
+			staffClass.setYear(yearDto);
+			classes.add(staffClass);
+		}
+		return classes;
 	
-        /**
+		
+	}
+	
+	
+      
+	
+
+		/**
          * This method generates random string
          * @return
          */

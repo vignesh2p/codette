@@ -23,4 +23,6 @@ public interface CommonDAO {
 
 	public Object getSubject(Integer orgId);
 
+	public Object getclassId(Integer standardId, Integer sectionId , Integer orgId);
+
 }

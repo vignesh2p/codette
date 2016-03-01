@@ -26,23 +26,26 @@ public class ClassRoomExtractor {
 			public List<StaffClassDTO> extractData(ResultSet rs) throws SQLException,
 					DataAccessException {
 
-				List<StaffClassDTO> classes = new ArrayList<StaffClassDTO>(); 
+				List<StaffClassDTO> classes = new ArrayList<StaffClassDTO>();
+				StaffClassDTO clases = null;
 				while(rs.next()){
 					
-					StaffClassDTO clases = new StaffClassDTO();
-				clases.setId(rs.getInt("ID"));
+				clases = new StaffClassDTO();
 				UserDTO user = new UserDTO();
+				clases.setId(rs.getInt("ID"));
 				user.setId(rs.getInt("ID_USER"));
 			    clases.setUser(user);
 				clases.setIsClassTeacher(rs.getInt("IS_CLASS_TEACHER"));
+				ClassesDTO classesDTO = new ClassesDTO();
 				StandardDTO standard = new StandardDTO();
 				standard.setId(rs.getInt("ID_STANDARD"));
 				standard.setStandard(rs.getString("STANDARD"));
-				clases.setStandard(standard);
+				classesDTO.setStandard(standard);
 				SectionDTO section = new SectionDTO();
 				section.setId(rs.getInt("ID_SECTION"));
 				section.setSection(rs.getString("SECTION"));
-				clases.setSection(section);
+				classesDTO.setSection(section);
+                clases.setClassRoom(classesDTO);
 					
 					classes.add(clases);
 				     
@@ -61,12 +64,12 @@ public ResultSetExtractor<List<ClassesDTO>> getAllClassList() {
 			@Override
 			public List<ClassesDTO> extractData(ResultSet rs) throws SQLException,
 					DataAccessException {
-
+				ClassesDTO clases = null;
 				List<ClassesDTO> classes = new ArrayList<ClassesDTO>(); 
 				while(rs.next()){
 					
-					ClassesDTO clases = new ClassesDTO();
-					
+				 clases = new ClassesDTO();
+				clases.setId(rs.getInt("ID"));
 				StandardDTO standard = new StandardDTO();
 				standard.setId(rs.getInt("ID_STANDARD"));
 				standard.setStandard(rs.getString("STANDARD"));

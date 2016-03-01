@@ -24,7 +24,7 @@ public class UserListRowMapper implements RowMapper<UserDTO> {
 		user.setId(rs.getInt("ID"));
 		if(rs.getInt("ID_ROLE")!=0){
 	       RoleDTO role = new RoleDTO();
-	       role.setId(rs.getInt("ID"));
+	       role.setId(rs.getInt("ID_ROLE"));
 	       role.setRole(rs.getString("ROLE"));
 		   user.setRole(role);
 	    }

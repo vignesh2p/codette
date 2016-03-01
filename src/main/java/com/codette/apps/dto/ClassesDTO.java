@@ -4,6 +4,7 @@ public class ClassesDTO extends BaseDTO{
 
 	private StandardDTO standard;
 	private SectionDTO section;
+	private Integer isAttendanceEnable;
 	
 	public StandardDTO getStandard() {
 		return standard;
@@ -14,9 +15,16 @@ public class ClassesDTO extends BaseDTO{
 	public SectionDTO getSection() {
 		return section;
 	}
+	public Integer getIsAttendanceEnable() {
+		return isAttendanceEnable;
+	}
+	public void setIsAttendanceEnable(Integer isAttendanceEnable) {
+		this.isAttendanceEnable = isAttendanceEnable;
+	}
 	public void setSection(SectionDTO section) {
 		this.section = section;
 	}
+	
 	
 	
 }

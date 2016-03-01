@@ -3,6 +3,7 @@ package com.codette.apps.service;
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,7 +26,7 @@ public class UsersService {
 
 	 @Transactional
 	public Object createUser(UserDTO userDTO, Integer orgId,
-				Integer accessId) {
+				Integer accessId) throws DataIntegrityViolationException {
 			userDTO = commonService.getBasicIds(userDTO);
 			return userDAO.createUser(userDTO,orgId, accessId);
 	}
@@ -49,8 +50,8 @@ public class UsersService {
 			return userDAO.getUser(orgId,userId);
 		}
 
-	public Object getUsers(Integer orgId, String role, Integer stdId, Integer secId,boolean includeDetails,String search) {
-		return userDAO.getUsers(orgId, role, stdId, secId, includeDetails, search);
+	public Object getUsers(Integer orgId, String role, Integer classId, boolean includeDetails,String search) {
+		return userDAO.getUsers(orgId, role,classId, includeDetails, search);
 	}
 
 

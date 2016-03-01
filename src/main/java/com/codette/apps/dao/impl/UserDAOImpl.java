@@ -5,6 +5,9 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -56,6 +59,7 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 	
 	final static Logger logger = Logger.getLogger(UserDAOImpl.class);
 	public static final Gson gson = new GsonBuilder().setDateFormat(CommonConstants.ISO_DATE_FORMAT).create();
+
 	
    
     public  String stringFeilds(String str){
@@ -64,20 +68,27 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
   
 	@Override
 	public Object createUser(UserDTO user, Integer orgId,
-			Integer accessId) {
+			Integer accessId) throws DataIntegrityViolationException, DuplicateKeyException{
 			       ResponseBean responseBean = new ResponseBean();
 				   KeyHolder keyHolder = new GeneratedKeyHolder();
 				 
 				if(user != null){
+					 Integer classId = null;
+					if(user.getRole() != null && user.getRole().getRole().equalsIgnoreCase(CommonConstants.ROLE_STUDENT)){
+						  classId = (Integer)classRoomDAO.createNewClassRoom(orgId,user.getClassRoom().getStandard().getId(),user.getClassRoom().getSection().getId(),
+									 user.getId(),  accessId);
+						}
+					
 					// create a new user
 					SqlParameterSource sql = null ;
-					getNamedParameterJdbcTemplate().update(createNewUser(user,orgId,accessId), sql,keyHolder );
+					getNamedParameterJdbcTemplate().update(createNewUser(user,orgId,classId,accessId), sql,keyHolder );
 					Number idUser = keyHolder.getKey();
 					System.out.println(" >>>>> iduser  " + keyHolder.getKey());
 					user.setId(idUser.intValue());
 				
 				   if(idUser != null){
 					Integer id = idUser.intValue();
+									
 					
 					//save phone numbers for the user
 					if(user.getPhoneNumbers() != null){
@@ -92,10 +103,7 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 					//Create Attendance for the profile
 					attendanceDAO.createAttendanceProfile(orgId, id, accessId);
 					
-					if(user.getRole() != null && user.getRole().getRole().equalsIgnoreCase(CommonConstants.ROLE_STUDENT)){
-					 classRoomDAO.createNewClassRoom(orgId,user.getStandard().getId(),user.getSection().getId(),
-								 user.getId(),  accessId);
-					}
+					
 					// provide authentication for the user
 					UserAuthenticationDTO authentication = new UserAuthenticationDTO();
 					user.setId(id);
@@ -177,12 +185,12 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 	
 
 	@Override
-	public Object getUsers(Integer orgId, String role, Integer stdId, Integer secId,boolean includeDetails,String search)  {
+	public Object getUsers(Integer orgId, String role, Integer classId,boolean includeDetails,String search)  {
 		Object object = null;
 		if(includeDetails){
-	       object = getJdbcTemplate().query(getListOfUser(orgId,stdId,secId,search,commonService.getId(role, CommonConstants.ROLE)), new UserListRowMapper());
+	       object = getJdbcTemplate().query(getDetailListOfUser(orgId,classId,search,commonService.getId(role, CommonConstants.ROLE)),  userExtractor.setUserListDetails(null, null));
 		}else{
-	      object = getJdbcTemplate().query(getDetailListOfUser(orgId,stdId,secId,search,commonService.getId(role, CommonConstants.ROLE)), new UserListRowMapper());
+	      object = getJdbcTemplate().query(getListOfUser(orgId,classId,search,commonService.getId(role, CommonConstants.ROLE)), userExtractor.setUserListDetails(null, null));
 		}	           
 	  return object;
 }
@@ -198,13 +206,15 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 				if(userId != null){
 			    getJdbcTemplate().update(DELETE_USER,inputs );
 			    getJdbcTemplate().update(DELETE_USER_CREDENTIALS,inputs );
+			    getJdbcTemplate().update(DELETE_ATTENDENCE,inputs );
 		        }
 			
 		   return "success";
 	}
 
 
-	private Object insertAddressses(List<AddressDTO> addresses,Integer orgId,Integer idUser,Integer accessId) {
+	private Object insertAddressses(List<AddressDTO> addresses,
+			Integer orgId,Integer idUser,Integer accessId)throws DataIntegrityViolationException {
 		// TODO Auto-generated method stub
 		ResponseBean responseBean= new ResponseBean();
 		Object [] inputs = new Object[] {orgId,idUser,accessId};
@@ -216,24 +226,28 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 	}
 	
 	
-	private Object insertPhoneNumber(List<PhoneNumberDTO> phoneNumbers, Integer orgId,Integer idUser,Integer accessId) {
+	private Object insertPhoneNumber(List<PhoneNumberDTO> phoneNumbers, Integer orgId,
+			Integer idUser,Integer accessId)throws DataIntegrityViolationException {
 		ResponseBean responseBean= new ResponseBean();
 		Object [] inputs = new Object[] {orgId,idUser,accessId};
 		for(PhoneNumberDTO phoneNumber: phoneNumbers){
+			try{
 			getJdbcTemplate().update(createPhoneNumber(phoneNumber),inputs);
+			}catch(DataIntegrityViolationException DIVE){
+				
+			}
 		}
 		return responseBean;
 	}
 
 
 	private Object updateAddress(List<AddressDTO> addresses, Integer orgId,Integer idUser,
-			Integer accessId) {
+			Integer accessId) throws DataIntegrityViolationException{
         	
 		ResponseBean responseBean= new ResponseBean();
         	for(AddressDTO address : addresses ){
         		
         		getJdbcTemplate().update(getUpdateAddress(address,orgId,idUser,accessId));
-
         		}
 			return responseBean;
 		}
@@ -241,7 +255,7 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 	
 
 	private Object updatePhone(List<PhoneNumberDTO> phoneNumbers,Integer orgId,Integer idUser,
-			Integer accessId) {
+			Integer accessId) throws DataIntegrityViolationException {
 		ResponseBean responseBean= new ResponseBean();
        	for(PhoneNumberDTO phone : phoneNumbers ){
        		
@@ -294,8 +308,9 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 				+ "LEFT OUTER JOIN RELIGION REL ON A.ID_RELIGION = REL.ID "
 				+ "LEFT OUTER JOIN COMMUNITY C ON A.ID_COMMUNITY = C.ID "
 				+ "LEFT OUTER JOIN IMAGE I ON A.ID_IMAGE = I.ID "
-				+ "LEFT OUTER JOIN STANDARD STD ON A.ID_STANDARD = STD.ID "
-				+ "LEFT OUTER JOIN SECTION SEC ON A.ID_SECTION = SEC.ID "
+				+ "LEFT OUTER JOIN CLASSES CLS ON A.ID_CLASS = CLS.ID "
+				+ "LEFT OUTER JOIN STANDARD STD ON CLS.ID_STANDARD = STD.ID "
+				+ "LEFT OUTER JOIN SECTION SEC ON CLS.ID_SECTION = SEC.ID "
 				+ "LEFT OUTER JOIN YEAR Y ON A.ID_YEAR = Y.ID "
 				+ "LEFT OUTER JOIN BLOOD_GROUP BG ON A.ID_BLOOD_GROUP = BG.ID "
 				+ " WHERE A.ID = ? AND A.ID_ORGANIZATION = ? AND A.IS_DELETED = 0";
@@ -353,24 +368,36 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 	static String DELETE_PHONE = "UPDATE `PHONE` SET IS_DELETED = 1,UPDATED_BY = ? WHERE ID_USER = ? AND ID_ORGANIZATION = ?";
 	static String DELETE_ADDRESS = "UPDATE `ADDRESS` SET IS_DELETED = 1,UPDATED_BY =? WHERE ID_USER = ? AND ID_ORGANIZATION = ?";
 	static String DELETE_USER_CREDENTIALS = "UPDATE `user_authentication` SET `IS_DELETED`=1,`UPDATED_ON`=NOW(),`UPDATED_BY`=? WHERE ID_USER = ? AND ID_ORGANIZATION = ?";
+	static String DELETE_ATTENDENCE = "UPDATE `attendence` SET `IS_DELETED`= 1 ,`UPDATED_ON`= NOW(),`UPDATED_BY`= ? WHERE `ID_USER` = ? AND `ID_ORGANIZATION` = ?";
 	
-	
-	private String getListOfUser(Integer orgId, Integer stdId, Integer secId, String search, Integer idRole) {
+	private String getListOfUser(Integer orgId, Integer classId, String search, Integer idRole) {
 
-		 String GET_USERS = "SELECT * FROM user ";
+		 String GET_USERS = "SELECT `ID`, "
+		 		+ "`ID_ORGANIZATION`, "
+		 		+ "`ID_ROLE`, "
+		 		+ "`REGISTRATION_ID`, "
+		 		+ "`FIRST_NAME`, `LAST_NAME`, "
+		 		+ "`DATE_OF_BIRTH`, "
+		 		+ "`EMAIL_ADDRESS`, "
+		 		+ "`EXPERIENCE`, "
+		 		+ "`BIO_GRAPHY`, "
+		 		+ "`DATE_OF_JOINING`, "
+		 		+ "`ID_CLASS`, "
+		 		+ "`ID_DESIGNATION`,"
+		 		+ " `QUALIFICATION`, "
+		 		+ "`ID_GENDER`, "
+		 		+ "`ID_YEAR`, "
+		 		+ "`FATHER_NAME`, `MOTHER_NAME`, `AGE`, `ID_IMAGE`, `ID_RELIGION`, `ID_BLOOD_GROUP`, `ID_COMMUNITY`, `IS_DELETED`, `CREATED_ON`, `CREATED_BY` FROM user ";
 		 if(idRole != null){
 				GET_USERS = GET_USERS+ "WHERE ID_ROLE = "+idRole+ " AND ID_ORGANIZATION = "+orgId;
-			if(stdId != null){
-				GET_USERS = GET_USERS+" AND ID_STANDARD = "+stdId;
-			}
-			if(secId != null){
-				GET_USERS = GET_USERS+ " AND ID_SECTION = "+secId;
+			if(classId != null){
+				GET_USERS = GET_USERS+" AND ID_CLASS = "+classId;
 			}
 		 }
 		return GET_USERS;
 	}
 
-	private String getDetailListOfUser(Integer orgId, Integer stdId, Integer secId, String search, Integer idRole) {
+	private String getDetailListOfUser(Integer orgId, Integer classId, String search, Integer idRole) {
 	String GET_USERS = "SELECT * FROM USER A "
 			+ "LEFT OUTER JOIN ROLE R ON A.ID_ROLE = R.ID "
 			+ "LEFT OUTER JOIN ORGANIZATION ORG ON A.ID_ORGANIZATION = ORG.ID "
@@ -379,24 +406,22 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 			+ "LEFT OUTER JOIN RELIGION REL ON A.ID_RELIGION = REL.ID "
 			+ "LEFT OUTER JOIN COMMUNITY C ON A.ID_COMMUNITY = C.ID "
 			+ "LEFT OUTER JOIN IMAGE I ON A.ID_IMAGE = I.ID "
-			+ "LEFT OUTER JOIN STANDARD STD ON A.ID_STANDARD = STD.ID "
-			+ "LEFT OUTER JOIN SECTION SEC ON A.ID_SECTION = SEC.ID "
+			+ "LEFT OUTER JOIN CLASSES CLS ON A.ID_CLASS = CLS.ID "
+			+ "LEFT OUTER JOIN STANDARD STD ON CLS.ID_STANDARD = STD.ID "
+			+ "LEFT OUTER JOIN SECTION SEC ON CLS.ID_SECTION = SEC.ID "
 			+ "LEFT OUTER JOIN YEAR Y ON A.ID_YEAR = Y.ID "
 			+ "LEFT OUTER JOIN BLOOD_GROUP BG ON A.ID_BLOOD_GROUP = BG.ID "
 			+ " WHERE A.ID_ORGANIZATION = "+orgId+" AND A.IS_DELETED = 0";
 				 if(idRole != null){
-						GET_USERS = GET_USERS+ " AND ID_ROLE = "+idRole;
-					if(stdId != null){
-						GET_USERS = GET_USERS+" AND ID_STANDARD = "+stdId;
-					}
-					if(secId != null){
-						GET_USERS = GET_USERS+ " AND ID_SECTION = "+secId;
+						GET_USERS = GET_USERS+ " AND A.ID_ROLE = "+idRole;
+					if(classId != null){
+						GET_USERS = GET_USERS+" AND A.ID_STANDARD = "+classId;
 					}
 	 }
 	return GET_USERS;
 	
 	}
-	private String createNewUser(UserDTO user,Integer orgId,Integer accessId) {
+	private String createNewUser(UserDTO user,Integer orgId,Integer classId, Integer accessId) {
 		
 		 String INSERT_USER = "INSERT INTO user(";
 		 if(user.getOrgId() != null){
@@ -432,11 +457,11 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 		   if(user.getDesignation() !=null && user.getDesignation().getId()!= null ){
 			   INSERT_USER = INSERT_USER+ "`ID_DESIGNATION`, ";
 			   }
-		   if(user.getStandard()!= null){
-			   INSERT_USER = INSERT_USER+ "`ID_STANDARD`,";   
-		   }
-		   if(user.getSection() != null){
-			   INSERT_USER = INSERT_USER+ "`ID_SECTION`,";
+		   if(user.getQualification() != null){
+			   INSERT_USER = INSERT_USER+ "`QUALIFICATION`, ";
+			   }
+		   if(user.getClassRoom()!= null){
+			   INSERT_USER = INSERT_USER+ "`ID_CLASS`,";   
 		   }
 		   if(user.getGender()!= null){
 		   INSERT_USER = INSERT_USER+ "`ID_GENDER`,";
@@ -459,6 +484,9 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 		   if(user.getReligion() != null){
 		   INSERT_USER = INSERT_USER+ "`ID_RELIGION`,";
 		   }
+		   if(user.getBloodGroup() != null){
+			   INSERT_USER = INSERT_USER+ "`ID_BLOOD_GROUP`,";
+			   }
 		   if(user.getCommunity() != null){
 		   INSERT_USER = INSERT_USER+ "`ID_COMMUNITY`,";
 		   }
@@ -498,14 +526,14 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 		    if(user.getDesignation() !=null && user.getDesignation().getId()!= null){
 				   INSERT_USER = INSERT_USER+ user.getDesignation().getId()+",";
 				   }
-		    if(user.getStandard()!= null && user.getStandard().getId() != null){
-				   INSERT_USER = INSERT_USER+ user.getStandard().getId()+",";   
-			   }
-			   if(user.getSection() != null && user.getSection().getId() != null){
-				   INSERT_USER = INSERT_USER+  user.getSection().getId()+",";
+		    if(user.getQualification() != null){
+				   INSERT_USER = INSERT_USER+commonUtil.stringFeilds(user.getQualification()) +", ";
+				   }
+		    if(user.getClassRoom()!= null ){
+				   INSERT_USER = INSERT_USER+ classId+",";   
 			   }
 		   if(user.getGender() != null){
-		   INSERT_USER = INSERT_USER+ user.getGender().getId()+",";
+		      INSERT_USER = INSERT_USER+ user.getGender().getId()+",";
 		   }
 		   if(user.getIdImage()!= null){
 			   INSERT_USER = INSERT_USER+ user.getIdImage()+",";
@@ -525,6 +553,9 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 		   if(user.getReligion() != null){
 		   INSERT_USER = INSERT_USER+user.getReligion().getId()+",";
 		   }
+		   if(user.getBloodGroup() != null){
+			   INSERT_USER = INSERT_USER+user.getBloodGroup().getId()+",";
+			   }
 		   if(user.getCommunity() != null){
 		   INSERT_USER = INSERT_USER+user.getCommunity().getId()+",";
 		   }
@@ -566,10 +597,13 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 			   UPDATE_USER = UPDATE_USER+ "`DATE_OF_JOINING`="+commonUtil.stringFeilds(user.getDateOfJoining())+",";
 			   }
 		   if(user.getDesignation() !=null){
-			   UPDATE_USER = UPDATE_USER+ "`ID_DESIGNATION`"+user.getDesignation().getId()+",";
+			   UPDATE_USER = UPDATE_USER+ "`ID_DESIGNATION` = "+user.getDesignation().getId()+",";
+			   }
+		   if(user.getQualification() != null){
+			   UPDATE_USER = UPDATE_USER+ "`QUALIFICATION` = "+commonUtil.stringFeilds(user.getQualification())+",";
 			   }
 		   if(user.getGender()!= null){
-		   UPDATE_USER = UPDATE_USER+ "`ID_GENDER`"+user.getGender().getId()+",";
+		   UPDATE_USER = UPDATE_USER+ "`ID_GENDER` = "+user.getGender().getId()+",";
 		   }
 		   if(user.getFatherName()!= null){
 		   UPDATE_USER = UPDATE_USER+ "`FATHER_NAME`="+commonUtil.stringFeilds(user.getFatherName())+",";

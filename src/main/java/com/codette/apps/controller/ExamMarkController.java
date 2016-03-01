@@ -9,6 +9,7 @@ import org.apache.http.HttpStatus;
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -66,12 +67,24 @@ public class ExamMarkController extends CommonBaseController {
 			@RequestBody ExamDTO exam) {
 		Object object = null;
 		if(orgId != null && orgId != 0){
-			object = ExamMarkService.createExam(exam,orgId, getAccessId());	
+			object = ExamMarkService.createExam(exam,orgId, getAccessId(),getRole());	
 		}else{
-			object = ExamMarkService.createExam(exam,getOrganizationId(), getAccessId());
+			object = ExamMarkService.createExam(exam,getOrganizationId(), getAccessId(),getRole());
 		}
 		return  object;
 	}
 
+	@RequestMapping(value = "{examId}/delete",method = RequestMethod.POST)
+	@ResponseBody
+	public Object deleteExam(@RequestParam( value="orgId",required = false) Integer orgId,
+		       @PathVariable(value = "examId") Integer examId) {
+		Object object = null;
+		if(orgId != null && orgId != 0){
+			object = ExamMarkService.deleteExam(examId,orgId, getAccessId());	
+		}else{
+			object = ExamMarkService.deleteExam(examId,getOrganizationId(), getAccessId());
+		}
+		return  object;
+	}
 	
 }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.codette.apps.service.CommonService;
@@ -27,42 +28,61 @@ public class CommonBaseController {
 	
 	@RequestMapping(value= "/community")
 	@ResponseBody
-	public Object getCommunityList(){
+	public Object getCommunityList(
+			@RequestParam (value = "orgId",required = false) Integer orgId){
 		Object object = null;
+		if(orgId != null && orgId != 0){
+			return object = gson.toJson(commonServic.getCommunity(orgId));
+		}
 		object = gson.toJson(commonServic.getCommunity(getOrganizationId()));
 		return object; 
 	}
 
 	@RequestMapping(value= "/designation")
 	@ResponseBody
-	public Object getDesignationList(){
+	public Object getDesignationList(@RequestParam (value = "orgId",required = false) Integer orgId){
 		Object object = null;
+		if(orgId != null && orgId != 0){
+			return object = gson.toJson(commonServic.getDesignation(orgId));
+		}
 		return object = gson.toJson(commonServic.getDesignation(getOrganizationId()));
 		
 	}
 	
 	@RequestMapping(value= "/religon")
 	@ResponseBody
-	public Object getReligionList(){
+	public Object getReligionList(@RequestParam (value = "orgId",required = false) Integer orgId){
 		Object object = null;
+		if(orgId != null && orgId != 0){
+			return object = gson.toJson(commonServic.getReligion(orgId));
+		}
 		return object = gson.toJson(commonServic.getReligion(getOrganizationId()));
 	}
 	@RequestMapping(value= "/standard")
 	@ResponseBody
-	public Object getStandardList(){
+	public Object getStandardList(@RequestParam (value = "orgId",required = false) Integer orgId){
 		Object object = null;
+		if(orgId != null && orgId != 0){
+			return object = gson.toJson(commonServic.getStandard(orgId));
+		}
 		return object = gson.toJson(commonServic.getStandard(getOrganizationId()));
 	}
 	@RequestMapping(value= "/section")
 	@ResponseBody
-	public Object getSectionList( HttpServletRequest requests){
+	public Object getSectionList(@RequestParam (value = "orgId",required = false) Integer orgId){
 		Object object = null;
+		if(orgId != null && orgId != 0){
+			return object = gson.toJson(commonServic.getSection(orgId));
+		}
 		return object = gson.toJson(commonServic.getSection(getOrganizationId()));
 	}
 	@RequestMapping(value= "/subject")
 	@ResponseBody
-	public Object getSubjectList( HttpServletRequest requests){
+	public Object getSubjectList(@RequestParam (value = "orgId",required = false) Integer orgId){
 		Object object = null;
+		if(orgId != null && orgId != 0){
+			return object = gson.toJson(commonServic.getSubject(orgId));
+		}
 		return object = gson.toJson(commonServic.getSubject(getOrganizationId()));
 	}
 	public Integer getAccessId() {

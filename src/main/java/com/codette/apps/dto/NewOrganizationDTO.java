@@ -6,19 +6,19 @@ public class NewOrganizationDTO {
 
 private OrganizationDTO organization ;
 
-private List<String> standards;
+private List<StandardDTO> standards;
 
-private List<String> sections;
+private List<SectionDTO> sections;
 
-private List<String> subjects;
+private List<SubjectDTO> subjects;
 
 private List<YearDTO> years;
 
 private UserDTO adminUser;
 
-private List<String> communitys;
+private List<CommunityDTO> communities;
 
-private List<String> religons;
+private List<ReligionDTO> religons;
 
 private ImageDTO image;
 
@@ -30,27 +30,27 @@ public void setOrganization(OrganizationDTO organization) {
 	this.organization = organization;
 }
 
-public List<String> getStandards() {
+public List<StandardDTO> getStandards() {
 	return standards;
 }
 
-public void setStandards(List<String> standards) {
+public void setStandards(List<StandardDTO> standards) {
 	this.standards = standards;
 }
 
-public List<String> getSections() {
+public List<SectionDTO> getSections() {
 	return sections;
 }
 
-public void setSections(List<String> sections) {
+public void setSections(List<SectionDTO> sections) {
 	this.sections = sections;
 }
 
-public List<String> getSubjects() {
+public List<SubjectDTO> getSubjects() {
 	return subjects;
 }
 
-public void setSubjects(List<String> subjects) {
+public void setSubjects(List<SubjectDTO> subjects) {
 	this.subjects = subjects;
 }
 
@@ -70,19 +70,19 @@ public void setAdminUser(UserDTO adminUser) {
 	this.adminUser = adminUser;
 }
 
-public List<String> getCommunitys() {
-	return communitys;
+public List<CommunityDTO> getCommunities() {
+	return communities;
 }
 
-public void setCommunitys(List<String> communitys) {
-	this.communitys = communitys;
+public void setCommunities(List<CommunityDTO> communities) {
+	this.communities = communities;
 }
 
-public List<String> getReligons() {
+public List<ReligionDTO> getReligons() {
 	return religons;
 }
 
-public void setReligons(List<String> religons) {
+public void setReligons(List<ReligionDTO> religons) {
 	this.religons = religons;
 }
 
@@ -93,5 +93,6 @@ public ImageDTO getImage() {
 public void setImage(ImageDTO image) {
 	this.image = image;
 }
+
 
 }

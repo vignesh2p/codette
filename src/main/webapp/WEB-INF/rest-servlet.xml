@@ -81,6 +81,10 @@
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 	
+	<bean id="OrganizationDAO" class="com.codette.apps.dao.impl.OrganizationDAOImpl">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
 	<bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
 		<!-- <property name="messageConverters">
 			<list>

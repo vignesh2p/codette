@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.codette.apps.dto.ResponseBean;
@@ -36,15 +37,21 @@ public class AttendanceController extends CommonBaseController {
 	@Resource
 	private CommonService commonService;
 	
-	@RequestMapping(value = "/{orgId}/enableattendence/{userId}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/enableattendance", method = RequestMethod.PUT)
 	@ResponseBody
 	public Object enableAttendence(
-			@PathVariable( value="orgId") String orgId,
-			@PathVariable( value="userId") String userId,
+			@RequestParam( value="orgId" , required = false) Integer orgId,
+			@RequestParam( value="userId" , required = false) Integer userId,
 			HttpServletRequest request)  {
 		Object object = null;
 		try{
-			object = attendanceService.enableAttendance(Integer.valueOf(orgId),Integer.valueOf(userId),getAccessId());
+			if(getRole().equalsIgnoreCase(CommonConstants.ROLE_T_STAFF)){
+			if(orgId != null && orgId != 0 && userId != null && orgId != 0){
+			object = attendanceService.enableAttendance(orgId,userId,getAccessId());
+			}else{
+				object = attendanceService.enableAttendance(getOrganizationId(),getAccessId(),getAccessId());	
+			}
+			}
 			if(object instanceof ResponseBean){
 				ResponseBean responseBean = (ResponseBean) object;
 				if(responseBean.getStatus().equalsIgnoreCase("SUCCESS")){
@@ -59,21 +66,20 @@ public class AttendanceController extends CommonBaseController {
 
 	}   
     
-   @RequestMapping(value = "/{orgId}/getattendencesheet/{userId}", method = RequestMethod.GET)
+   @RequestMapping(value = "/attendencesheet", method = RequestMethod.GET)
 	@ResponseBody
 	public Object getAttendence(
-			@PathVariable( value="orgId") String orgId,
-			@PathVariable( value="userId") String userId,
+			@RequestParam( value="orgId" , required = false) Integer orgId,
+			@RequestParam( value="userId" , required = false) Integer userId,
 			HttpServletRequest requests)  {
 	   Object object =null;
 	   try{
-		   object =  attendanceService.getAttendance(Integer.valueOf(orgId),Integer.valueOf(userId));
-		   if(object instanceof List){
-		   object = gson.toJson(object);
-		   }
-		   if(object instanceof ResponseBean){
-			   
-		   }
+		   if(orgId != null && orgId != 0 && userId != null && orgId != 0){
+			   object =  attendanceService.getAttendance(orgId,userId);
+				}else{
+					object =  attendanceService.getAttendance(getOrganizationId(),getAccessId());
+				}
+		
 	   	}catch(Exception e){
 	   		
 	   	}
@@ -81,11 +87,11 @@ public class AttendanceController extends CommonBaseController {
    }
    
 	
-	@RequestMapping(value = "/{orgId}/updateattendance/{userIds}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/updateattendance/{userIds}", method = RequestMethod.PUT)
 	@ResponseBody
 	public Object updateAttendence(
-			@PathVariable( value="orgId") String orgId,
-			@PathVariable List<Integer> userIds, 
+			@RequestParam( value="orgId" , required = false) Integer orgId,
+			@PathVariable( value="userIds" ) List<Integer> userIds,
 			HttpSession session,
 			HttpServletRequest request) throws Exception {
 		Object object = null;

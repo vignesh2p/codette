@@ -110,4 +110,5 @@ public class CommonConstants {
 	public static final String ADMIN = "ADMIN";
 	public static final String CHAR_LIST = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
 	public static final int RANDOM_STRING_LENGTH = 8;
+	public static final String SUBJECT = "SUBJECT";
 }

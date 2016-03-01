@@ -39,4 +39,13 @@ public class OrganizationsController extends CommonBaseController{
 		return object;
 	}
 
+	
+
+	@RequestMapping(value = "{orgId}/details", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public Object getOrganizationDetails(@RequestBody NewOrganizationDTO newOrgDTO,
+			HttpSession session, HttpServletRequest request) throws Exception {		
+		Object object = organizationServices.createOrganization(newOrgDTO);
+		return object;
+	}
 }

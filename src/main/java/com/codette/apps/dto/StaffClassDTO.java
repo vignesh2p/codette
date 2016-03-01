@@ -4,8 +4,7 @@ package com.codette.apps.dto;
 public class StaffClassDTO extends BaseDTO{
     private UserDTO user;
     private Integer isClassTeacher; 
-    private StandardDTO standard;
-    private SectionDTO section;
+    private ClassesDTO classRoom;
     private SubjectDTO subject;
     private YearDTO year;
     
@@ -23,17 +22,12 @@ public class StaffClassDTO extends BaseDTO{
 	public void setIsClassTeacher(Integer isClassTeacher) {
 		this.isClassTeacher = isClassTeacher;
 	}
-	public StandardDTO getStandard() {
-		return standard;
+
+	public ClassesDTO getClassRoom() {
+		return classRoom;
 	}
-	public void setStandard(StandardDTO standard) {
-		this.standard = standard;
-	}
-	public SectionDTO getSection() {
-		return section;
-	}
-	public void setSection(SectionDTO section) {
-		this.section = section;
+	public void setClassRoom(ClassesDTO classRoom) {
+		this.classRoom = classRoom;
 	}
 	public SubjectDTO getSubject() {
 		return subject;

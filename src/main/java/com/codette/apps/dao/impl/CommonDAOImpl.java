@@ -7,7 +7,6 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 
 import com.codette.apps.dao.CommonDAO;
@@ -121,9 +120,8 @@ public class CommonDAOImpl  extends NamedParameterJdbcDaoSupport implements Comm
 
 	@Override
 	public Object getAcademinYearId(Date date,Integer orgId) {
-		String getAcademicYearId = "SELECT ID FROM YEAR WHERE ID_ORGANIZATION = ? end_date > ? order by end_date desc ";
-		Object[] inputs = new Object[]{orgId,date};
-		return getJdbcTemplate().queryForObject(getAcademicYearId, inputs,Integer.class);
+		String getAcademicYearId = "SELECT ID FROM YEAR WHERE ID_ORGANIZATION = "+orgId+" AND end_date > CURDATE() order by end_date desc ";
+		return getJdbcTemplate().queryForObject(getAcademicYearId,Integer.class);
 	}
 
 	@Override
@@ -140,6 +138,13 @@ public class CommonDAOImpl  extends NamedParameterJdbcDaoSupport implements Comm
 			   
 		}		
 		return subjectList;
+	}
+
+	@Override
+	public Object getclassId(Integer standardId, Integer sectionId,Integer orgId) {
+		
+		String getClassId = "SELECT ID FROM CLASSES WHERE ID_ORGANIZATION = "+orgId+" AND ID_STANDARD = "+standardId+" AND ID_SECTION = "+sectionId;
+		return getJdbcTemplate().queryForObject(getClassId,Integer.class);
 	}
 
 

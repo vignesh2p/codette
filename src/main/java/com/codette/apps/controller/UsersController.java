@@ -42,26 +42,25 @@ public class UsersController extends CommonBaseController {
 	}
 	
 
-	@RequestMapping(value = "/{role}/list", method = RequestMethod.GET )
+	@RequestMapping(value = "/{role}/list", method = RequestMethod.GET ) //working good
 	@ResponseBody
 	public Object getUsers(@PathVariable(value="role") String role,
-			@RequestParam( value="standardId",required = false) Integer standardId,
-			@RequestParam( value="sectionId",required = false) Integer sectionId ,
+			@RequestParam( value="classId",required = false) Integer classId,
 			@RequestParam( value="orgId",required = false) Integer orgId ,
 			@RequestParam( value="search",required = false) String search,
 			@RequestParam( value="includeDetails",required = false) boolean includeDetails,
 			HttpServletRequest request, HttpSession session)  {
 			if(orgId!= null && orgId != 0){
-				return usersService.getUsers(orgId, role, standardId, sectionId,includeDetails,search);
+				return usersService.getUsers(orgId, role, classId,includeDetails,search);
 			}
-			return usersService.getUsers(getOrganizationId(), role, standardId, sectionId,includeDetails,search);
+			return usersService.getUsers(getOrganizationId(), role, classId,includeDetails,search);
 	}
 	
 	
 	
 
 
-	@RequestMapping(value = "/{userId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{userId}", method = RequestMethod.GET) //working good
 	@ResponseBody
 	public Object getUser(@RequestParam( value="orgId", required=false) Integer orgId,
 			HttpServletRequest request,
@@ -75,7 +74,7 @@ public class UsersController extends CommonBaseController {
 	@ResponseBody
 	public Object createUser(@RequestBody UserDTO userDTO,
 			@RequestParam( value="orgId",required = false) Integer orgId ,
-			HttpSession session, HttpServletRequest request) throws Exception {
+			HttpSession session, HttpServletRequest request) throws Exception { //working good
 		Object object = null;
 		if(orgId != null && orgId != 0){
 		    object = usersService.createUser(userDTO,orgId, getAccessId());

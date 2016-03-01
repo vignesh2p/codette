@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import com.codette.apps.dto.AddressDTO;
 import com.codette.apps.dto.BloodGroupDTO;
+import com.codette.apps.dto.ClassesDTO;
 import com.codette.apps.dto.CommunityDTO;
 import com.codette.apps.dto.DesignationDTO;
 import com.codette.apps.dto.GenderDTO;
@@ -57,16 +58,22 @@ public class UserExtractor {
 					user.setFatherName(rs.getString("FATHER_NAME"));
 					user.setMotherName(rs.getString("MOTHER_NAME"));
 					user.setAge(rs.getInt("AGE"));
-					    
+					
+					
+					ClassesDTO classesDTO = new ClassesDTO();
+					
 						StandardDTO standard = new StandardDTO();
 						standard.setId(rs.getInt("ID_STANDARD"));
 						standard.setStandard(rs.getString("STANDARD"));
-						user.setStandard(standard);
+						classesDTO.setStandard(standard);
 						
 						SectionDTO section = new SectionDTO();
 						section.setId(rs.getInt("ID_SECTION"));
 						section.setSection(rs.getString("SECTION"));
-						user.setSection(section);
+						classesDTO.setSection(section);
+						
+	                user.setClassRoom(classesDTO);
+						
 					
 						DesignationDTO designation = new DesignationDTO();
 						designation.setId(rs.getInt("ID_DESIGNATION"));
@@ -107,6 +114,100 @@ public class UserExtractor {
 						user.setPhoneNumbers(phones);
 				    }
 					return user;
+				}
+
+			  };
+		}
+		
+		public ResultSetExtractor<List<UserDTO>> setUserListDetails(final List<AddressDTO> addresses, final List<PhoneNumberDTO> phones) {
+			return new ResultSetExtractor<List<UserDTO>>(){
+
+				public List<UserDTO> extractData(ResultSet rs) throws SQLException,
+						DataAccessException {
+					List<UserDTO> users = new ArrayList<UserDTO>();
+					UserDTO user = null;
+				    while(rs.next()){
+				    	user = new UserDTO();
+					user.setId(rs.getInt("ID"));
+					
+						OrganizationDTO org = new OrganizationDTO();
+						org.setId(rs.getInt("ID_ORGANIZATION"));
+						org.setOrganizationName(rs.getString("ORGANIZATION_NAME"));
+						org.setNickName(rs.getString("NICK_NAME"));
+					
+					    RoleDTO role = new RoleDTO();
+						role.setId(rs.getInt("ID_ROLE"));
+					    role.setRole(rs.getString("ROLE"));
+					    user.setRole(role);
+					    
+					user.setRegistrationNumber(rs.getString("REGISTRATION_ID"));  
+					user.setFirstName(rs.getString("FIRST_NAME"));
+					user.setLastName(rs.getString("LAST_NAME"));
+					user.setDateOfBirth(rs.getDate("DATE_OF_BIRTH").toString());
+					user.setEmailAddresses(rs.getString("EMAIL_ADDRESS"));
+					user.setExperience(rs.getInt("EXPERIENCE"));
+					user.setBioGraphy(rs.getString("BIO_GRAPHY"));
+					user.setDateOfJoining(rs.getDate("DATE_OF_JOINING").toString());
+					user.setFatherName(rs.getString("FATHER_NAME"));
+					user.setMotherName(rs.getString("MOTHER_NAME"));
+					user.setAge(rs.getInt("AGE"));
+					
+					
+					ClassesDTO classesDTO = new ClassesDTO();
+					
+						StandardDTO standard = new StandardDTO();
+						standard.setId(rs.getInt("ID_STANDARD"));
+						standard.setStandard(rs.getString("STANDARD"));
+						classesDTO.setStandard(standard);
+						
+						SectionDTO section = new SectionDTO();
+						section.setId(rs.getInt("ID_SECTION"));
+						section.setSection(rs.getString("SECTION"));
+						classesDTO.setSection(section);
+						
+	                user.setClassRoom(classesDTO);
+						
+					
+						DesignationDTO designation = new DesignationDTO();
+						designation.setId(rs.getInt("ID_DESIGNATION"));
+						designation.setDesignation(rs.getString("DESIGNATION"));
+					    user.setDesignation(designation);
+					    
+					    
+						GenderDTO gender = new GenderDTO();
+						gender.setId(rs.getInt("ID_GENDER"));
+						gender.setGender(rs.getString("GENDER"));
+						user.setGender(gender);
+						
+						YearDTO year = new YearDTO();
+						year.setId(rs.getInt("ID_YEAR"));
+						year.setAcademicYear(rs.getString("ACADEMIC_YEAR"));
+						user.setYear(year);
+						
+						CommunityDTO community = new CommunityDTO();
+						community.setId(rs.getInt("ID_COMMUNITY"));
+						community.setCommunity(rs.getString("COMMUNITY"));
+						user.setCommunity(community);
+						
+						
+						ReligionDTO religion = new ReligionDTO();
+						religion.setId(rs.getInt("ID_RELIGION"));
+						religion.setReligion(rs.getString("RELIGION"));
+						user.setReligion(religion);
+						
+						BloodGroupDTO BG = new BloodGroupDTO();
+						BG.setId(rs.getInt("ID_BLOOD_GROUP"));
+						BG.setBloodGroup(rs.getString("BLOOD_GROUP"));
+						user.setBloodGroup(BG);
+						
+						user.setIsDeleted(rs.getInt("IS_DELETED"));
+						user.setCreatedOn(rs.getTimestamp("CREATED_ON"));
+						user.setAddresses(addresses);
+						
+						user.setPhoneNumbers(phones);
+						users.add(user);
+				    }
+					return users;
 				}
 
 			  };

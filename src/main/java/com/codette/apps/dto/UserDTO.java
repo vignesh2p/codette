@@ -27,9 +27,7 @@ public class UserDTO extends BaseDTO {
       
     private  String  dateOfJoining;
     
-	private StandardDTO standard;
-	
-	private SectionDTO section;
+	private ClassesDTO classRoom;
 	
 	private DesignationDTO  designation;
 	
@@ -43,8 +41,10 @@ public class UserDTO extends BaseDTO {
 	
 	private Integer age;
 	
-	private Integer idImage
-	;
+	private Integer idImage;
+	
+	private String qualification;
+	
 	private BloodGroupDTO bloodGroup;
     
     private CommunityDTO community;
@@ -127,20 +127,13 @@ public class UserDTO extends BaseDTO {
 		this.dateOfJoining = dateOfJoining;
 	}
 
-	public StandardDTO getStandard() {
-		return standard;
+
+	public ClassesDTO getClassRoom() {
+		return classRoom;
 	}
 
-	public void setStandard(StandardDTO standard) {
-		this.standard = standard;
-	}
-
-	public SectionDTO getSection() {
-		return section;
-	}
-
-	public void setSection(SectionDTO section) {
-		this.section = section;
+	public void setClassRoom(ClassesDTO classRoom) {
+		this.classRoom = classRoom;
 	}
 
 	public DesignationDTO getDesignation() {
@@ -229,6 +222,14 @@ public class UserDTO extends BaseDTO {
 
 	public void setAddresses(List<AddressDTO> addresses) {
 		this.addresses = addresses;
+	}
+
+	public String getQualification() {
+		return qualification;
+	}
+
+	public void setQualification(String qualification) {
+		this.qualification = qualification;
 	}
 
 	public List<PhoneNumberDTO> getPhoneNumbers() {
