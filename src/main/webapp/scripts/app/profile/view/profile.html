@@ -1,15 +1,15 @@
 <div>
- 	<md-toolbar layout="column" class="md-tall profile" layout-padding >
+ 	<md-toolbar layout="column" class="md-tall mainHeader" layout-padding >
 	  <div class="tc-white-1" flex-container="row">
 	  	<a href="javascript:;" data-activates="slide-out" class="hide-on-large-only" ng-click="toggleLeft()"><i class="mdi-navigation-menu material-icons tiny"></i></a>
 	  </div>
 	  <div  layout="column" layout-align="space-around center" >
-	     <div><span class="fs-display-1 display-block">Profile</span></div>
+	     <div><span class="tc-white-1 fs-title display-block space-around center p20">Profile</span></div>
 	 </div>
 	</md-toolbar>
  </div>
 <div class="details" layout-fill layout-wrap ng-init="mainTemplate('','details')">
   <div layout-fill class="tc-white-1" >
-    <div layout-margin class="white"  resize style="overflow:auto;height:{{windowHeight-150+'px'}} ;"><div ng-include="template1.pageDetails"></div></div>
+    <div layout-margin class="white"  resize style="overflow:auto;height:{{windowHeight-115+'px'}} ;"><div ng-include="template1.pageDetails"></div></div>
   </div>
 </div>

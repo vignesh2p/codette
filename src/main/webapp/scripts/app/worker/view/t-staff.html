@@ -1,10 +1,10 @@
 <div>
- 	<md-toolbar layout="column" class="md-tall profile" layout-padding style="background: #673AB7;" >
+ 	<md-toolbar layout="column" class="md-tall mainHeader" layout-padding style="background: #673AB7;" >
 	  <div class="tc-white-1" flex-container="row">
 	  	<a href="javascript:;" data-activates="slide-out" class="hide-on-large-only" ng-click="toggleLeft()"><i class="mdi-navigation-menu material-icons tiny"></i></a>
 	  </div>
 	  <div  layout="row" >
-	     <div flex="80" class="aligncenter"><span class="fs-display-1 display-block">Teaching Staffs</span></div>
+	     <div flex="80" class="aligncenter"><span class="fs-title display-block space-around center p20">Teaching Staffs</span></div>
 	     <div flex="20" class="aligncenter" ng-init="create=false">
 	     <ng-md-icon icon="person_add" style="color : white; cursor: pointer;" size="30" ng-hide="create" ng-click="create=true;mainTemplate('','staffCreate');" >
 			<md-tooltip md-autohide="true">
