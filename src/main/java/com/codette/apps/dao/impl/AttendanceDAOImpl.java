@@ -8,7 +8,9 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 
 import com.codette.apps.ResultSetExtractor.AttendenceExtractor;
 import com.codette.apps.dao.AttendanceDAO;
+import com.codette.apps.dto.ClassesDTO;
 import com.codette.apps.dto.ResponseBean;
+import com.codette.apps.dto.UserDTO;
 
 public class AttendanceDAOImpl extends NamedParameterJdbcDaoSupport  implements AttendanceDAO{
 	
@@ -33,7 +35,7 @@ public class AttendanceDAOImpl extends NamedParameterJdbcDaoSupport  implements 
 		
 		Object object = null;
 		
-		object = getJdbcTemplate().queryForList(getStudentList(orgId,userId),attendenceExtractor.getAttendenceList());
+		object = getJdbcTemplate().query(getStudentList(orgId,userId),attendenceExtractor.getAttendenceList());
 		
 	return object;
 		
@@ -45,17 +47,16 @@ public class AttendanceDAOImpl extends NamedParameterJdbcDaoSupport  implements 
 	public Object updateAttendance(Integer orgId, List<Integer> userIds,
 			Integer accessId) {
 		ResponseBean responseBean = new ResponseBean();
-		String ATTENDENCE = "UPDATE ATTENDENCE SET IS_ABSENT = 1 "
-				+ " WHERE ID_USER = ? AND ID_ORGANIZATION = "+orgId;
+		String ATTENDENCE = "UPDATE ATTENDENCE SET IS_ABSENT = ? "
+				+ " WHERE ID_USER = ? AND ID_ORGANIZATION = ?";
 		
 		String DISABLE = "UPDATE CLASSES SET IS_ATTENDANCE_ENABLE = 0 "
-				+ " WHERE ID_CLASS = ? AND ID_ORGANIZATION = "+orgId+" AND IS_DELETED = 0 ";
+				+ " WHERE ID = "+getClassForStaff( orgId, accessId)+" AND ID_ORGANIZATION = "+orgId+" AND IS_DELETED = 0 ";
 		for(Integer studentId : userIds){
-			Object[] inputIds = {studentId,orgId};
+			Object[] inputIds = {1,studentId,orgId};
 		getJdbcTemplate().update(ATTENDENCE, inputIds);
 		}
-		Object[] inputId = {getClassForStaff( orgId, accessId)};
-		getJdbcTemplate().update(DISABLE, inputId);
+		getJdbcTemplate().update(DISABLE);
 		return responseBean;
 	}
 
@@ -101,7 +102,8 @@ public class AttendanceDAOImpl extends NamedParameterJdbcDaoSupport  implements 
 	
 
 	private String getStudentList(Integer orgId, Integer userId) {
-		String GET_STUDENTS = "SELECT * FROM ATTENDENCE ATD " 
+		String GET_STUDENTS = "SELECT ATD.IS_ABSENT,ATD.ID_USER,A.FIRST_NAME , A.LAST_NAME,A.DATE_OF_BIRTH ,A.EMAIL_ADDRESS, CLS.IS_ATTENDANCE_ENABLE "
+				+ " FROM ATTENDENCE ATD " 
 				+ " LEFT OUTER JOIN USER A ON A.ID = ATD.ID_USER AND A.ID_ORGANIZATION = "+orgId
 				+ " LEFT OUTER JOIN CLASSES CLS ON A.ID_CLASS = CLS.ID AND CLS.ID_ORGANIZATION = "+orgId
 				+ " WHERE A.IS_DELETED = 0 AND A.ID_CLASS = "+getClassForStaff( orgId, userId)+" AND ATD.ID_ORGANIZATION = "+orgId

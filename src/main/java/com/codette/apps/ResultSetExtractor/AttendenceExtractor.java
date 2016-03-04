@@ -26,36 +26,36 @@ public class AttendenceExtractor {
 					DataAccessException {
 
 				List<AttendenceDTO> attendences = new ArrayList<AttendenceDTO>(); 
+				AttendenceDTO attencence = null;
+				UserDTO student = null;
+	            ClassesDTO classRoom = null;
 				while(rs.next()){		
 					
-					AttendenceDTO attencence = new AttendenceDTO();
+				    attencence = new AttendenceDTO();
 					attencence.setIsAbsent(rs.getInt("IS_ABSENT"));
+					    student = new UserDTO();
+						student.setId(rs.getInt("ID_USER")); 
+						student.setFirstName(rs.getString("FIRST_NAME"));
+						student.setLastName(rs.getString("LAST_NAME"));
+						student.setDateOfBirth(rs.getString("DATE_OF_BIRTH").toString());
+						student.setEmailAddresses(rs.getString("EMAIL_ADDRESS"));
+						
+			                classRoom = new ClassesDTO();	
+							classRoom.setIsAttendanceEnable(rs.getInt("IS_ATTENDANCE_ENABLE"));
+							
+							/*	StandardDTO standard = new StandardDTO();
+								standard.setId(rs.getInt("ID_STANDARD"));
+								standard.setStandard(rs.getString("STANDARD"));
+								classRoom.setStandard(standard);
+								
+								SectionDTO section = new SectionDTO();
+								section.setId(rs.getInt("ID_SECTION"));
+								section.setSection(rs.getString("SECTION"));
+								classRoom.setSection(section);*/
 					
-					
-					
-					UserDTO student = new UserDTO();
-				student.setId(rs.getInt("ID")); 
-				student.setFirstName(rs.getString("FIRST_NAME"));
-				student.setLastName(rs.getString("LAST_NAME"));
-				student.setDateOfBirth(rs.getString("DATE_OF_BIRTH").toString());
-				student.setEmailAddresses(rs.getString("EMAIL_ADDRESS"));
-				
-				ClassesDTO classRoom = new ClassesDTO();	
-				
-					classRoom.setIsAttendanceEnable(rs.getInt("IS_ATTENDENCE_ENABLE"));
-					StandardDTO standard = new StandardDTO();
-					standard.setId(rs.getInt("ID_STANDARD"));
-					standard.setStandard(rs.getString("STANDARD"));
-					classRoom.setStandard(standard);
-					
-					SectionDTO section = new SectionDTO();
-					section.setId(rs.getInt("ID_SECTION"));
-					section.setSection(rs.getString("SECTION"));
-					classRoom.setSection(section);
-					
-			   student.setClassRoom(classRoom);
+						student.setClassRoom(classRoom);
 				     
-				     
+		     
 					attencence.setUser(student); 
 					attendences.add(attencence);
 			    }
