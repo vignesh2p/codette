@@ -3,7 +3,9 @@ package com.codette.apps.dto;
 public class MarkSheetDTO extends BaseDTO {
 
 	private Integer idExam;
-	private Integer idClass;
+	private ClassesDTO classRoom;
+	private SubjectDTO subject;
+	
 
 	public Integer getIdExam() {
 		return idExam;
@@ -11,11 +13,17 @@ public class MarkSheetDTO extends BaseDTO {
 	public void setIdExam(Integer idExam) {
 		this.idExam = idExam;
 	}
-	public Integer getIdClass() {
-		return idClass;
+	public ClassesDTO getClassRoom() {
+		return classRoom;
 	}
-	public void setIdClass(Integer idClass) {
-		this.idClass = idClass;
+	public void setClassRoom(ClassesDTO classRoom) {
+		this.classRoom = classRoom;
+	}
+	public SubjectDTO getSubject() {
+		return subject;
+	}
+	public void setSubject(SubjectDTO subject) {
+		this.subject = subject;
 	}
 	
 	

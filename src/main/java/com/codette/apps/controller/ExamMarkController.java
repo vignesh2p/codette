@@ -38,7 +38,7 @@ public class ExamMarkController extends CommonBaseController {
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping(value= "/marksheet/{userId}")
+	@RequestMapping(value= "/marksheet")
 	@ResponseBody
 	public Object getMarkSheet(@RequestParam( value="orgId" , required = false) Integer orgId,
 			@RequestParam (value = "userId" , required = false )Integer userId,
@@ -46,10 +46,10 @@ public class ExamMarkController extends CommonBaseController {
 			HttpServletRequest request){
 
 		Object object = null;
-			if(orgId != null && orgId != 0){
+			if(orgId != null && orgId != 0 && userId != null && userId != 0){
 		   object = ExamMarkService.getMarkSheet(orgId,userId,getRole());
 			}else{
-	       object = ExamMarkService.getMarkSheet(getOrganizationId(),userId,getRole());	
+	       object = ExamMarkService.getMarkSheet(getOrganizationId(),getAccessId(),getRole());	
 			}
 		return object;
 	}

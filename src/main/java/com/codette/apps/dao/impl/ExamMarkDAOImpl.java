@@ -28,9 +28,9 @@ public class ExamMarkDAOImpl extends NamedParameterJdbcDaoSupport implements Exa
 	@Resource
 	private CommonService commonService;
 	
-	String Marksheet = "INSERT INTO MARK_SHEET "
-			+ "(ID_ORGANIZATION,ID_EXAM,ID_CLASS,ID_SUBJECT,IS_DELETED,CREATED_ON,CREATED_BY)"
-			+ " VALUES (?,?,?,?,?,NOW(),?)";
+	
+	String Mark = "INSERT INTO `marks`( `ID_ORGANIZATION`, `ID_MARKSHEET`, `ID_USER`,`IS_DELETED`, `CREATED_ON`, `CREATED_BY`)"
+			+ " VALUES (?,?,?,?,NOW(),?)";
 	
 	@Override
 	public Object createExam(ExamDTO exam, Integer orgId,Integer accessId,String role) {
@@ -38,22 +38,50 @@ public class ExamMarkDAOImpl extends NamedParameterJdbcDaoSupport implements Exa
 		  SqlParameterSource sps = null;
 		  KeyHolder keyHolder = new GeneratedKeyHolder();
 		  Integer exam_id = null;
+		  Integer markSheet_id = null;
 	          getNamedParameterJdbcTemplate().update(getCreateNewExam(orgId,exam.getExam(),accessId),
 				sps, keyHolder);
 		        exam_id = keyHolder.getKey().intValue();
 	             List<Integer> subjectIds = new ArrayList<Integer>();
+	             List<Integer> studentIds = new ArrayList<Integer>();
 		      
 		  for(ClassesDTO classRoom : exam.getClassRooms()){
-				  subjectIds = getJdbcTemplate().queryForList(getSubjectsForClass(classRoom.getId(),role,accessId),Integer.class);
+			  
+			  subjectIds = getJdbcTemplate().queryForList(getSubjectsForClass(classRoom.getId(),role,accessId),Integer.class);
+				  
 			  for(Integer subjectId : subjectIds){
+				  
 			   	  Object[]  values = {orgId,exam_id,classRoom.getId(),subjectId,0,accessId};
-				      getJdbcTemplate().update(Marksheet,values );
+				   	keyHolder = new GeneratedKeyHolder();
+				   	getNamedParameterJdbcTemplate().update(getMarkSheet(values),sps,keyHolder );
+				   	markSheet_id = keyHolder.getKey().intValue(); 
+			   	    studentIds =  getJdbcTemplate().queryForList(getStudentsOfClass(classRoom.getId()),Integer.class);
+			   	    
+				   	for(Integer idUser : studentIds){
+				   		
+				   	  Object[]  input = {orgId,markSheet_id,idUser,0,accessId};
+				   		getJdbcTemplate().update(Mark, input);
+				   		
+				   	}
 			  }
 		  }
 			
 		return "success";
 	}
 	
+	private String getStudentsOfClass(Integer id) {
+             String query = "SELECT `ID` FROM `user` WHERE `ID_CLASS` = "+id;		
+             return query;
+	}
+
+	private String getMarkSheet(Object[] values) {
+		// TODO Auto-generated method stub
+		String query = "INSERT INTO `mark_sheet`(  `ID_ORGANIZATION`, `ID_EXAM`, `ID_CLASS`, `ID_SUBJECT`, `IS_DELETED`, `CREATED_ON`, `CREATED_BY`)"
+				+ " VALUES ("+values[0]+","+values[1]+","+values[2]+","+values[3]+","+values[4]+",NOW(),"+values[5]+")";
+		return query;
+		
+	}
+
 	@Override
 	public Object getMarkSheet(Integer orgId, Integer userId,
 			String role) {
@@ -99,7 +127,7 @@ public class ExamMarkDAOImpl extends NamedParameterJdbcDaoSupport implements Exa
         if(role.equalsIgnoreCase(CommonConstants.ROLE_T_STAFF)){
         	query = query + " AND `ID_USER` = "+accessId;
         }
-		return null;
+		return query;
 	}
 
 	private String getCreateNewExam(Integer orgId, String exam, Integer accessId) {
