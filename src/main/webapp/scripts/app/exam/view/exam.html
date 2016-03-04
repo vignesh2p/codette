@@ -1,10 +1,10 @@
 <div>
- 	<md-toolbar layout="column" class="md-tall profile" layout-padding style="background: #03AA75;" >
+ 	<md-toolbar layout="column" class="md-tall mainHeader" layout-padding style="background: #03AA75;" >
 	  <div class="tc-white-1" flex-container="row">
 	  	<a href="javascript:;" data-activates="slide-out" class="hide-on-large-only" ng-click="toggleLeft()"><i class="mdi-navigation-menu material-icons tiny"></i></a>
 	  </div>
 	  <div  layout="row" >
-	     <div flex="80" class="aligncenter"><span class="fs-display-1 display-block">LMS</span></div>
+	     <div flex="80" class="aligncenter"><span class="fs-title display-block space-around center p20">Exam</span></div>
 	     <div flex="20" class="aligncenter" ng-init="create=false">
 	     <ng-md-icon icon="mode_edit" style="color : rgb(89, 226, 168); cursor: pointer;" size="30" ng-hide="create" ng-click="create=true;mainTemplate('','details');loader=true" >
 			<md-tooltip md-autohide="true">

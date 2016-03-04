@@ -50,14 +50,16 @@ html,body{-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none
 .tenCol .col{ float:left; width:10%;}
 .oneCol,.twoCol,.threeCol,.fourCol,.fiveCol,.sixCol,.sevenCol,.eightCol,.nineCol,.tenCol{ margin:0 auto; float:left; width:100%;}
 .m0{margin:0px !important;}.m5{margin:5px;}.m10{margin:10px;}.m15{margin:15px;}.m20{margin:20px;}.ml18{ margin-left:18px !important;}
-.p0{padding:0px !important;}.p5{padding:5px;}.p10{padding:10px;}.p15{padding:15px;}.p20{padding:20px;}
+.p0{padding:0px !important;}.p5{padding:5px;}.p10{paddding:10px;}.p15{padding:15px;}.p20{padding:20px;}
 .lhauto{ line-height:25px !important;}
 .pv0{padding-top:0px !important; padding-bottom:0px !important;}.pv5{padding-top:5px !important; padding-bottom:5px !important;}.pv10{padding-top:10px !important; padding-bottom:10px !important;}.pv15{padding-top:15px !important; padding-bottom:15px !important;}
+.pt25{padding-top: 25px !important;}
 .row{clear:both;display:block; margin:0;}
 a{color: white;text-decoration:none;  -webkit-transition-duration: .5s; transition-duration: .5s;}
 a:hover{ text-decoration:none;  -webkit-transition-duration: .5s; transition-duration: .5s; color: #333;}
 a:focus,input:focus,select:focus{outline:none;}
 .fullheight{height: -moz-calc(100%); height: -webkit-calc(100%); height: calc(100%);}
+.h100{height: 100px !important;}
 .hr{border-bottom:1px solid #ddd; height:2px; clear:both; width:100%;}
 .no-wrap{white-space: nowrap;}
 .btn i{font-size: inherit;}
@@ -199,17 +201,18 @@ md-tabs[md-border-bottom] md-tabs-wrapper {
 .mrt{
 	    margin-right: 15px !important;
 }
-.profile{
-	height: 50px !important;
-    min-height: 45px !important;
-    max-height: 50px !important;
-    background: #3F51B5  !important;
+
+.mainHeader{
+	height: 100px !important;
+    min-height: 95px !important;
+    max-height: 100px !important;
+    background: #3F51B5  !important;	
+	box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.26);
 }
 
 .details{
 	bottom:70px; 
 	width:100%; 
-	margin-top: 80px;
 }
 .navbar{
 	background: white !important;
