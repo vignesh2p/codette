@@ -34,6 +34,7 @@ public class LoginService extends BaseService{
 	
 	@Resource
 	UserTranslator userTranslator;
+	
 	/***
 	 * Authenticates the User from API.
 	 * @param userName The String value of UserName (cannot be null).
@@ -51,9 +52,9 @@ public class LoginService extends BaseService{
 
 		try {
 			HttpEntity<String> entity = preparePost(postString, session);
-			ResponseEntity<Object> response = restTemplate.exchange(getAPIBaseURL()+"/users/authentication", 
+			ResponseEntity<Object> response = restTemplate.exchange(getAPIBaseURL()+"/authentication/login", 
 							HttpMethod.POST, entity, Object.class);
-			System.out.println("response.getBody()>>>>>>>>>"+gson.toJson(response.getBody()));
+
 			userDTO = loginTranslator.convertToUserDTO(response.getBody());
 			user = userTranslator.translateToUser(userDTO, locale);
 		}catch (IOException e) {
