@@ -20,11 +20,7 @@ public class AuthenticationService {
 	private AuthenticationDAO authenticationDAO;
 	
 
-	public Object authentication(String userName, String userSecret) {
-		// TODO Auto-generated method stub
-		UserAuthenticationDTO userAuthenticationDTO = new UserAuthenticationDTO();
-		userAuthenticationDTO.setUserName(userName);
-		userAuthenticationDTO.setUserSecret(userSecret);
+	public Object authentication(UserAuthenticationDTO userAuthenticationDTO) {
 		return authenticationDAO.authentication(userAuthenticationDTO);
 	}
 

@@ -1,9 +1,11 @@
-/*package com.codette.apps.frontend.controller;
+package com.codette.apps.frontend.controller;
 
 import java.io.IOException;
-import javax.annotation.Resource;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
 import com.codette.apps.frontend.model.Login;
 import com.codette.apps.frontend.model.Roles;
 import com.codette.apps.frontend.model.User;
@@ -21,27 +24,28 @@ import com.codette.apps.util.MessageUtils;
 
 @Controller
 public class LoginController extends BaseController{
-
 	
-	@Resource
+
+	@Autowired
 	private BaseController baseController;
 	
-	@Resource
+	@Autowired
 	private LoginService loginService;
 	
-	@Resource
+	@Autowired
 	private UserController userController;
 	
-	@Resource
+	@Autowired
 	EmailService emailService;
-	*//**
+	
+	
+	/*
 	 * Checking user authentication in login
 	 * @param login
 	 * @param session
 	 * @return
 	 * @throws IOException
-	 * 
-	 *//*
+	 */
 	@RequestMapping(value = "/authentication",method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> authentication(@RequestBody Login login,HttpSession session,  HttpServletRequest request) throws IOException {
 		User user = new User();
@@ -61,7 +65,6 @@ public class LoginController extends BaseController{
 						if(user.getEmailAddresses() != null && !user.getEmailAddresses().isEmpty())
 							session.setAttribute(CommonConstants.SESSION_EMAILADDRESS, user.getEmailAddresses());
 					 }
-					System.out.println("user---------"+gson.toJson(user));
 					
 			}catch(Exception exception){
 				exception.printStackTrace();
@@ -81,23 +84,15 @@ public class LoginController extends BaseController{
 		return new ResponseEntity<Roles>(roles,HttpStatus.OK);
 	}
 	
-	*//**
+	/**
 	 * User Logout 
 	 * @param session
 	 * @return
 	 * @throws IOException
-	 *//*
+	 */
 	@RequestMapping(value = "/logout",method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> logout(HttpSession session) {
-			System.out.println("Inside Logout******************************");
-			
-			
-			//loginService.logout(session);
-		} catch(Exception exception){
-			exception.printStackTrace();
-			//return new ResponseEntity<>(setCustomExceptionHandler(exception, MessageUtils.getMessage("error.user.logout")), HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-    	session.removeAttribute(CommonConstants.SESSION_USER_ID);
+		session.removeAttribute(CommonConstants.SESSION_USER_ID);
     	session.removeAttribute(CommonConstants.SESSION_USERNAME);
     	session.removeAttribute(CommonConstants.SESSION_USERROLE);
     	session.removeAttribute(CommonConstants.SESSION_FIRSTNAME);
@@ -106,16 +101,15 @@ public class LoginController extends BaseController{
     	return new ResponseEntity<>(baseController.setResponse(MessageUtils.getMessage("user.logout.success"),HttpStatus.OK.toString()),HttpStatus.OK);
 	}
 	
-	*//**
+	/*
 	 * Checking unauthorized and trigger
 	 * @param session
 	 * @return
 	 * @throws IOException
-	 *//*
+	 */
 	@RequestMapping(value = "/unauthorized",method = RequestMethod.GET,	produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> unauthorized(HttpSession session) throws IOException {
 		session.invalidate();
 	return new ResponseEntity<>(baseController.setResponse(MessageUtils.getMessage("error.user.unauthorized"),HttpStatus.UNAUTHORIZED.toString()),HttpStatus.UNAUTHORIZED);
 	}
-}
-*/
+} 

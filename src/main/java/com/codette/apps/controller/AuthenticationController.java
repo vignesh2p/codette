@@ -21,7 +21,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 @Controller
-@RequestMapping("/password")
+@RequestMapping("/authentication")
 public class AuthenticationController extends CommonBaseController{
 	
 	final static Logger logger = Logger.getLogger(AuthenticationController.class);
@@ -31,12 +31,12 @@ public class AuthenticationController extends CommonBaseController{
 	@Resource
 	private AuthenticationService authenticationService;
 
-    @RequestMapping(value = "/authentication/{userName}/{userSecret}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/login",
+    		method = RequestMethod.POST,
+    		produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public Object authentication(@PathVariable (value = "userName") String userName,
-    		@PathVariable (value = "userSecret") String userSecret,
-    		HttpServletRequest request) throws Exception {
-        Object object = authenticationService.authentication(userName,userSecret);
+    public Object authentication(@RequestBody UserAuthenticationDTO userAuthenticationDTO) throws Exception {
+        Object object = authenticationService.authentication(userAuthenticationDTO);
         return object;
     }
     
