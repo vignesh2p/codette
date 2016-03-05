@@ -1,18 +1,25 @@
 package com.codette.apps.controller;
 
+import java.io.IOException;
+import java.text.ParseException;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.codette.apps.frontend.model.ResponseMessage;
 import com.codette.apps.service.CommonService;
 import com.codette.apps.util.CommonConstants;
+import com.codette.apps.util.FiedValidationException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -21,6 +28,10 @@ import com.google.gson.GsonBuilder;
 public class CommonBaseController {
 	@Autowired
 	HttpServletRequest request ;
+	
+	@Autowired
+	HttpServletResponse response;
+	
 	final static Logger logger = Logger.getLogger(CommonBaseController.class);
 	public static final Gson gson = new GsonBuilder().setDateFormat(CommonConstants.ISO_DATE_FORMAT).create();
 	@Resource
@@ -105,4 +116,35 @@ public class CommonBaseController {
 		}
 		return null;
 	}
+	
+	/**
+	 * Setting custom exception
+	 * @param ex
+	 * @param message
+	 * @return
+	 * @throws IOException
+	 */
+	public ResponseEntity<?> setCustomExceptionHandler(Exception ex) throws Exception {
+		ResponseMessage responseMessage = new ResponseMessage();
+		if(ex instanceof FiedValidationException){
+			responseMessage.setMessage(((FiedValidationException)ex).getMessage());
+			responseMessage.setStatus(String.valueOf(HttpStatus.UNAUTHORIZED));
+			return new ResponseEntity<ResponseMessage>(responseMessage, HttpStatus.UNAUTHORIZED);
+		} else {
+			if(ex instanceof ParseException) {
+				responseMessage.setStatus(String.valueOf(HttpServletResponse.SC_CONFLICT));
+				responseMessage.setMessage(ex.getMessage());
+				return new ResponseEntity<ResponseMessage>(responseMessage, HttpStatus.CONFLICT);
+			} else if(ex instanceof IOException) {
+				responseMessage.setStatus(String.valueOf(HttpServletResponse.SC_CONFLICT));
+				responseMessage.setMessage(ex.getMessage());
+				return new ResponseEntity<ResponseMessage>(responseMessage, HttpStatus.INTERNAL_SERVER_ERROR);
+			} else {
+				responseMessage.setStatus(String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR));
+				responseMessage.setMessage(ex.getMessage());
+				return new ResponseEntity<ResponseMessage>(responseMessage, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+		}
+	}
+	
 }

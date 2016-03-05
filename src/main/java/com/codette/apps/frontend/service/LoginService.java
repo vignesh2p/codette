@@ -49,19 +49,23 @@ public class LoginService extends BaseService{
 		UserDTO userDTO = new UserDTO();
 		UserAuthenticationDTO userAuthenticationDTO = loginTranslator.translateToUserAuthenticationDTO(userName, secret);
 		String postString = gson.toJson(userAuthenticationDTO);
-
+		ResponseEntity<Object> response = null;
 		try {
 			HttpEntity<String> entity = preparePost(postString, session);
-			ResponseEntity<Object> response = restTemplate.exchange(getAPIBaseURL()+"/authentication/login", 
+			 response = restTemplate.exchange(getAPIBaseURL()+"/authentication/login", 
 							HttpMethod.POST, entity, Object.class);
 
+			System.out.println("response.getBody()-----"+gson.toJson(response.getBody()));
 			userDTO = loginTranslator.convertToUserDTO(response.getBody());
 			user = userTranslator.translateToUser(userDTO, locale);
 		}catch (IOException e) {
+			System.out.println("iiiiiiiiiiiit");
 			throw e;
 		}catch (JsonSyntaxException e) {
 			throw e;
 		} catch (HttpClientErrorException e) {
+			System.out.println("httttttttttttt");
+			System.out.println("e-----"+((HttpClientErrorException)e).getResponseBodyAsString());
 			throw e;
 		}    
 		return user;

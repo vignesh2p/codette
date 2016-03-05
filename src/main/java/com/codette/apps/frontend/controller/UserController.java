@@ -47,7 +47,7 @@ public class UserController extends BaseController{
 				userList = userService.getUsersList(CommonConstants.ROLE_NT_STAFF,session,locale);
 		}catch(Exception ex){
 			ex.printStackTrace();
-			return new ResponseEntity<>(setCustomExceptionHandler(ex, MessageUtils.getMessage("error.getting.users")),HttpStatus.INTERNAL_SERVER_ERROR);
+//			return new ResponseEntity<>(setCustomExceptionHandler(ex, MessageUtils.getMessage("error.getting.users")),HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		return new ResponseEntity<List<User>>(userList, HttpStatus.OK);
 	}
@@ -59,7 +59,7 @@ public class UserController extends BaseController{
 				userList = userService.getUsersList(CommonConstants.ROLE_T_STAFF,session,locale);
 		}catch(Exception ex){
 			ex.printStackTrace();
-			return new ResponseEntity<>(setCustomExceptionHandler(ex, MessageUtils.getMessage("error.getting.users")),HttpStatus.INTERNAL_SERVER_ERROR);
+	//		return new ResponseEntity<>(setCustomExceptionHandler(ex, MessageUtils.getMessage("error.getting.users")),HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		return new ResponseEntity<List<User>>(userList, HttpStatus.OK);
 	}

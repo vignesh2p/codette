@@ -13,9 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -47,20 +49,21 @@ public class BaseController {
 	 * @return
 	 * @throws IOException
 	 */
-	public ResponseMessage setCustomExceptionHandler(Exception ex, String message) throws IOException {
+	public ResponseEntity<?> setCustomExceptionHandler(Exception ex) throws IOException {
 		ResponseMessage responseMessage = new ResponseMessage();
 		if(ex instanceof HttpClientErrorException){
-			if(((HttpClientErrorException)ex).getStatusCode() == HttpStatus.CONFLICT){ 				
-				responseMessage.setStatus(String.valueOf(HttpServletResponse.SC_CONFLICT)); 		
-				responseMessage.setMessage(message); 		
+			if(((HttpClientErrorException)ex).getStatusCode() == HttpStatus.UNAUTHORIZED){ 
+				System.out.println("----0---------"+((HttpClientErrorException)ex).getResponseBodyAsString());
+				responseMessage.setStatus(String.valueOf(HttpStatus.UNAUTHORIZED)); 		
+				responseMessage.setMessage(((HttpClientErrorException)ex).getMessage()); 		
 			}else if(((HttpClientErrorException)ex).getStatusCode() == HttpStatus.NOT_FOUND){ 				
 				responseMessage.setStatus(String.valueOf(HttpServletResponse.SC_NOT_FOUND)); 	
-				responseMessage.setMessage(message);
 			}else if(((HttpClientErrorException)ex).getStatusCode() == HttpStatus.UNAUTHORIZED ){ 				
 				responseMessage.setStatus(String.valueOf(HttpServletResponse.SC_UNAUTHORIZED)); 
-				responseMessage.setMessage(message);
 			} 	
-		} else {
+		}	
+		
+		else {
 			if(ex instanceof ParseException) {
 				responseMessage.setStatus(String.valueOf(HttpServletResponse.SC_CONFLICT));
 				responseMessage.setMessage(ex.getMessage());
@@ -69,7 +72,7 @@ public class BaseController {
 				responseMessage.setMessage(ex.getMessage());
 			}
 		}
-	 return responseMessage;
+	 return new ResponseEntity<ResponseMessage>(responseMessage, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	/**

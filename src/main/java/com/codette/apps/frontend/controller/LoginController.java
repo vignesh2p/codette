@@ -68,7 +68,7 @@ public class LoginController extends BaseController{
 					
 			}catch(Exception exception){
 				exception.printStackTrace();
-				return new ResponseEntity<>(setCustomExceptionHandler(exception, MessageUtils.getMessage("error.invalid.login")), HttpStatus.INTERNAL_SERVER_ERROR);
+				return setCustomExceptionHandler(exception);
 			}
 		 return new ResponseEntity<User>(user,HttpStatus.OK);
 	}
@@ -79,7 +79,7 @@ public class LoginController extends BaseController{
 		try{ 
 			roles = baseController.getRoleBasedPermission(session);
 		}catch(Exception exception){
-			return new ResponseEntity<>(setCustomExceptionHandler(exception, MessageUtils.getMessage("error.invalid.login")), HttpStatus.INTERNAL_SERVER_ERROR);
+		//	return new ResponseEntity<>(setCustomExceptionHandler(exception, MessageUtils.getMessage("error.invalid.login")), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		return new ResponseEntity<Roles>(roles,HttpStatus.OK);
 	}

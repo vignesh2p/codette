@@ -1,14 +1,17 @@
 package com.codette.apps.dao.impl;
 
+import java.io.IOException;
+
 import javax.annotation.Resource;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 
 import com.codette.apps.dao.AuthenticationDAO;
 import com.codette.apps.dto.UserAuthenticationDTO;
-import com.codette.apps.dto.UserDTO;
 import com.codette.apps.mapper.SessionMapper;
 import com.codette.apps.util.CommonUtil;
+import com.codette.apps.util.FiedValidationException;
 
 public class AuthenticationDAOImpl extends NamedParameterJdbcDaoSupport implements AuthenticationDAO{
 	
@@ -16,7 +19,7 @@ public class AuthenticationDAOImpl extends NamedParameterJdbcDaoSupport implemen
 	private CommonUtil commonUtil;
 
 	@Override
-	public Object authentication(UserAuthenticationDTO userAuthenticationDTO)  {
+	public Object authentication(UserAuthenticationDTO userAuthenticationDTO) throws Exception  {
      Object object = null;
 		try {
             if (userAuthenticationDTO != null) {
@@ -32,10 +35,11 @@ public class AuthenticationDAOImpl extends NamedParameterJdbcDaoSupport implemen
             			new SessionMapper());           	
                 }
             }
-        } catch (Exception ex) {
-            logger.error("Exception in authentication -- " + ex);
-           
         }
+		catch(EmptyResultDataAccessException ex){
+			logger.error("Error in authentication -- " + ex.getMessage());
+        	throw new FiedValidationException("Invalid Username / Password");
+        } 
 		return object;
 		
 }

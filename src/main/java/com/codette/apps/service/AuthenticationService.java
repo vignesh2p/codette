@@ -20,7 +20,7 @@ public class AuthenticationService {
 	private AuthenticationDAO authenticationDAO;
 	
 
-	public Object authentication(UserAuthenticationDTO userAuthenticationDTO) {
+	public Object authentication(UserAuthenticationDTO userAuthenticationDTO) throws Exception {
 		return authenticationDAO.authentication(userAuthenticationDTO);
 	}
 

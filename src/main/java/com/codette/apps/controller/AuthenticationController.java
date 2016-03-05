@@ -36,7 +36,12 @@ public class AuthenticationController extends CommonBaseController{
     		produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Object authentication(@RequestBody UserAuthenticationDTO userAuthenticationDTO) throws Exception {
-        Object object = authenticationService.authentication(userAuthenticationDTO);
+    	Object object = null;
+    	try {
+    	  object = authenticationService.authentication(userAuthenticationDTO);
+    	} catch (Exception ex) {
+    		return setCustomExceptionHandler(ex);
+    	}
         return object;
     }
     
