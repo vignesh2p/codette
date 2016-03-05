@@ -9,11 +9,11 @@
             abstract: true,
             views: {
                 'left': {
-                    templateUrl: '/scripts/app/components/navbar/navbar.html',
+                    templateUrl: 'scripts/app/components/navbar/navbar.html',
                     controller: 'mainCtrl'
                 },
                 'right': {
-                    templateUrl: '/scripts/app/base-layout/view/main.html',
+                    templateUrl: 'scripts/app/base-layout/view/main.html',
                     controller: 'mainCtrl'
                 }
             },
@@ -29,7 +29,7 @@
                 url: '/',
                 views: {
                     'right': {
-                        templateUrl: '/scripts/app/login/view/login.html',
+                        templateUrl: 'scripts/app/login/view/login.html',
                         controller: 'loginController' 
                     }
                 },
@@ -41,7 +41,7 @@
             url: '/login',
             views: {
                 'right': {
-                    templateUrl: '/scripts/app/login/view/login.html',
+                    templateUrl: 'scripts/app/login/view/login.html',
                     controller: 'loginController' 
                 }
             },
@@ -53,7 +53,7 @@
                 url: '/logout',
                 views: {
                     'right': {
-                        templateUrl: '/scripts/app/login/view/login.html',
+                        templateUrl: 'scripts/app/login/view/login.html',
                         controller: 'loginController'
                     }
                 },
@@ -65,7 +65,7 @@
                 url: '/forgotPassword',
                 views: {
                     'right': {
-                        templateUrl: '/scripts/app/login/view/forgotPassword.html',
+                        templateUrl: 'scripts/app/login/view/forgotPassword.html',
                         controller: 'loginController'
                     }
                 },
@@ -77,7 +77,7 @@
                 url: '/checkEmail',
                 views: {
                     'right': {
-                        templateUrl: '/scripts/app/login/view/checkEmail.html',
+                        templateUrl: 'scripts/app/login/view/checkEmail.html',
                         controller: 'loginController'
                     }
                 },
@@ -89,7 +89,7 @@
                 url: '/resetPassword',
                 views: {
                     'right': {
-                        templateUrl: '/scripts/app/login/view/resetPassword.html',
+                        templateUrl: 'scripts/app/login/view/resetPassword.html',
                         controller: 'loginController'
                     }
                 },
@@ -101,7 +101,7 @@
                 url: '/sessionTimeout',
                 views: {
                     'right': {
-                        templateUrl: '/scripts/app/login/base-layout/view/sessionTimeout.html',
+                        templateUrl: 'scripts/app/login/base-layout/view/sessionTimeout.html',
                         controller: 'mainCtrl'
                     }
                 },
@@ -115,7 +115,7 @@
             parent: 'home',
             views: {
                 'viewPage': {
-                    templateUrl: '/scripts/app/dashboard/view/dashboard.html',
+                    templateUrl: 'scripts/app/dashboard/view/dashboard.html',
                     controller: 'dashboardCtrl',
                    
                 }
@@ -126,7 +126,7 @@
             parent: 'home',
             views: {
                 'viewPage': {
-                    templateUrl: '/scripts/app/worker/view/t-staff.html',
+                    templateUrl: 'scripts/app/worker/view/t-staff.html',
                     controller: 'workerController',
                    
                 }
@@ -137,7 +137,7 @@
             parent: 'home',
             views: {
                 'viewPage': {
-                    templateUrl: '/scripts/app/ntStaff/view/ntStaffs.html',
+                    templateUrl: 'scripts/app/ntStaff/view/ntStaffs.html',
                     controller: 'ntStaffController',
                    
                 }
@@ -149,7 +149,7 @@
             parent: 'home',
             views: {
                 'viewPage': {
-                    templateUrl: '/scripts/app/attendence/view/attendence.html',
+                    templateUrl: 'scripts/app/attendence/view/attendence.html',
                     controller: 'attendenceController',
                    
                 }
@@ -161,7 +161,7 @@
         parent:'home',
         views:{
         	'viewPage': {
-        		templateUrl :'/scripts/app/profile/view/profile.html',
+        		templateUrl :'scripts/app/profile/view/profile.html',
         		controller:'profileController'
         	}
         }
@@ -172,7 +172,7 @@
         parent:'home',
         views:{
         	'viewPage': {
-        		templateUrl :'/scripts/app/lms/view/lms.html',
+        		templateUrl :'scripts/app/lms/view/lms.html',
         		controller:'lmsController'
         	}
         }
@@ -183,7 +183,7 @@
         parent:'home',
         views:{
         	'viewPage': {
-        		templateUrl :'/scripts/app/fms/view/fms.html',
+        		templateUrl :'scripts/app/fms/view/fms.html',
         		controller:'fmsController'
         	}
         }
@@ -194,7 +194,7 @@
         parent:'home',
         views:{
         	'viewPage': {
-        		templateUrl :'/scripts/app/exam/view/exam.html',
+        		templateUrl :'scripts/app/exam/view/exam.html',
         		controller:'examController'
         	}
         }
@@ -204,7 +204,7 @@
             parent: 'home',
             views: {
                 'viewPage': {
-                    templateUrl: '/scripts/app/logs/view/noticeBoard.html',
+                    templateUrl: 'scripts/app/logs/view/noticeBoard.html',
                     controller: 'noticeBoardController',
                    
                 }
