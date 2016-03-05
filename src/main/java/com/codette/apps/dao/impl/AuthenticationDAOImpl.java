@@ -17,8 +17,8 @@ public class AuthenticationDAOImpl extends NamedParameterJdbcDaoSupport implemen
 
 	@Override
 	public Object authentication(UserAuthenticationDTO userAuthenticationDTO)  {
-    	UserDTO user = new UserDTO();
-        try {
+     Object object = null;
+		try {
             if (userAuthenticationDTO != null) {
                
                 Object[] inputs = new Object[] {userAuthenticationDTO.getUserName(),
@@ -28,7 +28,7 @@ public class AuthenticationDAOImpl extends NamedParameterJdbcDaoSupport implemen
                 if (staffId!=null) {
                  
                      Object[] input = new Object[] {staffId};
-               	       user = getJdbcTemplate().queryForObject(getSessionparams(), input, 
+               	       object = getJdbcTemplate().queryForObject(getSessionparams(), input, 
             			new SessionMapper());           	
                 }
             }
@@ -36,7 +36,7 @@ public class AuthenticationDAOImpl extends NamedParameterJdbcDaoSupport implemen
             logger.error("Exception in authentication -- " + ex);
            
         }
-		return user;
+		return object;
 		
 }
 
@@ -111,7 +111,7 @@ public class AuthenticationDAOImpl extends NamedParameterJdbcDaoSupport implemen
 
 	private String getSessionparams() {
 		String sessionParams = "SELECT A.ID_ORGANIZATION,O.NICK_NAME,O.ORGANIZATION_NAME,A.ID,A.FIRST_NAME,A.ID_ROLE,A.LAST_NAME, "
-         		+ " R.ROLE,A.ID_GENDER,G.ID,G.GENDER,A.EMAIL_ADDRESS,D.ID,A.ID_DESIGNATION "
+         		+ " R.ROLE,A.ID_GENDER,G.ID,G.GENDER,A.EMAIL_ADDRESS,D.ID,A.ID_DESIGNATION,D.DESIGNATION "
          		+ " FROM USER A "
          		+ " LEFT OUTER JOIN ORGANIZATION O ON A.ID_ORGANIZATION = O.ID"
          		+ " LEFT OUTER JOIN ROLE R ON A.ID_ROLE = R.ID "
