@@ -14,4 +14,6 @@ public interface ExamMarkDAO {
 
 	public Object deleteExam(Integer examId, Integer orgId, Integer accessId);
 
+	public Object getExams(Integer orgId, Integer accessId, String role);
+
 }

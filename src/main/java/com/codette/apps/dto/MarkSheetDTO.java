@@ -1,17 +1,22 @@
 package com.codette.apps.dto;
 
+import java.util.List;
+
 public class MarkSheetDTO extends BaseDTO {
 
-	private Integer idExam;
-	private ClassesDTO classRoom;
+    private ExamDTO exam;
+    private ClassesDTO classRoom;
 	private SubjectDTO subject;
-	
+	private List<MarksDTO> marks;
 
-	public Integer getIdExam() {
-		return idExam;
+	
+	
+	
+	public ExamDTO getExam() {
+		return exam;
 	}
-	public void setIdExam(Integer idExam) {
-		this.idExam = idExam;
+	public void setExam(ExamDTO exam) {
+		this.exam = exam;
 	}
 	public ClassesDTO getClassRoom() {
 		return classRoom;
@@ -24,6 +29,12 @@ public class MarkSheetDTO extends BaseDTO {
 	}
 	public void setSubject(SubjectDTO subject) {
 		this.subject = subject;
+	}
+	public List<MarksDTO> getMarks() {
+		return marks;
+	}
+	public void setMarks(List<MarksDTO> marks) {
+		this.marks = marks;
 	}
 	
 	

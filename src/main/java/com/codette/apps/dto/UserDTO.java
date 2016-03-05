@@ -55,6 +55,8 @@ public class UserDTO extends BaseDTO {
    
     private List<PhoneNumberDTO> phoneNumbers;
 
+    private AttendenceDTO attendance;
+    
 	public RoleDTO getRole() {
 		return role;
 	}
@@ -246,6 +248,14 @@ public class UserDTO extends BaseDTO {
 
 	public void setOrganizationDTO(OrganizationDTO organizationDTO) {
 		this.organizationDTO = organizationDTO;
+	}
+
+	public AttendenceDTO getAttendance() {
+		return attendance;
+	}
+
+	public void setAttendance(AttendenceDTO attendance) {
+		this.attendance = attendance;
 	}
 
 

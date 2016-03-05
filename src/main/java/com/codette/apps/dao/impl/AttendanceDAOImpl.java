@@ -35,14 +35,17 @@ public class AttendanceDAOImpl extends NamedParameterJdbcDaoSupport  implements 
 		
 		Object object = null;
 		
-		object = getJdbcTemplate().query(getStudentList(orgId,userId),attendenceExtractor.getAttendenceList());
+		Integer classId = getClassForStaff( orgId, userId);
+		List<UserDTO> studentsList = getJdbcTemplate().query(getStudentList(orgId,classId),attendenceExtractor.getStudentList());
 		
+		object = getJdbcTemplate().query(getClassForAttendance(orgId,classId),attendenceExtractor.getClassAttendance(studentsList));
 	return object;
 		
 	}
 
 
 
+	
 	@Override
 	public Object updateAttendance(Integer orgId, List<Integer> userIds,
 			Integer accessId) {
@@ -101,13 +104,20 @@ public class AttendanceDAOImpl extends NamedParameterJdbcDaoSupport  implements 
 	
 	
 
-	private String getStudentList(Integer orgId, Integer userId) {
-		String GET_STUDENTS = "SELECT ATD.IS_ABSENT,ATD.ID_USER,A.FIRST_NAME , A.LAST_NAME,A.DATE_OF_BIRTH ,A.EMAIL_ADDRESS, CLS.IS_ATTENDANCE_ENABLE "
-				+ " FROM ATTENDENCE ATD " 
-				+ " LEFT OUTER JOIN USER A ON A.ID = ATD.ID_USER AND A.ID_ORGANIZATION = "+orgId
-				+ " LEFT OUTER JOIN CLASSES CLS ON A.ID_CLASS = CLS.ID AND CLS.ID_ORGANIZATION = "+orgId
-				+ " WHERE A.IS_DELETED = 0 AND A.ID_CLASS = "+getClassForStaff( orgId, userId)+" AND ATD.ID_ORGANIZATION = "+orgId
+	private String getStudentList(Integer orgId, Integer classId) {
+		String GET_STUDENTS = "SELECT ATD.ID_USER,A.FIRST_NAME,A.LAST_NAME,A.EMAIL_ADDRESS,A.DATE_OF_BIRTH,ATD.IS_ABSENT "
+				+ " FROM USER A "
+				+ " LEFT OUTER JOIN ATTENDENCE ATD ON A.ID = ATD.ID_USER AND ATD.ID_ORGANIZATION = "+orgId
+				+ " WHERE A.IS_DELETED = 0 AND A.ID_CLASS = "+classId+" AND A.ID_ORGANIZATION = "+orgId
 				+ " ORDER BY A.FIRST_NAME ASC";
 		return GET_STUDENTS;	
 	}
+	
+	private String getClassForAttendance(Integer orgId,Integer classId) {
+		String CLASS_LIST = "SELECT IS_ATTENDANCE_ENABLE FROM `classes` "
+				+ " WHERE IS_DELETED = 0 AND ID = "+classId+" AND ID_ORGANIZATION = "+orgId;
+		return CLASS_LIST;
+		
+	}
+
 }

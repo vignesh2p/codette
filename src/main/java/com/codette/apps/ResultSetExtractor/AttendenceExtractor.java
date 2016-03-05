@@ -10,56 +10,56 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Component;
 
 import com.codette.apps.dto.AttendenceDTO;
+import com.codette.apps.dto.UserDTO;
 import com.codette.apps.dto.ClassesDTO;
 import com.codette.apps.dto.SectionDTO;
 import com.codette.apps.dto.StandardDTO;
 import com.codette.apps.dto.UserDTO;
+import com.codette.apps.frontend.model.Student;
 
 
 @Component
 public class AttendenceExtractor {
 
-	public ResultSetExtractor<List<AttendenceDTO>> getAttendenceList() {
-		return new ResultSetExtractor<List<AttendenceDTO>>(){
+	public ResultSetExtractor<List<UserDTO>> getStudentList() {
+		return new ResultSetExtractor<List<UserDTO>>(){
 
-			public List<AttendenceDTO> extractData(ResultSet rs) throws SQLException,
+			public List<UserDTO> extractData(ResultSet rs) throws SQLException,
 					DataAccessException {
 
-				List<AttendenceDTO> attendences = new ArrayList<AttendenceDTO>(); 
-				AttendenceDTO attencence = null;
+				List<UserDTO> students = new ArrayList<UserDTO>(); 
 				UserDTO student = null;
-	            ClassesDTO classRoom = null;
+				AttendenceDTO attendance = null;
 				while(rs.next()){		
-					
-				    attencence = new AttendenceDTO();
-					attencence.setIsAbsent(rs.getInt("IS_ABSENT"));
 					    student = new UserDTO();
 						student.setId(rs.getInt("ID_USER")); 
 						student.setFirstName(rs.getString("FIRST_NAME"));
 						student.setLastName(rs.getString("LAST_NAME"));
 						student.setDateOfBirth(rs.getString("DATE_OF_BIRTH").toString());
 						student.setEmailAddresses(rs.getString("EMAIL_ADDRESS"));
-						
-			                classRoom = new ClassesDTO();	
+						 attendance = new AttendenceDTO();
+						 attendance.setIsAbsent(rs.getInt("IS_ABSENT"));
+					    student.setAttendance(attendance);
+					students.add(student);
+			    }
+			     return students;
+			}
+		};
+	}
+
+	public ResultSetExtractor<ClassesDTO> getClassAttendance( final List<UserDTO> students) {
+		return new ResultSetExtractor<ClassesDTO>(){
+
+			public ClassesDTO extractData(ResultSet rs) throws SQLException,
+					DataAccessException {
+				
+				   ClassesDTO classRoom = new ClassesDTO();	
+				if(rs.next()){		
 							classRoom.setIsAttendanceEnable(rs.getInt("IS_ATTENDANCE_ENABLE"));
 							
-							/*	StandardDTO standard = new StandardDTO();
-								standard.setId(rs.getInt("ID_STANDARD"));
-								standard.setStandard(rs.getString("STANDARD"));
-								classRoom.setStandard(standard);
-								
-								SectionDTO section = new SectionDTO();
-								section.setId(rs.getInt("ID_SECTION"));
-								section.setSection(rs.getString("SECTION"));
-								classRoom.setSection(section);*/
-					
-						student.setClassRoom(classRoom);
-				     
-		     
-					attencence.setUser(student); 
-					attendences.add(attencence);
+							classRoom.setUsers(students);
 			    }
-			     return attendences;
+			     return classRoom;
 			}
 		};
 	}

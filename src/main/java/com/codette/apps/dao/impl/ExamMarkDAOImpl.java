@@ -15,6 +15,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import com.codette.apps.dao.ExamMarkDAO;
 import com.codette.apps.dto.ClassesDTO;
 import com.codette.apps.dto.ExamDTO;
+import com.codette.apps.dto.ResponseBean;
 import com.codette.apps.dto.StandardDTO;
 import com.codette.apps.service.CommonService;
 import com.codette.apps.util.CommonConstants;
@@ -35,6 +36,8 @@ public class ExamMarkDAOImpl extends NamedParameterJdbcDaoSupport implements Exa
 	@Override
 	public Object createExam(ExamDTO exam, Integer orgId,Integer accessId,String role) {
 	
+		ResponseBean responseBean = new ResponseBean();
+
 		  SqlParameterSource sps = null;
 		  KeyHolder keyHolder = new GeneratedKeyHolder();
 		  Integer exam_id = null;
@@ -66,21 +69,24 @@ public class ExamMarkDAOImpl extends NamedParameterJdbcDaoSupport implements Exa
 			  }
 		  }
 			
-		return "success";
+		return responseBean;
 	}
 	
-	private String getStudentsOfClass(Integer id) {
-             String query = "SELECT `ID` FROM `user` WHERE `ID_CLASS` = "+id;		
-             return query;
+	
+	@Override
+	public Object getExams(Integer orgId, Integer accessId, String role) {
+		
+		Object object =  null;
+		//object = getJdbcTemplate().query(getExamList(role),examMarkExtractor);
+		return null;
 	}
 
-	private String getMarkSheet(Object[] values) {
-		// TODO Auto-generated method stub
-		String query = "INSERT INTO `mark_sheet`(  `ID_ORGANIZATION`, `ID_EXAM`, `ID_CLASS`, `ID_SUBJECT`, `IS_DELETED`, `CREATED_ON`, `CREATED_BY`)"
-				+ " VALUES ("+values[0]+","+values[1]+","+values[2]+","+values[3]+","+values[4]+",NOW(),"+values[5]+")";
+
+	private String getExamList(String role) {
+		String query = "";
 		return query;
-		
 	}
+
 
 	@Override
 	public Object getMarkSheet(Integer orgId, Integer userId,
@@ -95,17 +101,20 @@ public class ExamMarkDAOImpl extends NamedParameterJdbcDaoSupport implements Exa
 
 	@Override
 	public Object deleteExam(Integer examId, Integer orgId, Integer accessId) {
+		ResponseBean responseBean = new ResponseBean();
 		String DELETE_EXAM = "UPDATE `exam` SET `IS_DELETED`= ? ,`UPDATED_ON`= NOW(),`UPDATED_BY`= ? WHERE `ID` = ? AND `ID_ORGANIZATION`= ? ";
 		String DELETE_MARKSHEET = " UPDATE `mark_sheet` SET `IS_DELETED` = ? ,`UPDATED_ON`=NOW(),`UPDATED_BY`=? WHERE `ID_EXAM`= ? AND `ID_ORGANIZATION`= ? ";
 		Object[] inputs = new Object[]{0,accessId,examId,orgId};
 	    getJdbcTemplate().update(DELETE_EXAM,inputs);
 	    getJdbcTemplate().update(DELETE_MARKSHEET,inputs);
-		return null;
+		
+		return responseBean;
 	}
 
 	
 	
-	
+
+
 	
 	
 	
@@ -137,5 +146,18 @@ public class ExamMarkDAOImpl extends NamedParameterJdbcDaoSupport implements Exa
 				+ "VALUES ( "+orgId+",'"+exam+"',0,NOW(),"+accessId+")";
 	}
 
+	private String getStudentsOfClass(Integer id) {
+        String query = "SELECT `ID` FROM `user` WHERE `ID_CLASS` = "+id;		
+        return query;
+	}
+	
+	private String getMarkSheet(Object[] values) {
+		// TODO Auto-generated method stub
+		String query = "INSERT INTO `mark_sheet`(  `ID_ORGANIZATION`, `ID_EXAM`, `ID_CLASS`, `ID_SUBJECT`, `IS_DELETED`, `CREATED_ON`, `CREATED_BY`)"
+				+ " VALUES ("+values[0]+","+values[1]+","+values[2]+","+values[3]+","+values[4]+",NOW(),"+values[5]+")";
+		return query;
+		
+	}
+	
 	
 }

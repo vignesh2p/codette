@@ -40,5 +40,10 @@ public class ExamMarkService {
 		return  examMarkDAO.deleteExam(examId, orgId, accessId);
 	}
 
+	public Object getExams(Integer orgId, Integer accessId, String role) {
+		// TODO Auto-generated method stub
+		return  examMarkDAO.getExams(orgId, accessId, role);
+	}
+
 
 }
