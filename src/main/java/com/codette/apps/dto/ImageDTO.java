@@ -4,16 +4,18 @@ import java.sql.Blob;
 
 public class ImageDTO extends BaseDTO{
 
-	private String caption;
+	private String name;
 	
 	private Blob image;
 
-	public String getCaption() {
-		return caption;
+	
+
+	public String getName() {
+		return name;
 	}
 
-	public void setCaption(String caption) {
-		this.caption = caption;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public Blob getImage() {
