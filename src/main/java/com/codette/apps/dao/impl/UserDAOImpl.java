@@ -188,7 +188,7 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 		if(includeDetails){
 	       object = getJdbcTemplate().query(getDetailListOfUser(orgId,classId,search,commonService.getId(role, CommonConstants.ROLE)),  userExtractor.setUserListDetails(null, null));
 		}else{
-	      object = getJdbcTemplate().query(getListOfUser(orgId,classId,search,commonService.getId(role, CommonConstants.ROLE)), userExtractor.setUserListDetails(null, null));
+	      object = getJdbcTemplate().query(getListOfUser(orgId,classId,search,commonService.getId(role, CommonConstants.ROLE)), userExtractor.setUserList(null, null));
 		}	           
 	  return object;
 }
@@ -387,7 +387,13 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 		 		+ " `QUALIFICATION`, "
 		 		+ "`ID_GENDER`, "
 		 		+ "`ID_YEAR`, "
-		 		+ "`FATHER_NAME`, `MOTHER_NAME`, `AGE`, `ID_IMAGE`, `ID_RELIGION`, `ID_BLOOD_GROUP`, `ID_COMMUNITY`, `IS_DELETED`, `CREATED_ON`, `CREATED_BY` FROM user ";
+		 		+ "`FATHER_NAME`, "
+		 		+ "`MOTHER_NAME`, "
+		 		+ "`AGE`, "
+		 		+ "`ID_IMAGE`, "
+		 		+ "`ID_RELIGION`, "
+		 		+ "`ID_BLOOD_GROUP`,"
+		 		+ " `ID_COMMUNITY`, `IS_DELETED`, `CREATED_ON`, `CREATED_BY` FROM user ";
 		 if(idRole != null){
 				GET_USERS = GET_USERS+ "WHERE ID_ROLE = "+idRole+ " AND ID_ORGANIZATION = "+orgId;
 			if(classId != null){
