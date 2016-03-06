@@ -1,5 +1,5 @@
 var vApp = angular
-    .module('school-management', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngResource', 'ngRoute', 'ngMaterial','pascalprecht.translate', 'lumx', 'treasure-overlay-spinner', 'ngFileUpload','ui.bootstrap','textAngular','ngMdIcons','ui.router','mgcrea.jquery','datePicker','angular-datepicker','angular-ladda'])
+    .module('school-management', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngResource', 'ngRoute', 'ngMaterial','pascalprecht.translate', 'lumx', 'treasure-overlay-spinner', 'ngFileUpload','ui.bootstrap','textAngular','ngMdIcons','ui.router','mgcrea.jquery','datePicker','angular-datepicker','angular-ladda','ngImgCrop'])
 
 vApp.directive('resize', function ($window) {
 return function (scope, element) {

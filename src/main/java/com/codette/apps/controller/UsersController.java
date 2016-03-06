@@ -53,7 +53,7 @@ public class UsersController extends CommonBaseController {
 			if(orgId!= null && orgId != 0){
 				return usersService.getUsers(orgId, role, classId,includeDetails,search);
 			}
-			return usersService.getUsers(getOrganizationId(), role, classId,includeDetails,search);
+			return usersService.getUsers(getOrganizationId(), role, classId, includeDetails,search);
 	}
 	
 	

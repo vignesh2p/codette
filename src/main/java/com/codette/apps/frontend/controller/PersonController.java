@@ -21,10 +21,7 @@ import com.codette.apps.frontend.service.PersonService;
 import com.codette.apps.util.CommonConstants;
 import com.codette.apps.util.MessageUtils;
 
-/**
- * @author Vignesh
- *
- */
+
 @Controller
 @RequestMapping("/person")
 public class PersonController extends BaseController{

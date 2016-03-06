@@ -51,7 +51,7 @@ public class UsersService {
 		}
 
 	public Object getUsers(Integer orgId, String role, Integer classId, boolean includeDetails,String search) {
-		return userDAO.getUsers(orgId, role,classId, includeDetails, search);
+		return userDAO.getUsers(orgId, role, classId, includeDetails, search);
 	}
 
 

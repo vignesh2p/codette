@@ -10,13 +10,13 @@
                 					{{ $choice.value }}
             					 </lx-select-choices>
         		</lx-select>
-		       <!--  <md-input-container style="  margin-top: 69px;" >
-		        		 <label>Designation</label>
-		          		<input ng-model="nonTchngStaff.designation">
-		        </md-input-container> -->
 	        </div> 
-	        <div  flex="40">
-			 	<img layout-margin layout-padding src="/assets/images/profile.jpg" alt="" class="circle aligncenter" style="width:150px;height:150px">
+	        <div  flex="40" ng-init ="cropImage = false">
+			 	<img layout-margin layout-padding src="/assets/images/profile.jpg" alt="" class="circle aligncenter" style="width:150px;height:150px" ng-hide="cropImage" ng-click="cropImage = true">
+				<div ng-show="cropImage">Select an image file: <input type="file" ng-model="photo" id="fileInput" accept="image/*" onchange="handleFileSelect(this)" /></div>
+				<div ng-show="cropImage"  style="width:150px;height:150px">
+				    <img-crop class="cropArea" image="myImage" result-image="myCroppedImage"></img-crop>
+				</div>
 			 </div>
 			 <div layout-fill layout-margin flex="20" class="frt">
         	</div>

@@ -50,7 +50,7 @@ public class UserService  extends BaseService {
 			HttpEntity<String> requestEntity = prepareGet(session); 
 			ResponseEntity<Object> response =
 							restTemplate.exchange(getAPIBaseURL()
-							+ CommonConstants.USERS_BASE_URL + CommonConstants.USERS_BASE_URL +"/"+role,
+							+ CommonConstants.USERS_BASE_URL +"/"+role  +"/list",
 							HttpMethod.GET, requestEntity, Object.class);
 
 			userDTOList = userTranslator.translateToUserDTOList(response.getBody());

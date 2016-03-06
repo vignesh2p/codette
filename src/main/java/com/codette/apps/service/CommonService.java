@@ -74,8 +74,7 @@ public class CommonService {
   public Integer getAcademicYearId(){
 	  Calendar cal = Calendar.getInstance();
 	  Date date = cal.getTime();
-	   Integer idYear = (Integer) commonDAO.getAcademinYearId(date,getOrganizationId());
-	   System.out.println("year >>>>>>>>>>>  "+ idYear);
+	  Integer idYear = (Integer) commonDAO.getAcademinYearId(date,getOrganizationId());
 	return idYear;
   }
 	
@@ -258,8 +257,8 @@ public class CommonService {
         }
 
         private Integer getOrganizationId() {
-    		if(request.getHeader(CommonConstants.SESSION_ORG_ID) != null){
-    			return Integer.valueOf(request.getHeader(CommonConstants.SESSION_ORG_ID));
+    		if(request.getHeader(CommonConstants.XORG_ID) != null){
+    			return Integer.valueOf(request.getHeader(CommonConstants.XORG_ID));
     		}
     		return null;
     	}

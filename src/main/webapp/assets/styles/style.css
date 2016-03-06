@@ -386,5 +386,10 @@ color :#3F51B5 !important;
 .logoutpop:hover{
 	background-color:#00a2d3 !important;
 	color: white !important; 
-
 }
+.cropArea {
+      background: #E4E4E4;
+      overflow: hidden;
+      width:500px;
+      height:350px;
+  }

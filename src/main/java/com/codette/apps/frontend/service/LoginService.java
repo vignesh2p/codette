@@ -59,13 +59,10 @@ public class LoginService extends BaseService{
 			userDTO = loginTranslator.convertToUserDTO(response.getBody());
 			user = userTranslator.translateToUser(userDTO, locale);
 		}catch (IOException e) {
-			System.out.println("iiiiiiiiiiiit");
 			throw e;
 		}catch (JsonSyntaxException e) {
 			throw e;
 		} catch (HttpClientErrorException e) {
-			System.out.println("httttttttttttt");
-			System.out.println("e-----"+((HttpClientErrorException)e).getResponseBodyAsString());
 			throw e;
 		}    
 		return user;

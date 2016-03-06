@@ -64,6 +64,14 @@ public class LoginController extends BaseController{
 							session.setAttribute(CommonConstants.SESSION_LASTNAME, user.getLastName());
 						if(user.getEmailAddresses() != null && !user.getEmailAddresses().isEmpty())
 							session.setAttribute(CommonConstants.SESSION_EMAILADDRESS, user.getEmailAddresses());
+						if(user.getOrganization() != null ){
+							if(user.getOrganization().getId() != null){
+								session.setAttribute(CommonConstants.SESSION_ORG_ID, user.getOrganization().getId());
+							}
+							if(user.getOrganization().getOrgName() != null){
+								session.setAttribute(CommonConstants.SESSION_ORG_NAME, user.getOrganization().getOrgName());
+							}
+						}
 					 }
 					
 			}catch(Exception exception){

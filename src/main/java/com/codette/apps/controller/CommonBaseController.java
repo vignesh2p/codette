@@ -39,8 +39,7 @@ public class CommonBaseController {
 	
 	@RequestMapping(value= "/community")
 	@ResponseBody
-	public Object getCommunityList(
-			@RequestParam (value = "orgId",required = false) Integer orgId){
+	public Object getCommunityList(@RequestParam (value = "orgId",required = false) Integer orgId){
 		Object object = null;
 		if(orgId != null && orgId != 0){
 			return object = gson.toJson(commonServic.getCommunity(orgId));
@@ -60,7 +59,7 @@ public class CommonBaseController {
 		
 	}
 	
-	@RequestMapping(value= "/religon")
+	@RequestMapping(value= "/religion")
 	@ResponseBody
 	public Object getReligionList(@RequestParam (value = "orgId",required = false) Integer orgId){
 		Object object = null;
@@ -96,6 +95,7 @@ public class CommonBaseController {
 		}
 		return object = gson.toJson(commonServic.getSubject(getOrganizationId()));
 	}
+	
 	public Integer getAccessId() {
 		if(request.getHeader(CommonConstants.SESSION_USER_ID) != null){
 			return Integer.valueOf(request.getHeader(CommonConstants.SESSION_USER_ID));	
@@ -104,8 +104,8 @@ public class CommonBaseController {
 	}
 	
    public Integer getOrganizationId() {
-		if(request.getHeader(CommonConstants.SESSION_ORG_ID) != null){
-			return Integer.valueOf(request.getHeader(CommonConstants.SESSION_ORG_ID));
+		if(request.getHeader(CommonConstants.XORG_ID) != null){
+			return Integer.valueOf(request.getHeader(CommonConstants.XORG_ID));
 		}
 		return null;
 	}

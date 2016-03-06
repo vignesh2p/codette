@@ -23,6 +23,7 @@ import com.codette.apps.dto.ReligionDTO;
 import com.codette.apps.dto.RoleDTO;
 import com.codette.apps.dto.UserDTO;
 import com.codette.apps.frontend.model.DropDownValue;
+import com.codette.apps.frontend.model.Organization;
 import com.codette.apps.frontend.model.User;
 import com.codette.apps.util.CommonConstants;
 
@@ -109,6 +110,19 @@ public class UserTranslator extends BaseTranslator{
 			}
 			if(userDTO.getCommunity() != null){
 				user.setCommunity(commonTranslator.translateToDropDown(userDTO.getCommunity().getId().toString(), userDTO.getCommunity().getCommunity()));
+			}
+			if(userDTO.getOrganizationDTO() != null){
+				Organization organization = new Organization();
+				 if(userDTO.getOrganizationDTO().getOrgId() != null){
+					 organization.setId(String.valueOf(userDTO.getOrganizationDTO().getOrgId()));
+				 }
+				 if(userDTO.getOrganizationDTO().getOrganizationName() != null){
+					 organization.setOrgName(userDTO.getOrganizationDTO().getOrganizationName());
+				 }
+				 if(userDTO.getOrganizationDTO().getNickName() != null){
+					 organization.setMnemonic(userDTO.getOrganizationDTO().getNickName());
+				 }
+				user.setOrganization(organization);
 			}
 			
 		}

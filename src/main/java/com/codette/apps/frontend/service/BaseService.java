@@ -94,8 +94,8 @@ public class BaseService {
 			headers.add(CommonConstants.SESSION_USER_ID, session.getAttribute(CommonConstants.SESSION_USER_ID).toString());
 		if(session.getAttribute(CommonConstants.SESSION_USERROLE)!= null)	
 			headers.add(CommonConstants.SESSION_USERROLE, session.getAttribute(CommonConstants.SESSION_USERROLE).toString());
-		if(session.getAttribute(CommonConstants.SESSION_TOKEN) != null && session.getAttribute(CommonConstants.SESSION_ORG_ID) != null){
-			headers.add(CommonConstants.X_AUTH_TOKEN, session.getAttribute(CommonConstants.SESSION_TOKEN).toString());
+		if(session.getAttribute(CommonConstants.SESSION_ORG_ID) != null){
+		//	headers.add(CommonConstants.X_AUTH_TOKEN, session.getAttribute(CommonConstants.SESSION_TOKEN).toString());
 			headers.add(CommonConstants.XORG_ID, session.getAttribute(CommonConstants.SESSION_ORG_ID).toString());
 		}
 		return headers;

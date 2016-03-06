@@ -72,7 +72,6 @@ public class CommonConstants {
 	public static final String CREATE_LEAVE_REQUEST = "/createRequest";
 	public static final String UPDATE_REQUEST = "/updateRequest";
 	public static final String EMAIL_VERIFICATION = "/email-verification";
-	public static final String COMMON_BASE_URL = "/common-base";
 	public static final String PASSWORD_RESET_SUBJECT = "School Days password reset";
 	public static final String PASSWORD_RESET_CONTENT = "To log in and access your account, please click on the link below. http://192.168.1.3:8080/#/resetPassword "
 			+ "You will now be able to view and modify your profile as required, check the status of your application and apply for jobs."
@@ -88,6 +87,7 @@ public class CommonConstants {
 	public static final String ROLE = "ROLE";
 	public static final String RELIGION = "RELIGION";
 	public static final String COMMUNITY = "COMMUNITY";
+	public static final String COMMUNITY_BASE_URL = "/community";
 	public static final String DESIGNATION = "DESIGNATION";
 	public static final String BLOOD_GROUP = "BLOOD_GROUP";
 	public static final String LIST_TYPE = "type";
@@ -111,4 +111,6 @@ public class CommonConstants {
 	public static final String CHAR_LIST = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
 	public static final int RANDOM_STRING_LENGTH = 8;
 	public static final String SUBJECT = "SUBJECT";
+	public static final String SESSION_ORG_NAME = "_orgName";
+	public static final String DESIGNATION_BASE_URL = "/designation";
 }

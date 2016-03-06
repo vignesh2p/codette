@@ -60,7 +60,10 @@ public class Person {
     private DropDownValue religion;
    
     private DropDownValue designation;
-	public DropDownValue getCommunity() {
+	
+    private Organization organization;
+    
+    public DropDownValue getCommunity() {
 		return community;
 	}
 
@@ -281,6 +284,15 @@ public class Person {
 	public void setFatherName(String fatherName) {
 		this.fatherName = fatherName;
 	}
+
+	public Organization getOrganization() {
+		return organization;
+	}
+
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
+	}
+	
 	
 	
 }

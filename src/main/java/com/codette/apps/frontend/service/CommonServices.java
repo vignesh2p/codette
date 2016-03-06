@@ -63,8 +63,7 @@ public class CommonServices extends BaseService {
 		try {
 			requestEntity = prepareGet(session);
 			
-			response = restTemplate.exchange( getAPIBaseURL() + CommonConstants.COMMON_BASE_URL + CommonConstants.SLASH
-					+ CommonConstants.COMMUNITY ,
+			response = restTemplate.exchange( getAPIBaseURL() + CommonConstants.COMMUNITY_BASE_URL ,
 					HttpMethod.GET, requestEntity, Object.class);
 			List<CommunityDTO> communityDTOList = commonTranslator.convertToCommunityDTOList(response.getBody());
 			dropDownList = commonTranslator.translateToCommunityDropDownList(communityDTOList);
@@ -88,7 +87,7 @@ public class CommonServices extends BaseService {
 		try {
 			requestEntity = prepareGet(session);
 			
-			response = restTemplate.exchange( getAPIBaseURL() + CommonConstants.COMMON_BASE_URL + CommonConstants.SLASH
+			response = restTemplate.exchange( getAPIBaseURL()  + CommonConstants.SLASH
 					+ CommonConstants.RELIGION ,
 					HttpMethod.GET, requestEntity, Object.class);
 			List<ReligionDTO> reigionDTOList = commonTranslator.convertToReligionDTOList(response.getBody());
@@ -113,8 +112,7 @@ public class CommonServices extends BaseService {
 		try {
 			requestEntity = prepareGet(session);
 			
-			response = restTemplate.exchange( getAPIBaseURL() + CommonConstants.COMMON_BASE_URL + CommonConstants.SLASH
-					+ CommonConstants.DESIGNATION ,
+			response = restTemplate.exchange( getAPIBaseURL() + CommonConstants.DESIGNATION_BASE_URL ,
 					HttpMethod.GET, requestEntity, Object.class);
 			List<DesignationDTO> designationDTO = commonTranslator.convertToDesignationDTOList(response.getBody());
 			dropDownList = commonTranslator.translateToDesignationDropDownList(designationDTO);
@@ -132,8 +130,7 @@ public class CommonServices extends BaseService {
 		try {
 			requestEntity = prepareGet(session);
 			
-			response = restTemplate.exchange( getAPIBaseURL() + CommonConstants.COMMON_BASE_URL 
-					+ CommonConstants.STANDARD_URL ,
+			response = restTemplate.exchange( getAPIBaseURL() + CommonConstants.STANDARD_URL ,
 					HttpMethod.GET, requestEntity, Object.class);
 			List<StandardDTO> standardDTOList = commonTranslator.convertToStandardDTOList(response.getBody());
 			dropDownList = commonTranslator.translateToStandardDropDownList(standardDTOList);
@@ -150,8 +147,7 @@ public class CommonServices extends BaseService {
 		try {
 			requestEntity = prepareGet(session);
 			
-			response = restTemplate.exchange( getAPIBaseURL() + CommonConstants.COMMON_BASE_URL 
-					+ CommonConstants.SECTION_URL ,
+			response = restTemplate.exchange( getAPIBaseURL() + CommonConstants.SECTION_URL ,
 					HttpMethod.GET, requestEntity, Object.class);
 			List<SectionDTO> standardDTOList = commonTranslator.convertToSectionDTOList(response.getBody());
 			dropDownList = commonTranslator.translateToSectionDropDownList(standardDTOList);
