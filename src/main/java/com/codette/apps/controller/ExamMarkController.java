@@ -5,7 +5,6 @@ import java.text.ParseException;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.http.HttpStatus;
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Controller;
@@ -32,27 +31,25 @@ public class ExamMarkController extends CommonBaseController {
 	@Resource
 	private ExamMarkService ExamMarkService;
 	
-	/**
-	 * 
-	 * @param status
-	 * @param session
-	 * @return
-	 */
 	
 	@RequestMapping(value= "/examlist")
 	@ResponseBody
 	public Object getExams(@RequestParam( value="orgId" , required = false) Integer orgId,
 			@RequestParam (value = "userId" , required = false )Integer userId,
 			HttpEntity<String> entity, 
-			HttpServletRequest request){
+			HttpServletRequest request) throws Exception{
 
 		Object object = null;
-			if(orgId != null && orgId != 0 && userId != null && userId != 0){
-		    object = ExamMarkService.getExams(orgId,userId,getRole());
-			}else{
-	        object = ExamMarkService.getExams(getOrganizationId(),getAccessId(),getRole());	
+			try{
+				if(orgId != null && orgId != 0 && userId != null && userId != 0){
+			    object = ExamMarkService.getExams(orgId,userId,getRole());
+				}else{
+		        object = ExamMarkService.getExams(getOrganizationId(),getAccessId(),getRole());	
+				}
+				return object;
+			}catch(Exception ex){
+				return setCustomExceptionHandler(ex);
 			}
-		return object;
 	}
 	
 	@RequestMapping(value= "/marksheet")
@@ -60,15 +57,18 @@ public class ExamMarkController extends CommonBaseController {
 	public Object getMarkSheet(@RequestParam( value="orgId" , required = false) Integer orgId,
 			@RequestParam (value = "userId" , required = false )Integer userId,
 			HttpEntity<String> entity, 
-			HttpServletRequest request){
-
+			HttpServletRequest request) throws Exception{
 		Object object = null;
-			if(orgId != null && orgId != 0 && userId != null && userId != 0){
-		   object = ExamMarkService.getMarkSheet(orgId,userId,getRole());
-			}else{
-	       object = ExamMarkService.getMarkSheet(getOrganizationId(),getAccessId(),getRole());	
+			try{
+				if(orgId != null && orgId != 0 && userId != null && userId != 0){
+			   object = ExamMarkService.getMarkSheet(orgId,userId,getRole());
+				}else{
+		       object = ExamMarkService.getMarkSheet(getOrganizationId(),getAccessId(),getRole());
+				}
+				 return object;
+			}catch(Exception ex){
+				return setCustomExceptionHandler(ex);
 			}
-		return object;
 	}
 	
 	/**
@@ -76,32 +76,41 @@ public class ExamMarkController extends CommonBaseController {
 	 * @param leaveManagement
 	 * @param session
 	 * @return
+	 * @throws Exception 
 	 * @throws ParseException 
 	 */
 	@RequestMapping(value = "/create",method = RequestMethod.POST)
 	@ResponseBody
 	public Object createExam(@RequestParam( value="orgId",required = false) Integer orgId,
-			@RequestBody ExamDTO exam) {
+			@RequestBody ExamDTO exam) throws Exception {
 		Object object = null;
-		if(orgId != null && orgId != 0){
-			object = ExamMarkService.createExam(exam,orgId, getAccessId(),getRole());	
-		}else{
-			object = ExamMarkService.createExam(exam,getOrganizationId(), getAccessId(),getRole());
-		}
-		return  object;
+			try{
+			if(orgId != null && orgId != 0){
+				object = ExamMarkService.createExam(exam,orgId, getAccessId(),getRole());	
+			}else{
+				object = ExamMarkService.createExam(exam,getOrganizationId(), getAccessId(),getRole());
+			}
+			return  object;
+			}catch(Exception ex){
+		       return setCustomExceptionHandler(ex);
+			}
 	}
 
 	@RequestMapping(value = "{examId}/delete",method = RequestMethod.POST)
 	@ResponseBody
 	public Object deleteExam(@RequestParam( value="orgId",required = false) Integer orgId,
-		       @PathVariable(value = "examId") Integer examId) {
+		       @PathVariable(value = "examId") Integer examId) throws Exception {
 		Object object = null;
-		if(orgId != null && orgId != 0){
-			object = ExamMarkService.deleteExam(examId,orgId, getAccessId());	
-		}else{
-			object = ExamMarkService.deleteExam(examId,getOrganizationId(), getAccessId());
+			try{
+			if(orgId != null && orgId != 0){
+				object = ExamMarkService.deleteExam(examId,orgId, getAccessId());	
+			}else{
+				object = ExamMarkService.deleteExam(examId,getOrganizationId(), getAccessId());
+			}
+			return  object;
+		}catch(Exception ex){
+			return setCustomExceptionHandler(ex);
 		}
-		return  object;
 	}
 	
 }

@@ -9,9 +9,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.codette.apps.dao.AttendanceDAO;
-import com.codette.apps.dto.AttendenceDTO;
-import com.codette.apps.dto.ResponseBean;
-import com.codette.apps.translator.AttendanceTranslator;
 import com.codette.apps.util.CommonConstants;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -27,13 +24,13 @@ public class AttendanceService {
 
 	@Transactional
 	public  Object enableAttendance(Integer orgId,
-			Integer userId, Integer accessId) throws NullPointerException{
+			Integer userId, Integer accessId) throws Exception{
 		// TODO Auto-generated method stub
 		return attendanceDAO.enableAttendance(orgId,userId,accessId);
 	}
 
 	public  Object getAttendance(Integer orgId,
-			Integer userId)throws IllegalArgumentException {
+			Integer userId)throws Exception {
 		// TODO Auto-generated method stub
 		 return  attendanceDAO.getAttendance(orgId,userId);
 		 
@@ -41,14 +38,14 @@ public class AttendanceService {
 
 	@Transactional
 	public  Object updateAttendance(Integer orgId,List<Integer> userIds,
-			Integer accessId) throws IllegalArgumentException{
+			Integer accessId) throws Exception{
 		// TODO Auto-generated method stub
 		return attendanceDAO.updateAttendance(orgId,userIds,accessId);
 	}
 
 	@Transactional
 	public Object createAttendanceProfile(Integer orgId, Integer userId,
-			Integer accessId){
+			Integer accessId) throws Exception{
 		return attendanceDAO.createAttendanceProfile(orgId,userId,accessId);
 	}
 }

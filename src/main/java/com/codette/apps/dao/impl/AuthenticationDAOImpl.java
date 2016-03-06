@@ -1,11 +1,12 @@
 package com.codette.apps.dao.impl;
 
-import java.io.IOException;
-
 import javax.annotation.Resource;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 
 import com.codette.apps.dao.AuthenticationDAO;
 import com.codette.apps.dto.UserAuthenticationDTO;
@@ -47,16 +48,22 @@ public class AuthenticationDAOImpl extends NamedParameterJdbcDaoSupport implemen
 	
 
 	@Override
-	public Object createPassword(UserAuthenticationDTO userAuthenticationDTO, Integer accessId) {
+	public Object createPassword(UserAuthenticationDTO userAuthenticationDTO, Integer accessId)throws Exception {
 		// TODO Auto-generated method stub
-			getJdbcTemplate().update(getCreatePassword(userAuthenticationDTO,accessId));
-			return "success";		
+		KeyHolder key = new GeneratedKeyHolder();
+			SqlParameterSource sps = null;
+			getNamedParameterJdbcTemplate().update(getCreatePassword(userAuthenticationDTO,accessId),sps ,key);
+			if(key.getKey()  != null){
+				return "success";
+			}
+			return "problem in creating authentication for this User";
+					
 	}
 
 
 
 	@Override
-	public Object changePassword(UserAuthenticationDTO userAuthenticationDTO,String newPassword, Integer accessId) {
+	public Object changePassword(UserAuthenticationDTO userAuthenticationDTO,String newPassword, Integer accessId) throws Exception {
 		// TODO Auto-generated method stub
 		Object[] inputs = new Object[] {userAuthenticationDTO.getUserName(),
         		userAuthenticationDTO.getUserSecret()};
@@ -72,14 +79,14 @@ public class AuthenticationDAOImpl extends NamedParameterJdbcDaoSupport implemen
                 getJdbcTemplate().update(getUpdatePassword(),input);
                 return "success";
         }else{
-        	return "your user name or password is wrong";
+        	return "your user name or old password is wrong";
         }
 			
 			
 	}
 
 	@Override
-	public Object resetPassword(UserAuthenticationDTO userAuthenticationDTO, Integer accessId) {
+	public Object resetPassword(UserAuthenticationDTO userAuthenticationDTO, Integer accessId) throws Exception  {
 		// TODO Auto-generated method stub
 		 Object[] input = new Object[] {
                 userAuthenticationDTO.getUserName(),
@@ -102,18 +109,21 @@ public class AuthenticationDAOImpl extends NamedParameterJdbcDaoSupport implemen
 	
 	
 	
-	private String getCreatePassword(
-			UserAuthenticationDTO userAuthenticationDTO, Integer accessId) {
-		
+	private String getCreatePassword(UserAuthenticationDTO userAuthenticationDTO, Integer accessId) throws Exception{
+		try{
 			String createPassword = "INSERT INTO `user_authentication`( "
 					+ "`USER_NAME`, `USER_SECRET`, `ID_USER` ,"
 					+ " `ID_ORGANIZATION`, `IS_DELETED`, `CREATED_ON`, `CREATED_BY`)"
 				+"VALUES ('"+userAuthenticationDTO.getUserName().trim()+"','"+userAuthenticationDTO.getUserSecret().trim()+"', "
 						+ +userAuthenticationDTO.getUser().getId()+","+ userAuthenticationDTO.getOrgId()+",0,NOW(),"+accessId+")";
 			return createPassword;
+		}catch(NullPointerException ex){
+			throw ex;
+		}
+		
 		}
 
-	private String getSessionparams() {
+	private String getSessionparams() throws Exception{
 		String sessionParams = "SELECT A.ID_ORGANIZATION,O.NICK_NAME,O.ORGANIZATION_NAME,A.ID,A.FIRST_NAME,A.ID_ROLE,A.LAST_NAME, "
          		+ " R.ROLE,A.ID_GENDER,G.ID,G.GENDER,A.EMAIL_ADDRESS,D.ID,A.ID_DESIGNATION,D.DESIGNATION "
          		+ " FROM USER A "
@@ -125,12 +135,12 @@ public class AuthenticationDAOImpl extends NamedParameterJdbcDaoSupport implemen
 		return sessionParams;
 	}
 
-	private String getAuthentication() {
+	private String getAuthentication() throws Exception{
 		 String authenticate  = "SELECT ID_USER FROM user_authentication WHERE USER_NAME =?"
 		           + " AND USER_SECRET =? ";
 		return authenticate;
 	}
-	private String getUpdatePassword() {
+	private String getUpdatePassword() throws Exception{
 		String updatePassword = "UPDATE `user_authentication` "
 				+ "SET "
 				+ "`USER_NAME`='?',`USER_SECRET`='?'"

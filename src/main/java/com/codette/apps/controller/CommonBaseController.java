@@ -51,49 +51,48 @@ public class CommonBaseController {
 	@RequestMapping(value= "/designation")
 	@ResponseBody
 	public Object getDesignationList(@RequestParam (value = "orgId",required = false) Integer orgId){
-		Object object = null;
+
 		if(orgId != null && orgId != 0){
-			return object = gson.toJson(commonServic.getDesignation(orgId));
+			return gson.toJson(commonServic.getDesignation(orgId));
 		}
-		return object = gson.toJson(commonServic.getDesignation(getOrganizationId()));
+		return  gson.toJson(commonServic.getDesignation(getOrganizationId()));
 		
 	}
 	
 	@RequestMapping(value= "/religion")
 	@ResponseBody
 	public Object getReligionList(@RequestParam (value = "orgId",required = false) Integer orgId){
-		Object object = null;
+
 		if(orgId != null && orgId != 0){
-			return object = gson.toJson(commonServic.getReligion(orgId));
+			return  gson.toJson(commonServic.getReligion(orgId));
 		}
-		return object = gson.toJson(commonServic.getReligion(getOrganizationId()));
+		return  gson.toJson(commonServic.getReligion(getOrganizationId()));
 	}
 	@RequestMapping(value= "/standard")
 	@ResponseBody
 	public Object getStandardList(@RequestParam (value = "orgId",required = false) Integer orgId){
-		Object object = null;
+
 		if(orgId != null && orgId != 0){
-			return object = gson.toJson(commonServic.getStandard(orgId));
+			return  gson.toJson(commonServic.getStandard(orgId));
 		}
-		return object = gson.toJson(commonServic.getStandard(getOrganizationId()));
+		return  gson.toJson(commonServic.getStandard(getOrganizationId()));
 	}
 	@RequestMapping(value= "/section")
 	@ResponseBody
 	public Object getSectionList(@RequestParam (value = "orgId",required = false) Integer orgId){
-		Object object = null;
+
 		if(orgId != null && orgId != 0){
-			return object = gson.toJson(commonServic.getSection(orgId));
+			return  gson.toJson(commonServic.getSection(orgId));
 		}
-		return object = gson.toJson(commonServic.getSection(getOrganizationId()));
+		return  gson.toJson(commonServic.getSection(getOrganizationId()));
 	}
 	@RequestMapping(value= "/subject")
 	@ResponseBody
 	public Object getSubjectList(@RequestParam (value = "orgId",required = false) Integer orgId){
-		Object object = null;
 		if(orgId != null && orgId != 0){
-			return object = gson.toJson(commonServic.getSubject(orgId));
+			return  gson.toJson(commonServic.getSubject(orgId));
 		}
-		return object = gson.toJson(commonServic.getSubject(getOrganizationId()));
+		return  gson.toJson(commonServic.getSubject(getOrganizationId()));
 	}
 	
 	public Integer getAccessId() {

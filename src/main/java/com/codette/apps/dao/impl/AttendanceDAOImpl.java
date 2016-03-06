@@ -8,7 +8,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 
 import com.codette.apps.ResultSetExtractor.AttendenceExtractor;
 import com.codette.apps.dao.AttendanceDAO;
-import com.codette.apps.dto.ClassesDTO;
 import com.codette.apps.dto.ResponseBean;
 import com.codette.apps.dto.UserDTO;
 
@@ -20,7 +19,7 @@ public class AttendanceDAOImpl extends NamedParameterJdbcDaoSupport  implements 
   
 	@Override
 	public Object enableAttendance(Integer orgId, Integer userId,
-			Integer accessId) throws NullPointerException {
+			Integer accessId) throws Exception {
 		
 		ResponseBean responseBean = new ResponseBean();
 		
@@ -31,7 +30,7 @@ public class AttendanceDAOImpl extends NamedParameterJdbcDaoSupport  implements 
 	}
 
 	@Override
-	public Object getAttendance(Integer orgId, Integer userId) {
+	public Object getAttendance(Integer orgId, Integer userId) throws Exception {
 		
 		Object object = null;
 		
@@ -48,7 +47,7 @@ public class AttendanceDAOImpl extends NamedParameterJdbcDaoSupport  implements 
 	
 	@Override
 	public Object updateAttendance(Integer orgId, List<Integer> userIds,
-			Integer accessId) {
+			Integer accessId) throws Exception{
 		ResponseBean responseBean = new ResponseBean();
 		String ATTENDENCE = "UPDATE ATTENDENCE SET IS_ABSENT = ? "
 				+ " WHERE ID_USER = ? AND ID_ORGANIZATION = ?";
@@ -66,7 +65,7 @@ public class AttendanceDAOImpl extends NamedParameterJdbcDaoSupport  implements 
 
 	@Override
 	public Object createAttendanceProfile(Integer orgId,Integer userId,
-			Integer accessId) {
+			Integer accessId)throws Exception {
 		ResponseBean responseBean = new ResponseBean();
 		String ATTENDENCE = "INSERT INTO `attendence`(`ID_USER`,`ID_ORGANIZATION`, `IS_ABSENT`,`IS_DELETED`,`CREATED_ON`,`CREATED_BY`) "
 		      		+ "VALUES (?,?,0,0,NOW(),"+accessId+")";
@@ -94,7 +93,7 @@ public class AttendanceDAOImpl extends NamedParameterJdbcDaoSupport  implements 
 	
 	
 	
-	private Integer getClassForStaff(Integer orgId, Integer userId) {
+	private Integer getClassForStaff(Integer orgId, Integer userId) throws Exception { 
 		String CLASS_LIST = "SELECT ID_CLASS FROM `staff_class` "
 				+ " WHERE IS_CLASS_TEACHER = 1 AND IS_DELETED = 0 AND ID_USER = "+userId+" AND ID_ORGANIZATION = "+orgId;
 		Integer ids = null;
@@ -104,7 +103,7 @@ public class AttendanceDAOImpl extends NamedParameterJdbcDaoSupport  implements 
 	
 	
 
-	private String getStudentList(Integer orgId, Integer classId) {
+	private String getStudentList(Integer orgId, Integer classId) throws Exception {
 		String GET_STUDENTS = "SELECT ATD.ID_USER,A.FIRST_NAME,A.LAST_NAME,A.EMAIL_ADDRESS,A.DATE_OF_BIRTH,ATD.IS_ABSENT "
 				+ " FROM USER A "
 				+ " LEFT OUTER JOIN ATTENDENCE ATD ON A.ID = ATD.ID_USER AND ATD.ID_ORGANIZATION = "+orgId
@@ -113,7 +112,7 @@ public class AttendanceDAOImpl extends NamedParameterJdbcDaoSupport  implements 
 		return GET_STUDENTS;	
 	}
 	
-	private String getClassForAttendance(Integer orgId,Integer classId) {
+	private String getClassForAttendance(Integer orgId,Integer classId) throws Exception {
 		String CLASS_LIST = "SELECT IS_ATTENDANCE_ENABLE FROM `classes` "
 				+ " WHERE IS_DELETED = 0 AND ID = "+classId+" AND ID_ORGANIZATION = "+orgId;
 		return CLASS_LIST;

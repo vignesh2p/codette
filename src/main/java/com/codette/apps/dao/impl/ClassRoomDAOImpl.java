@@ -1,7 +1,6 @@
 package com.codette.apps.dao.impl;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -14,8 +13,6 @@ import org.springframework.jdbc.support.KeyHolder;
 
 import com.codette.apps.ResultSetExtractor.ClassRoomExtractor;
 import com.codette.apps.dao.ClassRoomDAO;
-import com.codette.apps.dto.ClassesDTO;
-import com.codette.apps.dto.ResponseBean;
 import com.codette.apps.dto.StaffClassDTO;
 import com.codette.apps.service.CommonService;
 import com.codette.apps.util.CommonConstants;
@@ -39,31 +36,29 @@ public class ClassRoomDAOImpl extends NamedParameterJdbcDaoSupport implements Cl
 	
 	@Override
 	public Object getClassList(Integer orgId, Integer userId,
-			String role) {
-		System.out.println("......................... inside");
+			String role) throws Exception{
 			Object object = null;
          if(userId != null){
-        		System.out.println("......................... inside");
-        	 object = getJdbcTemplate().query(getClassListquery(userId,orgId),classRoomExtractor.getHandlingClassesList());
+        	return object = getJdbcTemplate().query(getClassListquery(userId,orgId),classRoomExtractor.getHandlingClassesList());
 	         }
        
 		return object;
 	}
 	
 	@Override
-    public Object getAllClassList(Integer orgId) {
+    public Object getAllClassList(Integer orgId) throws Exception {
 
 		
-		List<ClassesDTO> classList = new ArrayList<ClassesDTO>();
-			classList = getJdbcTemplate().query(getAllClassListQuery(orgId), classRoomExtractor.getAllClassList());
-		return classList;
+		Object object = null;
+		object = getJdbcTemplate().query(getAllClassListQuery(orgId), classRoomExtractor.getAllClassList());
+		return object;
 		
 	}
     
 	
 	@Override
 	public Object createNewClassRoom(Integer orgId,Integer standardId,
-			Integer sectionId, Integer userId, Integer accessId) {
+			Integer sectionId, Integer userId, Integer accessId) throws Exception {
 		   KeyHolder keyHolder = new GeneratedKeyHolder();
 		   SqlParameterSource sql = null ;
 		   Integer classId = null;
@@ -79,7 +74,7 @@ public class ClassRoomDAOImpl extends NamedParameterJdbcDaoSupport implements Cl
 	
 	@Override
 	public Object createHandlingClassforStaff(List<StaffClassDTO> staffClasses,
-			Integer orgId, Integer userId, String role,Integer accessId) {
+			Integer orgId, Integer userId, String role,Integer accessId) throws Exception {
 		for(StaffClassDTO staffClass : staffClasses){
 			staffClass.setOrgId(orgId);
 			if(staffClass.getId() != null && staffClass.getId() != 0){
@@ -109,20 +104,19 @@ public class ClassRoomDAOImpl extends NamedParameterJdbcDaoSupport implements Cl
 
 	
 
-	private Integer checkForClass(Integer standardId,Integer sectionId , Integer orgId) {
+	private Integer checkForClass(Integer standardId,Integer sectionId , Integer orgId) throws Exception {
 		String checkForClass = "SELECT COUNT(*) FROM CLASSES WHERE IS_DELETED = 0 AND ID_STANDARD = "+standardId+" AND ID_SECTION = "+sectionId+" AND ID_ORGANIZATION = "+orgId;
 		String CLASS_ID = "SELECT ID FROM CLASSES WHERE IS_DELETED = 0 AND ID_STANDARD = "+standardId+" AND ID_SECTION = "+sectionId+" AND ID_ORGANIZATION = "+orgId;
 		Integer check = (Integer)getJdbcTemplate().queryForObject(checkForClass,Integer.class);
-		Integer classId = null;
 		if(check == 0 || check == null){
 			return 0;
 		}
-		 return classId = (Integer)getJdbcTemplate().queryForObject(CLASS_ID,Integer.class);
+		 return (Integer)getJdbcTemplate().queryForObject(CLASS_ID,Integer.class);
 		
 	}
 
 	
-	private String getClassListquery(Integer userId, Integer orgId) {
+	private String getClassListquery(Integer userId, Integer orgId) throws Exception {
 		String CLASS_LIST = "SELECT * FROM `staff_class` SC "
 				+ " LEFT OUTER JOIN `classes` A ON SC.ID_CLASS = A.ID"
 				+ " LEFT OUTER JOIN SECTION SEC ON A.ID_SECTION = SEC.ID AND A.ID_ORGANIZATION = "+orgId
@@ -134,7 +128,7 @@ public class ClassRoomDAOImpl extends NamedParameterJdbcDaoSupport implements Cl
 		return CLASS_LIST;
 	}
 	
-	private String getAllClassListQuery(Integer orgId) {
+	private String getAllClassListQuery(Integer orgId) throws Exception {
 		String LIST_ALL_CLASS=" SELECT * FROM `classes` A "
 				+ " LEFT OUTER JOIN SECTION SEC ON A.ID_SECTION = SEC.ID AND A.ID_ORGANIZATION = "+orgId
 				+ " LEFT OUTER JOIN STANDARD STD ON A.ID_STANDARD = STD.ID AND STD.ID_ORGANIZATION = "+orgId 
@@ -142,7 +136,7 @@ public class ClassRoomDAOImpl extends NamedParameterJdbcDaoSupport implements Cl
 				return LIST_ALL_CLASS;
 	}
 	
-	private String getCreateClassRoom(Integer standardId, Integer sectionId, Integer orgId, Integer accessId) {
+	private String getCreateClassRoom(Integer standardId, Integer sectionId, Integer orgId, Integer accessId) throws Exception {
 		// TODO Auto-generated method stub
 		 String CREATE_CLASS_ROOM = "INSERT INTO `classes` (`ID_STANDARD`, `ID_SECTION`, `ID_ORGANIZATION`,`IS_ATTENDANCE_ENABLE`, `IS_DELETED`, `CREATED_ON`, `CREATED_BY`)"
 				+ " VALUES("+standardId+","+sectionId+","+orgId+",0,0,NOW(),"+accessId+")";
@@ -150,7 +144,7 @@ public class ClassRoomDAOImpl extends NamedParameterJdbcDaoSupport implements Cl
 	}
 
 
-	private String getCreateStaffHandlingClass(StaffClassDTO staffClass,Integer userId,Integer accessId) {
+	private String getCreateStaffHandlingClass(StaffClassDTO staffClass,Integer userId,Integer accessId) throws Exception {
 		String query = "INSERT INTO `staff_class`(`ID_ORGANIZATION`, `ID_USER`, `ID_CLASS`, `ID_SUBJECT`, `ID_YEAR`,"
 				+ " `IS_CLASS_TEACHER`, `IS_DELETED`, `CREATED_ON`, `CREATED_BY`)"
 				+ " VALUES "
@@ -166,7 +160,7 @@ public class ClassRoomDAOImpl extends NamedParameterJdbcDaoSupport implements Cl
 	
 	
 	private String getUpdateStaffHandlingClass(StaffClassDTO staffClass,
-			Integer userId, Integer accessId) {
+			Integer userId, Integer accessId) throws Exception {
 	    String query = "UPDATE `staff_class` SET ";
 	    if(userId != null){
 	    query += "`ID_USER`="+userId+",";

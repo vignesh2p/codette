@@ -22,25 +22,25 @@ public class ExamMarkService {
 	
 	
 	@Transactional
-	public Object createExam(ExamDTO examDto, Integer orgId, Integer accessId, String role)  {
+	public Object createExam(ExamDTO examDto, Integer orgId, Integer accessId, String role) throws Exception {
 		// TODO Auto-generated method stub
 		//Exam exam = examMarkTranslator.translateExamdtoToexam(examDto, orgId);
 		//examMarkTranslator.translateExamdtoToMarksheet(examDto.getStandards(), orgId);
 		return examMarkDAO.createExam(examDto,orgId,accessId,role);
 	}
 
-	public Object getMarkSheet(Integer orgId, Integer userId, String role) {
+	public Object getMarkSheet(Integer orgId, Integer userId, String role) throws Exception{
 		return examMarkDAO.getMarkSheet(orgId, userId, role);
 	}
 
 	@Transactional
 	public Object deleteExam(Integer examId, Integer orgId,
-			Integer accessId) {
+			Integer accessId) throws Exception{
 		// TODO Auto-generated method stub
 		return  examMarkDAO.deleteExam(examId, orgId, accessId);
 	}
 
-	public Object getExams(Integer orgId, Integer accessId, String role) {
+	public Object getExams(Integer orgId, Integer accessId, String role) throws Exception{
 		// TODO Auto-generated method stub
 		return  examMarkDAO.getExams(orgId, accessId, role);
 	}

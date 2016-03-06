@@ -25,19 +25,19 @@ public class AuthenticationService {
 	}
 
 	@Transactional
-	public Object resetPassword(UserAuthenticationDTO userAuthenticationDTO, Integer accessId) {
+	public Object resetPassword(UserAuthenticationDTO userAuthenticationDTO, Integer accessId) throws Exception {
 		// TODO Auto-generated method stub
 		return authenticationDAO.resetPassword(userAuthenticationDTO, accessId);
 	}
     
 	@Transactional
-	public Object changePassword(UserAuthenticationDTO userAuthenticationDTO, String newPassword, Integer accessId) {
+	public Object changePassword(UserAuthenticationDTO userAuthenticationDTO, String newPassword, Integer accessId) throws Exception {
 		// TODO Auto-generated method stub
 		return authenticationDAO.changePassword(userAuthenticationDTO,newPassword,accessId);
 	}
 	
 	@Transactional
-	public Object createPassword(UserAuthenticationDTO userAuthenticationDTO, Integer accessId) {
+	public Object createPassword(UserAuthenticationDTO userAuthenticationDTO, Integer accessId) throws Exception {
 		// TODO Auto-generated method stub
 		return authenticationDAO.createPassword(userAuthenticationDTO,accessId);
 	}

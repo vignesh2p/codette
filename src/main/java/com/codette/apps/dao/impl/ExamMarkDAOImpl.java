@@ -34,10 +34,9 @@ public class ExamMarkDAOImpl extends NamedParameterJdbcDaoSupport implements Exa
 			+ " VALUES (?,?,?,?,NOW(),?)";
 	
 	@Override
-	public Object createExam(ExamDTO exam, Integer orgId,Integer accessId,String role) {
+	public Object createExam(ExamDTO exam, Integer orgId,Integer accessId,String role) throws Exception{
 	
-		ResponseBean responseBean = new ResponseBean();
-
+		  ResponseBean responseBean = new ResponseBean();
 		  SqlParameterSource sps = null;
 		  KeyHolder keyHolder = new GeneratedKeyHolder();
 		  Integer exam_id = null;
@@ -62,7 +61,7 @@ public class ExamMarkDAOImpl extends NamedParameterJdbcDaoSupport implements Exa
 			   	    
 				   	for(Integer idUser : studentIds){
 				   		
-				   	  Object[]  input = {orgId,markSheet_id,idUser,0,accessId};
+				   	    Object[]  input = {orgId,markSheet_id,idUser,0,accessId};
 				   		getJdbcTemplate().update(Mark, input);
 				   		
 				   	}
@@ -74,23 +73,26 @@ public class ExamMarkDAOImpl extends NamedParameterJdbcDaoSupport implements Exa
 	
 	
 	@Override
-	public Object getExams(Integer orgId, Integer accessId, String role) {
+	public Object getExams(Integer orgId, Integer accessId, String role) throws Exception{
 		
 		Object object =  null;
-		//object = getJdbcTemplate().query(getExamList(role),examMarkExtractor);
+		//object = getJdbcTemplate().query(getExamList(role),examMarkExtractor.);
 		return null;
 	}
 
 
-	private String getExamList(String role) {
-		String query = "";
+	private String getExamList(String role) throws Exception{
+		String query = "SELECT * FROM exam WHERE IS_DELETED = 0 ";
+				if(role.equalsIgnoreCase(CommonConstants.ROLE_T_STAFF)){
+				query += " AND ID IN (?)";
+				}
 		return query;
 	}
 
 
 	@Override
 	public Object getMarkSheet(Integer orgId, Integer userId,
-			String role) {
+			String role) throws Exception {
 		String marksheet = " select * from mark_sheet ms"
 				+ " left outer join mark m on ms. ";
 		return null;
@@ -100,7 +102,7 @@ public class ExamMarkDAOImpl extends NamedParameterJdbcDaoSupport implements Exa
 	
 
 	@Override
-	public Object deleteExam(Integer examId, Integer orgId, Integer accessId) {
+	public Object deleteExam(Integer examId, Integer orgId, Integer accessId)throws Exception {
 		ResponseBean responseBean = new ResponseBean();
 		String DELETE_EXAM = "UPDATE `exam` SET `IS_DELETED`= ? ,`UPDATED_ON`= NOW(),`UPDATED_BY`= ? WHERE `ID` = ? AND `ID_ORGANIZATION`= ? ";
 		String DELETE_MARKSHEET = " UPDATE `mark_sheet` SET `IS_DELETED` = ? ,`UPDATED_ON`=NOW(),`UPDATED_BY`=? WHERE `ID_EXAM`= ? AND `ID_ORGANIZATION`= ? ";
@@ -131,7 +133,7 @@ public class ExamMarkDAOImpl extends NamedParameterJdbcDaoSupport implements Exa
 	
 	
 	
-	private String getSubjectsForClass(Integer classId,String role, Integer accessId) {
+	private String getSubjectsForClass(Integer classId,String role, Integer accessId)throws Exception {
       String query = "SELECT  `ID_SUBJECT`  FROM `staff_class` WHERE `ID_CLASS` = "+classId+" AND `IS_DELETED` = 0 ";
         if(role.equalsIgnoreCase(CommonConstants.ROLE_T_STAFF)){
         	query = query + " AND `ID_USER` = "+accessId;
@@ -139,23 +141,20 @@ public class ExamMarkDAOImpl extends NamedParameterJdbcDaoSupport implements Exa
 		return query;
 	}
 
-	private String getCreateNewExam(Integer orgId, String exam, Integer accessId) {
+	private String getCreateNewExam(Integer orgId, String exam, Integer accessId)throws Exception {
 		
-		String NEW_EXAM;
-		return  NEW_EXAM = "INSERT INTO `exam`(`ID_ORGANIZATION`,`EXAM`, `IS_DELETED`, `CREATED_ON`, `CREATED_BY`) "
+		return  "INSERT INTO `exam`(`ID_ORGANIZATION`,`EXAM`, `IS_DELETED`, `CREATED_ON`, `CREATED_BY`) "
 				+ "VALUES ( "+orgId+",'"+exam+"',0,NOW(),"+accessId+")";
 	}
 
-	private String getStudentsOfClass(Integer id) {
-        String query = "SELECT `ID` FROM `user` WHERE `ID_CLASS` = "+id;		
-        return query;
+	private String getStudentsOfClass(Integer id) throws Exception{
+        return "SELECT `ID` FROM `user` WHERE `ID_CLASS` = "+id;		
 	}
 	
-	private String getMarkSheet(Object[] values) {
+	private String getMarkSheet(Object[] values) throws Exception {
 		// TODO Auto-generated method stub
-		String query = "INSERT INTO `mark_sheet`(  `ID_ORGANIZATION`, `ID_EXAM`, `ID_CLASS`, `ID_SUBJECT`, `IS_DELETED`, `CREATED_ON`, `CREATED_BY`)"
+		return "INSERT INTO `mark_sheet`(  `ID_ORGANIZATION`, `ID_EXAM`, `ID_CLASS`, `ID_SUBJECT`, `IS_DELETED`, `CREATED_ON`, `CREATED_BY`)"
 				+ " VALUES ("+values[0]+","+values[1]+","+values[2]+","+values[3]+","+values[4]+",NOW(),"+values[5]+")";
-		return query;
 		
 	}
 	
