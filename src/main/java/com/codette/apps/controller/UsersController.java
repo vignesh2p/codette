@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.codette.apps.dto.UserDTO;
-import com.codette.apps.service.CommonService;
 import com.codette.apps.service.UsersService;
 import com.codette.apps.util.CommonConstants;
 import com.google.gson.Gson;
@@ -49,11 +48,20 @@ public class UsersController extends CommonBaseController {
 			@RequestParam( value="orgId",required = false) Integer orgId ,
 			@RequestParam( value="search",required = false) String search,
 			@RequestParam( value="includeDetails",required = false) boolean includeDetails,
-			HttpServletRequest request, HttpSession session)  {
+			HttpServletRequest request, HttpSession session) throws Exception  {
 			if(orgId!= null && orgId != 0){
-				return usersService.getUsers(orgId, role, classId,includeDetails,search);
+				try {
+					return usersService.getUsers(orgId, role, classId,includeDetails,search);
+				} catch (Exception ex) {
+					
+					return setCustomExceptionHandler(ex);
+				}
 			}
-			return usersService.getUsers(getOrganizationId(), role, classId,includeDetails,search);
+			try {
+				return usersService.getUsers(getOrganizationId(), role, classId,includeDetails,search);
+			} catch (Exception ex) {
+				return setCustomExceptionHandler(ex);
+			}
 	}
 	
 	
@@ -64,8 +72,12 @@ public class UsersController extends CommonBaseController {
 	@ResponseBody
 	public Object getUser(@RequestParam( value="orgId", required=false) Integer orgId,
 			HttpServletRequest request,
-			@PathVariable(value="userId") Integer userId) throws Exception {
-		return usersService.getUser(getOrganizationId(),userId);
+			@PathVariable(value="userId") Integer userId) throws Exception{
+		try {
+			return usersService.getUser(getOrganizationId(),userId);
+		} catch (Exception ex) {
+			return setCustomExceptionHandler(ex);
+		}
 	}
 	
 	
@@ -74,12 +86,20 @@ public class UsersController extends CommonBaseController {
 	@ResponseBody
 	public Object createUser(@RequestBody UserDTO userDTO,
 			@RequestParam( value="orgId",required = false) Integer orgId ,
-			HttpSession session, HttpServletRequest request) throws Exception { //working good
+			HttpSession session, HttpServletRequest request) throws Exception{ //working good
 		Object object = null;
 		if(orgId != null && orgId != 0){
-		    object = usersService.createUser(userDTO,orgId, getAccessId());
+		    try {
+				object = usersService.createUser(userDTO,orgId, getAccessId());
+			} catch (Exception ex) {
+				return setCustomExceptionHandler(ex);
+			}
 		}else{
-			object  = usersService.createUser(userDTO,getOrganizationId(), getAccessId());
+			try {
+				object  = usersService.createUser(userDTO,getOrganizationId(), getAccessId());
+			} catch (Exception ex) {
+				return setCustomExceptionHandler(ex);
+			}
 		}
 		return object;
 	}
@@ -89,8 +109,13 @@ public class UsersController extends CommonBaseController {
 	@RequestMapping(value = "/update/{userId}", method = RequestMethod.PUT)
 	@ResponseBody
 	public Object updateUser(
-			@PathVariable Integer userId, @RequestBody UserDTO userDTO, HttpSession session, HttpServletRequest request) throws Exception {
-		Object  object = usersService.updateUser(userDTO, getOrganizationId(), userId,getAccessId());
+			@PathVariable Integer userId, @RequestBody UserDTO userDTO, HttpSession session, HttpServletRequest request) throws Exception  {
+		Object object;
+		try {
+			object = usersService.updateUser(userDTO, getOrganizationId(), userId,getAccessId());
+		} catch (Exception ex) {
+			return setCustomExceptionHandler(ex);
+		}
 		return object;
 	}
 
@@ -98,8 +123,13 @@ public class UsersController extends CommonBaseController {
 	
 	@RequestMapping(value = "/delete/{userId}", method = RequestMethod.DELETE)
 	@ResponseBody
-	public Object deleteUser(@PathVariable Integer userId,HttpSession session,HttpServletRequest request) throws Exception {
-		Object object = usersService.deleteUser(getOrganizationId() ,userId, getAccessId());
+	public Object deleteUser(@PathVariable Integer userId,HttpSession session,HttpServletRequest request) throws Exception  {
+		Object object;
+		try {
+			object = usersService.deleteUser(getOrganizationId() ,userId, getAccessId());
+		} catch (Exception ex) {
+			return setCustomExceptionHandler(ex);
+		}
 		return object;
 	}
 	

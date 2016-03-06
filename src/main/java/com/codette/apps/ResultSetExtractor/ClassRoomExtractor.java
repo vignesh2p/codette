@@ -28,11 +28,12 @@ public class ClassRoomExtractor {
 
 				List<StaffClassDTO> classes = new ArrayList<StaffClassDTO>();
 				StaffClassDTO clases = null;
+				UserDTO user = null;
 				while(rs.next()){
 					
 				clases = new StaffClassDTO();
-				UserDTO user = new UserDTO();
-				clases.setId(rs.getInt("ID"));
+				user = new UserDTO();
+				clases.setId(rs.getInt("ID_CLASS"));
 				user.setId(rs.getInt("ID_USER"));
 			    clases.setUser(user);
 				clases.setIsClassTeacher(rs.getInt("IS_CLASS_TEACHER"));

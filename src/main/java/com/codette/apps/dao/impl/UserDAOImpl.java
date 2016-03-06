@@ -6,8 +6,6 @@ import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.DuplicateKeyException;
-import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -23,11 +21,11 @@ import com.codette.apps.dto.PhoneNumberDTO;
 import com.codette.apps.dto.ResponseBean;
 import com.codette.apps.dto.UserAuthenticationDTO;
 import com.codette.apps.dto.UserDTO;
-import com.codette.apps.mapper.UserListRowMapper;
 import com.codette.apps.service.CommonService;
 import com.codette.apps.service.EmailSenderService;
 import com.codette.apps.util.CommonConstants;
 import com.codette.apps.util.CommonUtil;
+import com.codette.apps.util.FiedValidationException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -68,7 +66,7 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
   
 	@Override
 	public Object createUser(UserDTO user, Integer orgId,
-			Integer accessId) throws DataIntegrityViolationException, DuplicateKeyException{
+			Integer accessId) throws Exception{
 			       ResponseBean responseBean = new ResponseBean();
 				   KeyHolder keyHolder = new GeneratedKeyHolder();
 				 
@@ -127,7 +125,7 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 	
 
 	@Override
-	public Object updateUser(UserDTO user, Integer orgId, Integer accessId, Integer userId){
+	public Object updateUser(UserDTO user, Integer orgId, Integer accessId, Integer userId) throws Exception{
 		ResponseBean responseBean= new ResponseBean();
 			   getJdbcTemplate().update(getUpdateUser(user,orgId,accessId) );
 			   
@@ -166,7 +164,7 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 
 
 	@Override
-	public Object getUser(Integer orgId, Integer userId) {
+	public Object getUser(Integer orgId, Integer userId) throws Exception{
 		
 		Object[] inputs = new Object[]{userId,orgId};
 		
@@ -185,7 +183,7 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 	
 
 	@Override
-	public Object getUsers(Integer orgId, String role, Integer classId,boolean includeDetails,String search)  {
+	public Object getUsers(Integer orgId, String role, Integer classId,boolean includeDetails,String search) throws Exception {
 		Object object = null;
 		if(includeDetails){
 	       object = getJdbcTemplate().query(getDetailListOfUser(orgId,classId,search,commonService.getId(role, CommonConstants.ROLE)),  userExtractor.setUserListDetails(null, null));
@@ -198,8 +196,7 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 	
 	@Override
 	public Object deleteUser(Integer orgId, Integer userId,
-			Integer accessId) {
-		ResponseBean responsebean = new ResponseBean();
+			Integer accessId) throws Exception{
 				Object[] inputs = new Object []{accessId,userId,orgId};
 				getJdbcTemplate().update(DELETE_PHONE,inputs);
 				getJdbcTemplate().update(DELETE_ADDRESS,inputs);
@@ -214,27 +211,30 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 
 
 	private Object insertAddressses(List<AddressDTO> addresses,
-			Integer orgId,Integer idUser,Integer accessId)throws DataIntegrityViolationException {
+			Integer orgId,Integer idUser,Integer accessId)throws Exception {
 		// TODO Auto-generated method stub
 		ResponseBean responseBean= new ResponseBean();
 		Object [] inputs = new Object[] {orgId,idUser,accessId};
 		for(AddressDTO address:addresses){
-		getJdbcTemplate().update(createAddress(address),inputs);
-         
+			try{
+			getJdbcTemplate().update(createAddress(address),inputs); 
+			}catch(DataIntegrityViolationException ex){
+				throw new FiedValidationException("The address :"+address.getAddress()+" given is too long");
+			}
 		}
 		return responseBean;
 	}
 	
 	
 	private Object insertPhoneNumber(List<PhoneNumberDTO> phoneNumbers, Integer orgId,
-			Integer idUser,Integer accessId)throws DataIntegrityViolationException {
+			Integer idUser,Integer accessId)throws Exception {
 		ResponseBean responseBean= new ResponseBean();
 		Object [] inputs = new Object[] {orgId,idUser,accessId};
 		for(PhoneNumberDTO phoneNumber: phoneNumbers){
 			try{
 			getJdbcTemplate().update(createPhoneNumber(phoneNumber),inputs);
-			}catch(DataIntegrityViolationException DIVE){
-				
+			}catch(DataIntegrityViolationException ex){
+				throw new FiedValidationException("The phone number : "+phoneNumber.getPhoneNumber()+" given is not 10 digit");
 			}
 		}
 		return responseBean;

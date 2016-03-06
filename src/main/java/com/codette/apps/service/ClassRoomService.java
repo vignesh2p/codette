@@ -1,3 +1,4 @@
+
 package com.codette.apps.service;
 
 import java.util.List;
@@ -26,25 +27,25 @@ public class ClassRoomService {
 	public static final Gson gson = new GsonBuilder().setDateFormat(CommonConstants.ISO_DATE_FORMAT).create();
 
 	public Object getClassList(Integer orgId, Integer userId,
-			String role) {
+			String role) throws Exception {
 		// TODO Auto-generated method stub
 		return classRoomDAO.getClassList(orgId, userId,role);
 	}
 
-	public Object getAllClassList(Integer orgId) {
+	public Object getAllClassList(Integer orgId) throws Exception {
 		// TODO Auto-generated method stub
 		return classRoomDAO.getAllClassList(orgId);	
 		}
 	
 	@Transactional
-	public Object createNewClassRoom(Integer orgId,Integer standardId,Integer sectionId ,Integer userId , Integer accessId  ) {
+	public Object createNewClassRoom(Integer orgId,Integer standardId,Integer sectionId ,Integer userId , Integer accessId  ) throws Exception {
 		// TODO Auto-generated method stub
 		return  classRoomDAO.createNewClassRoom(orgId, standardId, sectionId,userId,accessId );
 	}
     
 	@Transactional
 	public Object createHandlingClassforStaff(List<StaffClassDTO> staffClasses, Integer orgId, Integer userId,
-			String role, Integer accessId) {
+			String role, Integer accessId) throws Exception {
 		staffClasses = commonService.getBasicIds(staffClasses);
 		return  classRoomDAO.createHandlingClassforStaff(staffClasses,orgId,userId,role,accessId);
 	}

@@ -8,14 +8,14 @@ import org.springframework.stereotype.Component;
 public interface AttendanceDAO {
 
 	public Object enableAttendance(Integer orgId, Integer userId,
-			Integer accessId);
+			Integer accessId) throws Exception;
 
-	public Object getAttendance(Integer orgId, Integer userId);
+	public Object getAttendance(Integer orgId, Integer userId) throws Exception;
 
 	public Object updateAttendance(Integer orgId, List<Integer> userIds,
-			Integer accessId);
+			Integer accessId) throws Exception;
 
 	public Object createAttendanceProfile(Integer orgId, Integer userId,
-			Integer accessId);
+			Integer accessId) throws Exception;
 
 }

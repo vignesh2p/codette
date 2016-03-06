@@ -10,11 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.codette.apps.dto.NewOrganizationDTO;
-import com.codette.apps.dto.UserDTO;
 import com.codette.apps.service.OrganizationServices;
 import com.codette.apps.util.CommonConstants;
 import com.google.gson.Gson;

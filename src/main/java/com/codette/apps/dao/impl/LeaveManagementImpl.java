@@ -1,10 +1,10 @@
 package com.codette.apps.dao.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 
 import com.codette.apps.dao.LeaveDAO;
@@ -13,80 +13,64 @@ import com.codette.apps.dto.ResponseBean;
 import com.codette.apps.mapper.LeaveManagementRowMapper;
 import com.codette.apps.util.CommonConstants;
 import com.codette.apps.util.CommonUtil;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class LeaveManagementImpl  extends NamedParameterJdbcDaoSupport implements LeaveDAO{
 
+	final static Logger logger = Logger.getLogger(LeaveManagementImpl.class);
+	public static final Gson gson = new GsonBuilder().setDateFormat(CommonConstants.ISO_DATE_FORMAT).create();
 	@Resource
 	private CommonUtil commonUtil;
 	
 	@Override
 	public Object getPendingLeave(Integer orgId, String status, Integer userId,
-			String role) {
-		List<LeaveManagementDTO> leaveList = new ArrayList<LeaveManagementDTO>();
+			String role) throws Exception{
+        Object object = null;
 		String ID_STATUS = "SELECT ID FROM status where STATUS = '"+status+"'";
-		String LEAVE_FORM = "SELECT * FROM leave_management A left outer join user U ON A.ID_STAFF = U.ID "
+		String LEAVE_FORM = "SELECT * FROM leave_management A left outer join user U ON A.ID_USER = U.ID "
 				+ "left outer join status S ON A.ID_FORM_STATUS = S.ID "
 				+ "WHERE A.ID_FORM_STATUS =?";
 				
-		try{ 
-			System.out.println(">>>>>>>>>> pending query"+ID_STATUS);
 			Integer statusId=  getJdbcTemplate().queryForObject(
                     ID_STATUS, Integer.class);
-			System.out.println("statusId------"+statusId);
 				
 			if(!role.equalsIgnoreCase(CommonConstants.ROLE_ADMIN)){
-				LEAVE_FORM = LEAVE_FORM+" AND A.ID_STAFF = ?";
+				LEAVE_FORM = LEAVE_FORM+" AND A.ID_USER = ?";
 				Integer[] inputs = {statusId,userId};
-					leaveList = getJdbcTemplate().query(LEAVE_FORM,inputs, new LeaveManagementRowMapper());
+				object = getJdbcTemplate().query(LEAVE_FORM,inputs, new LeaveManagementRowMapper());
 			}else{
 			Integer[] input = {statusId};
-			leaveList = getJdbcTemplate().query(LEAVE_FORM,input, new LeaveManagementRowMapper());
+			object = getJdbcTemplate().query(LEAVE_FORM,input, new LeaveManagementRowMapper());
 
 			}
 			
-		}
-			catch (Exception e){
-				   String eStr = e.getMessage();
-				   System.out.println("estr-----------"+eStr);
-			}
-			
-			return leaveList;
+			return object;
 		}
 
 
 
 	@Override
 	public Object getHistoryLeave(Integer orgId, String status, Integer userId,
-			String role) {
-		List<LeaveManagementDTO> leaveList = new ArrayList<LeaveManagementDTO>();
+			String role) throws Exception{
+        Object object = null;
 		String ID_STATUS = "SELECT ID FROM status where STATUS = '"+CommonConstants.PENDING+"'";
-		String LEAVE_FORM = "SELECT * FROM leave_management A left outer join user U ON A.ID_STAFF = U.ID "
+		String LEAVE_FORM = "SELECT * FROM leave_management A left outer join user U ON A.ID_USER = U.ID "
 				+ "left outer join status S ON A.ID_FORM_STATUS = S.ID "
 				+ "WHERE A.ID_FORM_STATUS <> ? ";
 				
-		try{ 
-			System.out.println(">>>>>>>>>> pending query"+ID_STATUS);
 			Integer statusId=  getJdbcTemplate().queryForObject(
                     ID_STATUS, Integer.class);
-			System.out.println(">>>>>>>>>> pending"+statusId);
 				
 			if(!role.equalsIgnoreCase(CommonConstants.ROLE_ADMIN)){
-				LEAVE_FORM = LEAVE_FORM+" AND A.ID_STAFF =?";
+				LEAVE_FORM = LEAVE_FORM+" AND A.ID_USER =?";
 				Integer[] inputs = {statusId,userId};
-					leaveList = getJdbcTemplate().query(LEAVE_FORM,inputs, new LeaveManagementRowMapper());
+				object = getJdbcTemplate().query(LEAVE_FORM,inputs, new LeaveManagementRowMapper());
 			}else{
-			Integer[] input = {statusId};
-			leaveList = getJdbcTemplate().query(LEAVE_FORM,input, new LeaveManagementRowMapper());
-
+				Integer[] input = {statusId};
+				object = getJdbcTemplate().query(LEAVE_FORM,input, new LeaveManagementRowMapper());
 			}
-			
-		}
-			catch (Exception e){
-				   String eStr = e.getMessage();
-				   System.out.println(eStr);
-			}
-			
-			return leaveList;
+			return object;
 		}
 		
 		
@@ -94,13 +78,13 @@ public class LeaveManagementImpl  extends NamedParameterJdbcDaoSupport implement
 
 	@Override
 	public Object applyleave(LeaveManagementDTO leave, Integer orgId,
-			Integer userId, Integer accessId) {
+			Integer userId, Integer accessId) throws Exception{
 		// TODO Auto-generated method stub
 		ResponseBean responseBean= new ResponseBean(); 
 
 		String ID_STATUS = "SELECT ID FROM status where STATUS =? ";
 		String INSERT_LEAVE = "INSERT INTO `leave_management`(";
-				INSERT_LEAVE = INSERT_LEAVE+"`ID_STAFF`,";
+				INSERT_LEAVE = INSERT_LEAVE+"`ID_USER`,";
 				if(leave.getStartTime()!=null){
 					INSERT_LEAVE = INSERT_LEAVE+ " `START_TIME`,";
 				}
@@ -135,7 +119,6 @@ public class LeaveManagementImpl  extends NamedParameterJdbcDaoSupport implement
 					INSERT_LEAVE = INSERT_LEAVE+"?,";
 				INSERT_LEAVE = INSERT_LEAVE+ CommonConstants.NOT_DELETED+","+"NOW()"+","+accessId
 				+")";
-				try{
 					
 					String[] statusInput= {"PENDING"};
 					System.out.println("statusInput   "+statusInput);
@@ -152,22 +135,15 @@ public class LeaveManagementImpl  extends NamedParameterJdbcDaoSupport implement
 						
 					}
 					
-				}
-					catch(Exception e){
-						responseBean.setStatus("FAILED");
-						responseBean.setMessage( e.getMessage());
-						e.printStackTrace();
-					}
 		return responseBean;
 	}
 
 
 	@Override
 	public Object statusChange(List<LeaveManagementDTO> leaveDTO,
-			Integer orgId, Integer userId, Integer accessId) {
+			Integer orgId, Integer userId, Integer accessId) throws Exception{
 		ResponseBean responceBean = new ResponseBean();
 		String ID_STATUS = "SELECT ID FROM status where STATUS =? ";
-		try{
 			
 		for(LeaveManagementDTO leave : leaveDTO){
 		String UPDATE_LEAVE = "UPDATE `leave_management` SET"; 
@@ -199,11 +175,6 @@ public class LeaveManagementImpl  extends NamedParameterJdbcDaoSupport implement
 		responceBean.setStatus("SUCCESS");
 		responceBean.setMessage("Your Leave Form is updated successfully");
 		
-		}catch(Exception e){
-			responceBean.setStatus("FAILED");
-			   String eStr = e.getMessage();
-			   responceBean.setMessage(eStr);
-		}
 		return responceBean;
 	}
 

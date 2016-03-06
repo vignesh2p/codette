@@ -37,12 +37,13 @@ public class LeaveController extends CommonBaseController {
 	 * @param status
 	 * @param session
 	 * @return
+	 * @throws Exception 
 	 */
 	@RequestMapping(value= "/pending/{userId}")
 	@ResponseBody
 	public Object getPendingLMSList(@PathVariable( value="orgId") String orgId,
 			@PathVariable( value="userId") String userId,
-			HttpEntity<String> entity, HttpServletRequest request){
+			HttpEntity<String> entity, HttpServletRequest request) throws Exception{
 		Object object = null;
 		try {
 				
@@ -51,18 +52,18 @@ public class LeaveController extends CommonBaseController {
 		    if(object instanceof List){
 		    	object = gson.toJson(object);
 		    }
-			
-		} catch (Exception e) {
-			e.printStackTrace();
+		    return object;
+		} catch (Exception ex) {
+			return setCustomExceptionHandler(ex);
 		}
-		return object;
+		
 	}
 	
 	
 	@RequestMapping(value= "/history/{userId}")
 	@ResponseBody
 	public Object getHistoryLMSList(@PathVariable( value="orgId") String orgId,
-			@PathVariable( value="userId") String userId, HttpServletRequest request){
+			@PathVariable( value="userId") String userId, HttpServletRequest request) throws Exception{
 
 		Object object = null;
 		try {
@@ -71,10 +72,10 @@ public class LeaveController extends CommonBaseController {
 				  if(object instanceof List){
 				    	object = gson.toJson(object);
 				    }
-		}catch (Exception e) {
-			e.printStackTrace();
+				  return object;
+		}catch (Exception ex) {
+			return setCustomExceptionHandler(ex);
 		}
-		return object;
 	}
 	
 	/**
@@ -82,23 +83,23 @@ public class LeaveController extends CommonBaseController {
 	 * @param leaveManagement
 	 * @param session
 	 * @return
+	 * @throws Exception 
 	 */
 	@RequestMapping(value ="/create/userId",method = RequestMethod.POST)
 	@ResponseBody
 	public Object createLeaveRequest(@RequestBody LeaveManagementDTO leaveManagementListDTO,
 			@PathVariable( value="orgId") String orgId,
 			@PathVariable( value="userId") String userId,
-			HttpServletRequest request){
+			HttpServletRequest request) throws Exception{
 		Object object= null;
 		try {
 					object = leaveService.Applyleave(leaveManagementListDTO,
 							Integer.valueOf(orgId),Integer.valueOf(userId),
 							getAccessId());
-
-		}catch (Exception e) {
-			e.printStackTrace();
+					return object;
+		}catch (Exception ex) {
+			return setCustomExceptionHandler(ex);
 		}
-		return object;
 	}
 	
 
@@ -107,20 +108,21 @@ public class LeaveController extends CommonBaseController {
 	 * @param leaveManagement
 	 * @param session
 	 * @return
+	 * @throws Exception 
 	 */
 	@RequestMapping(value = CommonConstants.UPDATE_REQUEST, method = RequestMethod.PUT)
 	@ResponseBody
 	public Object updateStatusForLeaveRequest(@RequestBody List<LeaveManagementDTO> leaveManagementListDTO,
 			@PathVariable( value="orgId") String orgId,
 			@PathVariable( value="userId") String userId,
-			HttpServletRequest request){
+			HttpServletRequest request) throws Exception{
 		Object object = null;
 		try {
-					object = leaveService.statusChange(leaveManagementListDTO,leaveManagementListDTO,Integer.valueOf(orgId),Integer.valueOf(userId), getAccessId());
-		} catch (Exception e) {
-				e.printStackTrace();
+			object = leaveService.statusChange(leaveManagementListDTO,leaveManagementListDTO,Integer.valueOf(orgId),Integer.valueOf(userId), getAccessId());
+			return object ;
+		} catch (Exception ex) {
+			return setCustomExceptionHandler(ex);
 		}
-		return object;
 	}
 	
 	

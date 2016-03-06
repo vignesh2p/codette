@@ -41,15 +41,13 @@ public class ClassRoomController extends CommonBaseController{
 		 public Object getClassList(
 				 @RequestParam(value ="orgId" , required = false) Integer orgId,
 				 @RequestParam(value ="userId" , required = false) Integer userId,
-				 HttpServletRequest request, HttpSession session){
+				 HttpServletRequest request, HttpSession session) throws Exception{
 		  Object object = null;
 		  try{
-			     object =  classRoomService.getClassList(getOrganizationId(),getAccessId(),getRole());
-			 
-			object = gson.toJson(object);
+			 	object = gson.toJson(classRoomService.getClassList(getOrganizationId(),getAccessId(),getRole()));
 		  }
 		  catch(Exception e){
-			 
+			    setCustomExceptionHandler(e);
 		  }
 		  return object;
 		 }	   
@@ -59,13 +57,13 @@ public class ClassRoomController extends CommonBaseController{
 		 public Object getAllClassList(
 				 @RequestParam(value ="orgId" , required = false) Integer orgId,
 				 @RequestParam(value ="userId" , required = false) Integer userId,
-				 HttpServletRequest request, HttpSession session){
+				 HttpServletRequest request, HttpSession session) throws Exception{
 		  Object object = null;
 		  try{
 			     object = classRoomService.getAllClassList(getOrganizationId());	  
 		  }
 		  catch(Exception e){
-			 
+			 setCustomExceptionHandler(e);
 		  }
 		  return object;
 		 }	   
@@ -78,9 +76,10 @@ public class ClassRoomController extends CommonBaseController{
 				 @RequestBody List<StaffClassDTO> staffClasses,
 				 @RequestParam(value ="orgId", required = false) Integer orgId,
 				 @RequestParam(value ="userId",required = false) Integer userId,
-				 HttpServletRequest request, HttpSession session){
+				 HttpServletRequest request, HttpSession session) throws Exception{
 				  Object object = null;
 				  String role = getRole();
+				  try{
 				  if(role.equalsIgnoreCase( CommonConstants.TEACHING_STAFF) ){
 					     object =  classRoomService.createHandlingClassforStaff(staffClasses,getOrganizationId(),getAccessId(),role,getAccessId());
 					  }
@@ -88,6 +87,9 @@ public class ClassRoomController extends CommonBaseController{
 				     (role.equalsIgnoreCase(CommonConstants.PRINCIPAL) || role.equalsIgnoreCase(CommonConstants.ADMIN))){
 					     object = classRoomService.createHandlingClassforStaff(staffClasses,getOrganizationId(),userId,role,getAccessId());	  
 					  }
+				  }catch(Exception e){
+					  setCustomExceptionHandler(e);
+				  }
 					object = gson.toJson(object);
 			return object;
 	  }

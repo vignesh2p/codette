@@ -1,12 +1,7 @@
-/**
- * 
- */
+
 package com.codette.apps.frontend.model;
 
-/**
- * @author bashelu
- *
- */
+
 public class ResponseMessage {
 	
 	private String status;
