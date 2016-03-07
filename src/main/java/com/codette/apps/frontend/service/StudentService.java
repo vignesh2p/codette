@@ -1,14 +1,12 @@
-/**
- * 
- *//*
+
 package com.codette.apps.frontend.service;
 
 import java.io.IOException;
 import java.util.List;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -18,29 +16,18 @@ import org.springframework.web.client.RestClientException;
 
 import com.codette.apps.dto.UserDTO;
 import com.codette.apps.frontend.model.Student;
-import com.codette.apps.frontend.translator.StudentTranslator;
 import com.codette.apps.util.CommonConstants;
 import com.google.gson.JsonSyntaxException;
 
-*//**
- * @author Vignesh
- * 
- *//*
+
 @Component
 
 public class StudentService extends BaseService{
 	
-	@Resource
-	StudentTranslator studentTranslator;
+	/*//@Autowired
+	//StudentTranslator studentTranslator;
 	
-	*//**
-	 * getStudentsList
-	 * @param standardId
-	 * @param sectionId
-	 * @param session
-	 * @return
-	 * @throws Exception
-	 *//*
+
 	public List<Student> getStudentsList(String standardId, String sectionId, HttpSession session) throws Exception {
 		List<UserDTO> studentDTOList = null; 
 		List<Student> studentist = null; 
@@ -63,13 +50,7 @@ public class StudentService extends BaseService{
 		return studentist;
 		}
 
-	*//**
-	 * 
-	 * @param queryString 
-	 * @param session
-	 * @return
-	 * @throws Exception 
-	 *//*
+
 	public Object getClassesList(HttpSession session) throws Exception {
 		ResponseEntity<Object> response = null;
 		try {
@@ -86,12 +67,6 @@ public class StudentService extends BaseService{
 		return response.getBody();
 	}
 
-	*//**
-	 * 
-	 * @param session
-	 * @return
-	 * @throws Exception
-	 *//*
 	public Object getClassesListByStaff(HttpSession session) throws Exception {
 		ResponseEntity<Object> response = null;
 		try {
@@ -109,12 +84,7 @@ public class StudentService extends BaseService{
 	}
 
 	
-	*//**
-	 * 
-	 * @param session
-	 * @return
-	 * @throws Exception
-	 *//*
+
 	public List<Student> getStudentsByStaffClass(String staffId, HttpSession session) throws Exception {
 		try {
 		 ResponseEntity<Object> response = null;
@@ -135,16 +105,6 @@ public class StudentService extends BaseService{
 		}
 	}
 
-	
-	
-	
-	*//***
-	 * 
-	 * @param student
-	 * @param session
-	 * @return
-	 * @throws Exception
-	 *//*
 	public Object createStudent(Student student, HttpSession session) throws Exception {
 		UserDTO studentDTO = studentTranslator.translateToStudentDTO(student);
 		String postString = gson.toJson(studentDTO);
@@ -165,6 +125,5 @@ public class StudentService extends BaseService{
 			throw e;
 		}  
 	}
-
-}
 */
+}

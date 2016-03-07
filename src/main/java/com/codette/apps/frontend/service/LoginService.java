@@ -58,6 +58,7 @@ public class LoginService extends BaseService{
 			System.out.println("response.getBody()-----"+gson.toJson(response.getBody()));
 			userDTO = loginTranslator.convertToUserDTO(response.getBody());
 			user = userTranslator.translateToUser(userDTO, locale);
+			
 		}catch (IOException e) {
 			throw e;
 		}catch (JsonSyntaxException e) {

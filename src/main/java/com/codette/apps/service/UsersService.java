@@ -24,10 +24,10 @@ public class UsersService {
 	private CommonService commonService ;
 
 	 @Transactional
-	public Object createUser(UserDTO userDTO, Integer orgId,
-				Integer accessId) throws Exception {
+	public Object createUser(UserDTO userDTO, Integer orgId, Integer accessId) throws Exception {
+		 	userDTO.setOrgId(orgId);
 			userDTO = commonService.getBasicIds(userDTO);
-			return userDAO.createUser(userDTO,orgId, accessId);
+			return userDAO.createUser(userDTO, orgId, accessId);
 	}
 	 
 	 

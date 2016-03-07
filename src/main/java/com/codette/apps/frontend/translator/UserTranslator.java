@@ -16,9 +16,11 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
 import com.google.gson.reflect.TypeToken;
+import com.codette.apps.dto.AddressDTO;
 import com.codette.apps.dto.CommunityDTO;
 import com.codette.apps.dto.DesignationDTO;
 import com.codette.apps.dto.GenderDTO;
+import com.codette.apps.dto.PhoneNumberDTO;
 import com.codette.apps.dto.ReligionDTO;
 import com.codette.apps.dto.RoleDTO;
 import com.codette.apps.dto.UserDTO;
@@ -140,15 +142,17 @@ public class UserTranslator extends BaseTranslator{
 		if(user != null){
 			userDTO = new UserDTO();
 			BeanUtils.copyProperties(user, userDTO);
-			if(user.getDateOfBirth() != null){
-				System.out.println("user.getDateOfBirth()>>>>>>."+user.getDateOfBirth());
+			
+			if(user.getDateOfBirth() != null) {
 				userDTO.setDateOfBirth(commonUtil.formatgivenStringToDate(user.getDateOfBirth(), CommonConstants.DATE_DD_MMMM_YYYY, CommonConstants.DATE_FORMAT));
-				System.out.println(">>>>>>>>>>"+userDTO.getDateOfBirth());
 			}
-			if(user.getDateOfJoining() != null){
+			
+			if(user.getDateOfJoining() != null) {
 				userDTO.setDateOfJoining(commonUtil.formatgivenStringToDate(user.getDateOfJoining(), CommonConstants.DATE_DD_MMMM_YYYY, CommonConstants.DATE_FORMAT));
-				}
+			}
+			
 			RoleDTO userRole = new RoleDTO();
+			
 			if(role.equals("teaching"))
 				userRole.setRole(CommonConstants.ROLE_T_STAFF);
 			else if(role.equals("nonTeaching"))
@@ -157,26 +161,46 @@ public class UserTranslator extends BaseTranslator{
 				userRole.setRole(CommonConstants.ROLE_ADMIN);
 			userDTO.setRole(userRole);
 			
-			if(user.getCommunity() != null){
+			if(user.getCommunity() != null) {
 				CommunityDTO communityDTO = new CommunityDTO();
 				communityDTO.setId(Integer.valueOf(user.getCommunity().getId()));
 				communityDTO.setCommunity(user.getCommunity().getValue());
 				userDTO.setCommunity(communityDTO);
 			}
 			
-			if(user.getReligion() != null){
+			if(user.getReligion() != null) {
 				ReligionDTO religionDTO = new ReligionDTO();
 				religionDTO.setId(Integer.valueOf(user.getReligion().getId()));
 				religionDTO.setReligion(user.getReligion().getValue());
 				userDTO.setReligion(religionDTO);
 			}
-			if(user.getDesignation() != null){
+			
+			if(user.getDesignation() != null) {
 				DesignationDTO designationDTO = new DesignationDTO();
 				designationDTO.setId(Integer.valueOf(user.getDesignation().getId()));
 				designationDTO.setDesignation(user.getDesignation().getValue());
 				userDTO.setDesignation(designationDTO);
 			}
-			if(user.getGender() != null && !user.getGender().isEmpty()){
+			
+			List<AddressDTO> addressList = new ArrayList<AddressDTO>();
+			if(user.getAddress() != null) {
+				AddressDTO addressDTO = new AddressDTO();
+				addressDTO.setIsPrimary(1);
+				addressDTO.setAddress(user.getAddress());
+				addressList.add(addressDTO);
+				userDTO.setAddresses(addressList);
+			}
+			
+			List<PhoneNumberDTO> phoneNumbers = new ArrayList<PhoneNumberDTO>();
+			if(user.getContact() != null) {
+				PhoneNumberDTO phoneNumberDTO = new PhoneNumberDTO();
+				phoneNumberDTO.setIsPrimary(1);
+				phoneNumberDTO.setPhoneNumber(user.getContact());
+				phoneNumbers.add(phoneNumberDTO);
+				userDTO.setPhoneNumbers(phoneNumbers);
+			}
+			
+			if(user.getGender() != null && !user.getGender().isEmpty()) {
 				GenderDTO gender = new GenderDTO();
 				gender.setGender(user.getGender());
 				userDTO.setGender(gender);

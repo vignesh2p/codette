@@ -84,23 +84,17 @@ public class UsersController extends CommonBaseController {
 			@RequestParam( value="orgId",required = false) Integer orgId ,
 			HttpSession session, HttpServletRequest request) throws Exception{ //working good
 		Object object = null;
-		if(orgId != null && orgId != 0){
-		    try {
-				object = usersService.createUser(userDTO,orgId, getAccessId());
-			} catch (Exception ex) {
-				return setCustomExceptionHandler(ex);
+		try {
+			if(orgId != null && orgId != 0) {
+				return usersService.createUser(userDTO,orgId, getAccessId());
+			} else {
+				return usersService.createUser(userDTO, getOrganizationId(), getAccessId());
 			}
-		}else{
-			try {
-				object  = usersService.createUser(userDTO,getOrganizationId(), getAccessId());
-			} catch (Exception ex) {
+		} catch (Exception ex) {
 				return setCustomExceptionHandler(ex);
-			}
 		}
-		return object;
 	}
-
-
+	
 	
 	@RequestMapping(value = "/update/{userId}", method = RequestMethod.PUT)
 	@ResponseBody

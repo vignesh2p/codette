@@ -58,7 +58,7 @@ public class CommonConstants {
 	// email body
 	public static final String FOOTER = "There you go.. You got an account in schooldays.. Let's understand details on how schooldays works, if"
 			+ "you have any further doubts fee free to contact us -- By Support Team";
-	public static final String CREATE_USERS_BASEURL = "/createUser";
+	public static final String CREATE = "/create";
 	public static final String SESSION_EMAILADDRESS = "emailAddress";
 	public static final String STATUS_PENDING = "PENDING";
 	public static final String STATUS_DECLINED = "DECLINED";
@@ -99,7 +99,6 @@ public class CommonConstants {
 	public static final String STANDARD = "STANDARD";
 	public static final String SECTION = "SECTION";
 	public static final String RELATION = "STUDENT_RELATION";
-	public static final String CREATE = "/create";
 	public static final String STAFF_CLASSES_URL = "/staffClasses";
 	public static final String TEACHING_STAFF = "TEACHING STAFF";
 	public static final String EXAMS_BASE_URL = "/exams";

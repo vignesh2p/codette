@@ -1,5 +1,6 @@
 package com.codette.apps.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -427,7 +428,20 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 	return GET_USERS;
 	
 	}
-	private String createNewUser(UserDTO user,Integer orgId,Integer classId, Integer accessId) {
+	private String createNewUser(UserDTO user,Integer orgId,Integer classId, Integer accessId) throws Exception {
+		boolean isTeachingStaff = false, isAdmin= false, isNonTeachingStaff = false, isStudent = false;
+		
+		if(user.getRole().getRole().equalsIgnoreCase(CommonConstants.ROLE_NT_STAFF)){
+			isNonTeachingStaff = true;
+		}
+		else if(user.getRole().getRole().equalsIgnoreCase(CommonConstants.ROLE_T_STAFF)){
+			isTeachingStaff = true;
+		}
+		else if(user.getRole().getRole().equalsIgnoreCase(CommonConstants.ROLE_STUDENT)){
+			isStudent = true;
+		}
+		
+		List<String> error = new ArrayList<String>();
 		
 		 String INSERT_USER = "INSERT INTO user(";
 		 if(user.getOrgId() != null){
@@ -441,16 +455,25 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 	         }
 		   if(user.getFirstName()!= null){
 		   INSERT_USER = INSERT_USER+ " `FIRST_NAME`, ";
-        }
+           }else{
+        	   throw new FiedValidationException("First Name is empty");
+           }
 		   if(user.getLastName()!=null){
 		   INSERT_USER = INSERT_USER+ "`LAST_NAME`, ";
-		   }
+		   }else{
+			   
+        	   throw new FiedValidationException("Last Name is empty");
+           }
 		   if(user.getDateOfBirth()!=null){
 		   INSERT_USER = INSERT_USER+ "`DATE_OF_BIRTH`, ";
-		   }
+		   }else{
+        	   throw new FiedValidationException("date of birth is empty");
+           }
 		   if(user.getEmailAddresses()!=null){
 		      INSERT_USER = INSERT_USER+ "`EMAIL_ADDRESS`, ";
-		   }
+		   }else{
+        	   throw new FiedValidationException("Email address is empty");
+           }
 		   if(user.getExperience()!=null){
 			   INSERT_USER = INSERT_USER+ "`EXPERIENCE`, ";
 			   }
@@ -459,28 +482,40 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 			   }
 		   if(user.getDateOfJoining() !=null){
 			   INSERT_USER = INSERT_USER+ "`DATE_OF_JOINING`, ";
-			   }
+			   }else{
+	        	   throw new FiedValidationException("date of joining is empty");
+	           }
 		   if(user.getDesignation() !=null && user.getDesignation().getId()!= null ){
 			   INSERT_USER = INSERT_USER+ "`ID_DESIGNATION`, ";
-			   }
+			   }else if(!isStudent){
+	        	   throw new FiedValidationException("designation is not selected");
+	           }
 		   if(user.getQualification() != null){
 			   INSERT_USER = INSERT_USER+ "`QUALIFICATION`, ";
-			   }
+			   }else if(!isStudent){
+	        	   throw new FiedValidationException("Qualification is empty");
+	           }
 		   if(user.getClassRoom()!= null){
 			   INSERT_USER = INSERT_USER+ "`ID_CLASS`,";   
 		   }
 		   if(user.getGender()!= null){
 		   INSERT_USER = INSERT_USER+ "`ID_GENDER`,";
-		   }
+		   }else{
+        	   throw new FiedValidationException("Gender is not selected");
+           }
 		   if(user.getIdImage()!= null){
 			   INSERT_USER = INSERT_USER+ "`ID_IMAGE`,";
 		   }
 		   if(user.getFatherName()!= null){
 		   INSERT_USER = INSERT_USER+ "`FATHER_NAME`,";
-		   }
+		   }else{
+        	   throw new FiedValidationException("Father Name is empty");
+           }
 		   if(user.getMotherName()!= null){
 		   INSERT_USER = INSERT_USER+ "`MOTHER_NAME`,";
-		   }
+		   }else{
+        	   throw new FiedValidationException("Mother Name is empty");
+           }
 		   if(user.getAge() != null){
 		   INSERT_USER = INSERT_USER+ " `AGE`,";
 		   }

@@ -17,6 +17,7 @@
 		            ],
 		            selected = null,
 		            previous = null;
+	
 		$scope.tabs = tabs;
 		$scope.selectedIndex = 2;	          
 		$scope.$watch('selectedIndex', function(current, old){
@@ -34,12 +35,60 @@
 		};
 		
 		$scope.nonTchngStaff = {};
-
+		$scope.firstNameMandatory = false;
+		$scope.isSubmitted = false;
+		$scope.checkEmpty = function(text) {
+			if(text == '' || text == undefined){
+				return true;
+			} else{
+				return false;
+			}
+			
+		};
+	
+		$scope.valid = true;
 		$scope.save = function(){
-			var data = ntStaffservice.createStaff($scope.nonTchngStaff,'nonTeaching');
-			data.then(function(success){	
-					$scope.mainTemplate('','list');
-					});
+			var valid = true;
+			$scope.isSubmitted = true;
+			if($scope.nonTchngStaff.firstName == '' || $scope.nonTchngStaff.firstName == undefined){
+				valid = false;
+			} 
+			
+			if($scope.nonTchngStaff.lastName == '' || $scope.nonTchngStaff.lastName == undefined){
+				valid = false;
+			} 
+			
+			if($scope.nonTchngStaff.dateOfBirth == '' || $scope.nonTchngStaff.dateOfBirth == undefined){
+				valid = false;
+			} 
+			
+			if($scope.nonTchngStaff.gender == '' || $scope.nonTchngStaff.gender == undefined){
+				valid = false;
+			} 
+			
+			if($scope.nonTchngStaff.emailAddresses == '' || $scope.nonTchngStaff.emailAddresses == undefined){
+				valid = false;
+			} 
+			
+			if($scope.nonTchngStaff.motherName == '' || $scope.nonTchngStaff.motherName == undefined){
+				valid = false; 
+			}
+			
+			if($scope.nonTchngStaff.fatherName == '' || $scope.nonTchngStaff.fatherName == undefined){
+				valid = false; 
+			}
+			
+			if($scope.nonTchngStaff.dateOfJoining == '' || $scope.nonTchngStaff.dateOfJoining == undefined){
+				valid = false; 
+			}
+			
+			if(valid){
+				var data = ntStaffservice.createStaff($scope.nonTchngStaff,'nonTeaching');
+				data.then(function(success){	
+						$scope.mainTemplate('list');
+				});
+			}
+			
 		};
 
 		$scope.tabNavigation=function(tabLabel){
@@ -48,7 +97,6 @@
 		}
 
 		$scope.mainTemplate = function(type){
-			console.log("type>>>>>>>>>>>>>>"+type);
 			$scope.template={
 					"pageView":"scripts/app/ntStaff/view/"+type+".html",
 			};  

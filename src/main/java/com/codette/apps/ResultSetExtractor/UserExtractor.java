@@ -108,7 +108,7 @@ public class UserExtractor {
 						user.setBloodGroup(BG);
 						
 						user.setIsDeleted(rs.getInt("IS_DELETED"));
-						user.setCreatedOn(rs.getTimestamp("CREATED_ON"));
+						user.setCreatedOn(rs.getString("CREATED_ON"));
 						user.setAddresses(addresses);
 						
 						user.setPhoneNumbers(phones);
@@ -201,7 +201,7 @@ public class UserExtractor {
 						user.setBloodGroup(BG);
 						
 						user.setIsDeleted(rs.getInt("IS_DELETED"));
-						user.setCreatedOn(rs.getTimestamp("CREATED_ON"));
+						user.setCreatedOn(rs.getString("CREATED_ON"));
 						user.setAddresses(addresses);
 						
 						user.setPhoneNumbers(phones);
@@ -231,9 +231,9 @@ public class UserExtractor {
 				    	address.setIsPrimary(rs.getInt("IS_PRIMARY"));
 				    		
 				    	address.setIsDeleted(rs.getInt("IS_DELETED"));
-				    	address.setCreatedOn(rs.getTimestamp("CREATED_ON"));
+				    	address.setCreatedOn(rs.getString("CREATED_ON"));
 				    	address.setCreatedBy(rs.getInt("CREATED_BY"));
-				    	address.setUpdatedOn(rs.getTimestamp("UPDATED_ON"));
+				    	address.setUpdatedOn(rs.getString("UPDATED_ON"));
 				    	address.setCreatedBy(rs.getInt("UPDATED_BY"));
 						
 						addresses.add(address);
@@ -262,9 +262,9 @@ public class UserExtractor {
 				    	phone.setIsPrimary(rs.getInt("IS_PRIMARY"));
 				    		
 				    	phone.setIsDeleted(rs.getInt("IS_DELETED"));
-				    	phone.setCreatedOn(rs.getTimestamp("CREATED_ON"));
+				    	phone.setCreatedOn(rs.getString("CREATED_ON"));
 				    	phone.setCreatedBy(rs.getInt("CREATED_BY"));
-				    	phone.setUpdatedOn(rs.getTimestamp("UPDATED_ON"));
+				    	phone.setUpdatedOn(rs.getString("UPDATED_ON"));
 				    	phone.setCreatedBy(rs.getInt("UPDATED_BY"));
 						
 						phones.add(phone);
@@ -358,7 +358,7 @@ public class UserExtractor {
 						user.setBloodGroup(BG);*/
 						
 						user.setIsDeleted(rs.getInt("IS_DELETED"));
-						user.setCreatedOn(rs.getTimestamp("CREATED_ON"));
+						user.setCreatedOn(rs.getString("CREATED_ON"));
 						
 						users.add(user);
 				    }

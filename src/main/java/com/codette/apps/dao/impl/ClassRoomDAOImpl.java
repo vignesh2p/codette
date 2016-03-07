@@ -16,6 +16,7 @@ import com.codette.apps.dao.ClassRoomDAO;
 import com.codette.apps.dto.StaffClassDTO;
 import com.codette.apps.service.CommonService;
 import com.codette.apps.util.CommonConstants;
+import com.codette.apps.util.FiedValidationException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -62,7 +63,11 @@ public class ClassRoomDAOImpl extends NamedParameterJdbcDaoSupport implements Cl
 		   KeyHolder keyHolder = new GeneratedKeyHolder();
 		   SqlParameterSource sql = null ;
 		   Integer classId = null;
+		   if(standardId != null && sectionId != null){
 		   classId = checkForClass(standardId,sectionId,orgId);
+		   }else{
+			   throw new FiedValidationException("Section or standard is not seected");
+		   }
 		if(classId == 0){
 		getNamedParameterJdbcTemplate().update(getCreateClassRoom(standardId,sectionId,orgId,accessId),sql,keyHolder);
 		 classId = keyHolder.getKey().intValue();

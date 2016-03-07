@@ -33,7 +33,7 @@ public class Person {
     
     private String _links;
     
-    private String addresses;
+    private String address;
     
     private String  emailAddresses;
    
@@ -169,12 +169,12 @@ public class Person {
 	}
 
 	
-	public String getAddresses() {
-		return addresses;
+	public String getAddress() {
+		return address;
 	}
 
-	public void setAddresses(String addresses) {
-		this.addresses = addresses;
+	public void setAddress(String addresses) {
+		this.address = addresses;
 	}
 
 	/**

@@ -83,14 +83,15 @@ public class UserService  extends BaseService {
 	 * @throws IOException
 	 */
 	public Object createUser(User user, String userID, HttpSession session , String role) throws ParseException, IOException {
+		System.out.println("postString>>>>"+gson.toJson(user));
 		UserDTO userDTO = userTranslator.translateToUserDTO(user, role);
 		String postString = gson.toJson(userDTO);
 		System.out.println("postString>>>>"+postString);
 		try {
 			HttpEntity<String> entity = preparePost(postString, session);
 			ResponseEntity<Object> response = restTemplate.exchange(getAPIBaseURL() 
-							+ CommonConstants.SLASH + CommonConstants.USERS_BASE_URL + CommonConstants.SLASH 
-							+ userID + CommonConstants.CREATE_USERS_BASEURL, HttpMethod.POST, entity ,Object.class);
+							+ CommonConstants.SLASH + CommonConstants.USERS_BASE_URL +CommonConstants.CREATE,
+							HttpMethod.POST, entity ,Object.class);
 			
 			return response.getStatusCode();
 		} catch (JsonSyntaxException e) {

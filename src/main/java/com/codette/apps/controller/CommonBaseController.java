@@ -33,11 +33,18 @@ public class CommonBaseController {
 	HttpServletResponse response;
 	
 	final static Logger logger = Logger.getLogger(CommonBaseController.class);
+	
 	public static final Gson gson = new GsonBuilder().setDateFormat(CommonConstants.ISO_DATE_FORMAT).create();
+	
 	@Resource
 	private CommonService commonServic;
 	
-	@RequestMapping(value= "/community")
+	/**
+	 * 
+	 * @param orgId
+	 * @return
+	 */
+	@RequestMapping(value= "community")
 	@ResponseBody
 	public Object getCommunityList(@RequestParam (value = "orgId",required = false) Integer orgId){
 		Object object = null;
@@ -48,9 +55,12 @@ public class CommonBaseController {
 		return object; 
 	}
 
-	@RequestMapping(value= "/designation")
+	/*
+	 * 
+	 */
+	@RequestMapping(value= "designation")
 	@ResponseBody
-	public Object getDesignationList(@RequestParam (value = "orgId",required = false) Integer orgId){
+	public Object getDesignationList(@RequestParam (value = "orgId", required = false) Integer orgId){
 
 		if(orgId != null && orgId != 0){
 			return gson.toJson(commonServic.getDesignation(orgId));
@@ -59,7 +69,12 @@ public class CommonBaseController {
 		
 	}
 	
-	@RequestMapping(value= "/religion")
+	/**
+	 * 
+	 * @param orgId
+	 * @return
+	 */
+	@RequestMapping(value= "religion")
 	@ResponseBody
 	public Object getReligionList(@RequestParam (value = "orgId",required = false) Integer orgId){
 
@@ -68,7 +83,11 @@ public class CommonBaseController {
 		}
 		return  gson.toJson(commonServic.getReligion(getOrganizationId()));
 	}
-	@RequestMapping(value= "/standard")
+	
+	/*
+	 * 
+	 */
+	@RequestMapping(value= "standard")
 	@ResponseBody
 	public Object getStandardList(@RequestParam (value = "orgId",required = false) Integer orgId){
 
@@ -77,7 +96,13 @@ public class CommonBaseController {
 		}
 		return  gson.toJson(commonServic.getStandard(getOrganizationId()));
 	}
-	@RequestMapping(value= "/section")
+	
+	/**
+	 * 
+	 * @param orgId
+	 * @return
+	 */
+	@RequestMapping(value= "section")
 	@ResponseBody
 	public Object getSectionList(@RequestParam (value = "orgId",required = false) Integer orgId){
 
@@ -86,7 +111,13 @@ public class CommonBaseController {
 		}
 		return  gson.toJson(commonServic.getSection(getOrganizationId()));
 	}
-	@RequestMapping(value= "/subject")
+	
+	/**
+	 * 
+	 * @param orgId
+	 * @return
+	 */
+	@RequestMapping(value= "subject")
 	@ResponseBody
 	public Object getSubjectList(@RequestParam (value = "orgId",required = false) Integer orgId){
 		if(orgId != null && orgId != 0){
@@ -95,6 +126,10 @@ public class CommonBaseController {
 		return  gson.toJson(commonServic.getSubject(getOrganizationId()));
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public Integer getAccessId() {
 		if(request.getHeader(CommonConstants.SESSION_USER_ID) != null){
 			return Integer.valueOf(request.getHeader(CommonConstants.SESSION_USER_ID));	
@@ -104,11 +139,16 @@ public class CommonBaseController {
 	
    public Integer getOrganizationId() {
 		if(request.getHeader(CommonConstants.XORG_ID) != null){
+			System.out.println("request.getHeader(CommonConstants.XORG_ID----"+request.getHeader(CommonConstants.XORG_ID));
 			return Integer.valueOf(request.getHeader(CommonConstants.XORG_ID));
 		}
 		return null;
 	}
 
+   /**
+    * 
+    * @return
+    */
 	public String getRole() {
 		if(request.getHeader(CommonConstants.SESSION_USERROLE) != null){
 			return request.getHeader(CommonConstants.SESSION_USERROLE);

@@ -1,6 +1,4 @@
-/**
- * 
- *//*
+
 package com.codette.apps.frontend.translator;
 
 import java.lang.reflect.Type;
@@ -13,58 +11,56 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
-import com.google.gson.reflect.TypeToken;
+import com.codette.apps.dto.AddressDTO;
+import com.codette.apps.dto.ClassesDTO;
 import com.codette.apps.dto.CommunityDTO;
 import com.codette.apps.dto.GenderDTO;
+import com.codette.apps.dto.PhoneNumberDTO;
 import com.codette.apps.dto.ReligionDTO;
 import com.codette.apps.dto.SectionDTO;
 import com.codette.apps.dto.StandardDTO;
-import com.codette.apps.dto.AddressDTO;
-import com.codette.apps.dto.StudentDTO;
-import com.codette.apps.dto.PhoneNumberDTO;
+import com.codette.apps.dto.UserDTO;
 import com.codette.apps.frontend.model.Class;
 import com.codette.apps.frontend.model.Section;
 import com.codette.apps.frontend.model.Standard;
 import com.codette.apps.frontend.model.Student;
 import com.codette.apps.util.CommonConstants;
-*//**
- * @author Vignesh
- *
- *//*
+import com.google.gson.reflect.TypeToken;
+
 @Component
 public class StudentTranslator  extends BaseTranslator{
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(StudentTranslator.class);
 	
-	public List<StudentDTO> convertToListOfStudentDTO(Object object) {
+	public List<UserDTO> convertToListOfStudentDTO(Object object) {
 		LOGGER.debug("COnverting json to list of StudentDTO");
-		Type listType = new TypeToken<List<StudentDTO>>() {}.getType();
-		List<StudentDTO> studentDTOList = gson.fromJson(translateObjectToJson(object), listType);
+		Type listType = new TypeToken<List<UserDTO>>() {}.getType();
+		List<UserDTO> studentDTOList = gson.fromJson(translateObjectToJson(object), listType);
 		return studentDTOList;
 	}
 
-	public List<Student> translateToStudentList(List<StudentDTO> studentDTOList) {
+	public List<Student> translateToStudentList(List<UserDTO> studentDTOList) {
 		LOGGER.debug("Translate list of StudentDTO to list of Student");
 		List<Student> studentList = null;
 		if(studentDTOList != null && !studentDTOList.isEmpty()){
 			studentList = new ArrayList<Student>();
-			for(StudentDTO studentDTO : studentDTOList){
+			for(UserDTO studentDTO : studentDTOList){
 				studentList.add(translateToStudent(studentDTO));
 			}
 		}
 		return studentList;
 	}
 
-	private Student translateToStudent(StudentDTO studentDTO) {
+	private Student translateToStudent(UserDTO studentDTO) {
 		LOGGER.debug("Translate StudentDTO to Student");
 		Student student = null;
 		if(studentDTO!= null){
 			student = new Student();
 			BeanUtils.copyProperties(studentDTO, student);
-			if(studentDTO.getEmailAddress() != null){
-				student.setEmailAddresses(studentDTO.getEmailAddress());
+			if(studentDTO.getEmailAddresses() != null){
+				student.setEmailAddresses(studentDTO.getEmailAddresses());
 			}
-			if(studentDTO.getStandard() != null && studentDTO.getSection() != null){
+			/*if(studentDTO.getStandard() != null && studentDTO.getSection() != null){
 				Class classes = new Class(); Standard standard = new Standard(); Section section = new Section();
 				if(studentDTO.getStandard().getId() != null){
 					standard.setId(studentDTO.getStandard().getId());
@@ -81,14 +77,15 @@ public class StudentTranslator  extends BaseTranslator{
 				classes.setStandard(standard);
 				classes.setSection(section);
 			}
-		
+		*/
 		}
 		return student;
 	}
-	public StudentDTO translateToStudentDTO(Student student) throws ParseException {
-		StudentDTO studentDTO = null;
+	public UserDTO translateToStudentDTO(Student student) throws ParseException {
+		UserDTO studentDTO = null;
+		ClassesDTO classRoom = null;
 		if(student != null){
-			studentDTO = new StudentDTO();
+			studentDTO = new UserDTO();
 			
 			if(student.getFirstName() != null){
 				studentDTO.setFirstName(student.getFirstName());
@@ -103,18 +100,20 @@ public class StudentTranslator  extends BaseTranslator{
 			if(student.getDateOfJoining() != null){
 				studentDTO.setDateOfJoining(commonUtil.formatgivenStringToDate(student.getDateOfJoining(), CommonConstants.DATE_DD_MMMM_YYYY,  CommonConstants.DATE_FORMAT));
 			}
+			classRoom = new ClassesDTO();
 			if(student.getStandard() != null){
 				StandardDTO standard = new StandardDTO();
 				standard.setId(Integer.valueOf(student.getStandard().getId()));
 				standard.setStandard(student.getStandard().getValue());
-				studentDTO.setStandard(standard);
+				classRoom.setStandard(standard);
 			}
 			if(student.getSection() != null){
 				SectionDTO section = new SectionDTO();
 				section.setId(Integer.valueOf(student.getSection().getId()));
 				section.setSection(student.getSection().getValue());
-				studentDTO.setSection(section);
+				classRoom.setSection(section);
 			}
+			studentDTO.setClassRoom(classRoom);
 			if(student.getCommunity() != null){
 				CommunityDTO communityDTO = new CommunityDTO();
 				communityDTO.setId(Integer.valueOf(student.getCommunity().getId()));
@@ -139,12 +138,12 @@ public class StudentTranslator  extends BaseTranslator{
 				studentDTO.setGender(gender);
 			}
 			if(student.getEmailAddresses() != null){
-				studentDTO.setEmailAddress(student.getEmailAddresses());
+				studentDTO.setEmailAddresses(student.getEmailAddresses());
 			}
-			if(student.getAddresses() != null){
+			if(student.getAddress() != null){
 				List<AddressDTO> addresses = new ArrayList<AddressDTO>();
 				AddressDTO studentAddressDTO = new AddressDTO();
-				studentAddressDTO.setAddress(student.getAddresses());
+				studentAddressDTO.setAddress(student.getAddress());
 				addresses.add(studentAddressDTO);
 				studentDTO.setAddresses(addresses);
 			}
@@ -153,7 +152,7 @@ public class StudentTranslator  extends BaseTranslator{
 				PhoneNumberDTO phoneNumber = new PhoneNumberDTO();
 				phoneNumber.setPhoneNumber(student.getContact());
 				phoneNumbers.add(phoneNumber);
-				studentDTO.setPhoneNumber(phoneNumbers);
+				studentDTO.setPhoneNumbers(phoneNumbers);
 			}
 		}
 		return studentDTO;
@@ -161,4 +160,3 @@ public class StudentTranslator  extends BaseTranslator{
 	
 
 }
-*/

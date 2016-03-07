@@ -7,9 +7,9 @@ public class BaseDTO{
 	private Integer id;
 	private Integer orgId;
 	private Integer createdBy;
-	private Timestamp createdOn;
+	private String createdOn;
 	private Integer updatedBy;
-	private Timestamp updatedOn;
+	private String updatedOn;
 	private Integer isDeleted;
 	
 	
@@ -41,10 +41,10 @@ public class BaseDTO{
 	public void setCreatedBy(Integer createdBy) {
 		this.createdBy = createdBy;
 	}
-	public Timestamp getCreatedOn() {
+	public String getCreatedOn() {
 		return createdOn;
 	}
-	public void setCreatedOn(Timestamp createdOn) {
+	public void setCreatedOn(String createdOn) {
 		this.createdOn = createdOn;
 	}
 	public Integer getUpdatedBy() {
@@ -53,10 +53,10 @@ public class BaseDTO{
 	public void setUpdatedBy(Integer updatedBy) {
 		this.updatedBy = updatedBy;
 	}
-	public Timestamp getUpdatedOn() {
+	public String getUpdatedOn() {
 		return updatedOn;
 	}
-	public void setUpdatedOn(Timestamp updatedOn) {
+	public void setUpdatedOn(String updatedOn) {
 		this.updatedOn = updatedOn;
 	}
 

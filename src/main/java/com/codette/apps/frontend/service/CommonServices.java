@@ -87,8 +87,7 @@ public class CommonServices extends BaseService {
 		try {
 			requestEntity = prepareGet(session);
 			
-			response = restTemplate.exchange( getAPIBaseURL()  + CommonConstants.SLASH
-					+ CommonConstants.RELIGION ,
+			response = restTemplate.exchange( getAPIBaseURL() + CommonConstants.SLASH + "religion",
 					HttpMethod.GET, requestEntity, Object.class);
 			List<ReligionDTO> reigionDTOList = commonTranslator.convertToReligionDTOList(response.getBody());
 			dropDownList = commonTranslator.translateToReligionDropDownList(reigionDTOList);
