@@ -24,7 +24,7 @@ import com.google.gson.GsonBuilder;
 
 
 @Controller
-@RequestMapping("/classroom")
+@RequestMapping("/class")
 public class ClassRoomController extends CommonBaseController{
 	
 	final static Logger logger = Logger.getLogger(ClassRoomController.class);
@@ -52,17 +52,19 @@ public class ClassRoomController extends CommonBaseController{
 		  return object;
 		 }	   
 
-	  @RequestMapping(value =  "/classes", method = RequestMethod.GET)
+	     @RequestMapping(value =  "/list", method = RequestMethod.GET)
 		 @ResponseBody
-		 public Object getAllClassList(
-				 @RequestParam(value ="orgId" , required = false) Integer orgId,
-				 @RequestParam(value ="userId" , required = false) Integer userId,
+		 public Object getAllClassList(@RequestParam(value ="orgId" , required = false) Integer orgId,
+				 @RequestParam(value ="staffId" , required = false) Integer staffId,
 				 HttpServletRequest request, HttpSession session) throws Exception{
 		  Object object = null;
-		  try{
-			     object = classRoomService.getAllClassList(getOrganizationId());	  
-		  }
-		  catch(Exception e){
+		  try {
+			  if(staffId != null) {
+				  object = classRoomService.getClassList(getOrganizationId(), staffId, getRole());
+			  } else {
+				  object = classRoomService.getAllClassList(getOrganizationId());
+			  }
+		  } catch(Exception e) {
 			 setCustomExceptionHandler(e);
 		  }
 		  return object;

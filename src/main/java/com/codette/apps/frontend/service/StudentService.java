@@ -3,6 +3,7 @@ package com.codette.apps.frontend.service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -16,6 +17,7 @@ import org.springframework.web.client.RestClientException;
 
 import com.codette.apps.dto.UserDTO;
 import com.codette.apps.frontend.model.Student;
+import com.codette.apps.frontend.translator.StudentTranslator;
 import com.codette.apps.util.CommonConstants;
 import com.google.gson.JsonSyntaxException;
 
@@ -24,8 +26,8 @@ import com.google.gson.JsonSyntaxException;
 
 public class StudentService extends BaseService{
 	
-	/*//@Autowired
-	//StudentTranslator studentTranslator;
+	@Autowired
+	StudentTranslator studentTranslator;
 	
 
 	public List<Student> getStudentsList(String standardId, String sectionId, HttpSession session) throws Exception {
@@ -51,17 +53,17 @@ public class StudentService extends BaseService{
 		}
 
 
-	public Object getClassesList(HttpSession session) throws Exception {
+	public Object getClassesList(Map<String, String> queryString, HttpSession session) throws Exception {
 		ResponseEntity<Object> response = null;
 		try {
-			HttpEntity<String> requestEntity = prepareGet(session); 
+		 String parameters = translateQueryParams(queryString);
+		 HttpEntity<String> requestEntity = prepareGet(session); 
 		
-		 response = restTemplate.exchange( getAPIBaseURL()
-							+ CommonConstants.STUDENTS_BASE_URL + CommonConstants.CLASSES_URL ,
-							HttpMethod.GET, requestEntity, Object.class);
-			
+		 response = restTemplate.exchange( getAPIBaseURL() + CommonConstants.CLASS_BASE_URL 
+				 + CommonConstants.LIST_URL +"?" +parameters, HttpMethod.GET, requestEntity, Object.class);
+		
+		 System.out.println("response.getBody()--"+gson.toJson(response.getBody()));
 		} catch (RestClientException | IOException e) {
-			e.printStackTrace();
 			throw e;
 		}
 		return response.getBody();
@@ -89,7 +91,7 @@ public class StudentService extends BaseService{
 		try {
 		 ResponseEntity<Object> response = null;
 		 HttpEntity<String> requestEntity = prepareGet(session); 
-		 List<StudentDTO> studentDTOList = null; 
+		 List<UserDTO> studentDTOList = null; 
 		 List<Student> studentList = null; 
 		 response = restTemplate.exchange( getAPIBaseURL()
 							+ CommonConstants.STUDENTS_BASE_URL + CommonConstants.STAFF_URL
@@ -125,5 +127,4 @@ public class StudentService extends BaseService{
 			throw e;
 		}  
 	}
-*/
 }

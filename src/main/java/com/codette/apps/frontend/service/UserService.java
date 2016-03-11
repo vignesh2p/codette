@@ -3,6 +3,7 @@ package com.codette.apps.frontend.service;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -43,14 +44,15 @@ public class UserService  extends BaseService {
 	 * @return
 	 * @throws IOException
 	 */
-	public List<User> getUsersList(String role, HttpSession session, String locale) throws IOException {
+	public List<User> getUsersList(Map<String, String> queryString, String role, HttpSession session, String locale) throws IOException {
 		List<UserDTO> userDTOList = null;
 		List<User> userList = null;
 		try {
+			String parameters = translateQueryParams(queryString);
 			HttpEntity<String> requestEntity = prepareGet(session); 
 			ResponseEntity<Object> response =
 							restTemplate.exchange(getAPIBaseURL()
-							+ CommonConstants.USERS_BASE_URL +"/"+role  +"/list",
+							+ CommonConstants.USERS_BASE_URL +"/"+role  +"/list?" + parameters,
 							HttpMethod.GET, requestEntity, Object.class);
 
 			userDTOList = userTranslator.translateToUserDTOList(response.getBody());

@@ -112,4 +112,7 @@ public class CommonConstants {
 	public static final String SUBJECT = "SUBJECT";
 	public static final String SESSION_ORG_NAME = "_orgName";
 	public static final String DESIGNATION_BASE_URL = "/designation";
+	public static final String CLASS_BASE_URL = "/class";
+	public static final String LIST_URL = "/list";
+	public static final String USER_ID = "userId";
 }
