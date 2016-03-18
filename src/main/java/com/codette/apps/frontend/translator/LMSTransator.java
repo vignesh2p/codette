@@ -72,8 +72,8 @@ public class LMSTransator extends BaseTranslator{
 			if(leaveManagementDTO.getReason() != null){
 				leaveManagement.setReason(leaveManagementDTO.getReason());
 			}
-			if(leaveManagementDTO.getFormStatus() != null){
-				leaveManagement.setStatus(leaveManagementDTO.getFormStatus().getStatus());
+			if(leaveManagementDTO.getStatus() != null){
+				leaveManagement.setStatus(leaveManagementDTO.getStatus().getStatus());
 			}
 			if(leaveManagementDTO.getStaff() != null){
 				//leaveManagement.setStatus(leaveManagementDTO.getFormStatus().getStatus());
@@ -111,7 +111,7 @@ public class LMSTransator extends BaseTranslator{
 			if(status != null){
 				StatusDTO formStatusDTO = new StatusDTO();
 				formStatusDTO.setStatus(status);
-				leaveManagementDTO.setFormStatus(formStatusDTO);
+				leaveManagementDTO.setStatus(formStatusDTO);
 			}
 			if(leaveManagement.getStaff()!= null){
 				UserDTO staff = new UserDTO();

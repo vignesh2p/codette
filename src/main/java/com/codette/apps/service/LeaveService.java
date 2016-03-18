@@ -41,6 +41,6 @@ public class LeaveService {
 	public Object Applyleave(LeaveManagementDTO leaveManagementListDTO,
 			Integer orgId, Integer userId, Integer accessId) throws Exception{
 		// TODO Auto-generated method stub
-		return leaveDAO.applyleave(leaveManagementListDTO, orgId,userId,accessId);
+		return leaveDAO.applyleave(leaveManagementListDTO, orgId, userId,accessId);
 	}
 }

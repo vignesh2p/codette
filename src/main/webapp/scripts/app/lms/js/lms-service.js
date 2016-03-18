@@ -13,7 +13,7 @@
        
     	
     	this.createLeaveRequest = function (lms){
-    		  var url ='api/lms/createRequest';
+    		  var url ='api/lms/create';
     		  $rootScope.master = angular.copy(lms);
     		  var deferred = $q.defer();
     		  var data = restService.restCall($rootScope.master, url, 'POST');
@@ -41,7 +41,7 @@
     	};
     	
     	this.updateLMS = function(obj){
-    	  var url ='api/lms/updateRequest';
+    	  var url ='api/lms/update';
     	  $rootScope.master = angular.copy(obj);
   		  var deferred = $q.defer();
   		  var data = restService.restCall($rootScope.master, url, 'PUT');

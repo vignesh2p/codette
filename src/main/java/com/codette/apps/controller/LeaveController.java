@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.codette.apps.dto.LeaveManagementDTO;
@@ -27,6 +28,7 @@ public class LeaveController extends CommonBaseController {
 
 	final static Logger logger = Logger.getLogger(LeaveController.class);
 	public static final Gson gson = new GsonBuilder().setDateFormat(CommonConstants.ISO_DATE_FORMAT).create();
+	
 	@Resource
 	private LeaveService leaveService;
 	
@@ -39,45 +41,30 @@ public class LeaveController extends CommonBaseController {
 	 * @return
 	 * @throws Exception 
 	 */
-	@RequestMapping(value= "/pending/{userId}")
+	@RequestMapping(value= "/list")
 	@ResponseBody
-	public Object getPendingLMSList(@PathVariable( value="orgId") String orgId,
-			@PathVariable( value="userId") String userId,
+	public Object getPendingLMSList(@RequestParam( value = "status", required = true) String status,
+			@RequestParam(value="userId" , required = false) String userId,
 			HttpEntity<String> entity, HttpServletRequest request) throws Exception{
-		Object object = null;
-		try {
-				
-		    object = leaveService.getPendingLeave(Integer.valueOf(orgId),CommonConstants.STATUS_PENDING,
-		    		Integer.valueOf(userId),getRole());
-		    if(object instanceof List){
-		    	object = gson.toJson(object);
-		    }
-		    return object;
-		} catch (Exception ex) {
-			return setCustomExceptionHandler(ex);
+			Object lmsList = null;
+	try {
+		if(userId == null){
+			userId = getAccessId().toString();
 		}
+		
+		if(status != null && CommonConstants.STATUS_PENDING.equalsIgnoreCase(status)){
+			lmsList = leaveService.getPendingLeave(getOrganizationId(), status, Integer.valueOf(userId), getRole());
+		} else if(status != null && CommonConstants.STATUS_HISTORY.equalsIgnoreCase(status)) {
+			lmsList = leaveService.getHistoryLeave(getOrganizationId(), status, Integer.valueOf(userId), getRole());
+		}
+	    return lmsList;
+	} catch (Exception ex) {
+		ex.printStackTrace();
+		return setCustomExceptionHandler(ex);
+	}
 		
 	}
 	
-	
-	@RequestMapping(value= "/history/{userId}")
-	@ResponseBody
-	public Object getHistoryLMSList(@PathVariable( value="orgId") String orgId,
-			@PathVariable( value="userId") String userId, HttpServletRequest request) throws Exception{
-
-		Object object = null;
-		try {
-				object = leaveService.getHistoryLeave(Integer.valueOf(orgId),CommonConstants.STATUS_HISTORY, 
-						Integer.valueOf(userId),getRole());
-				  if(object instanceof List){
-				    	object = gson.toJson(object);
-				    }
-				  return object;
-		}catch (Exception ex) {
-			return setCustomExceptionHandler(ex);
-		}
-	}
-	
 	/**
 	 * 
 	 * @param leaveManagement
@@ -85,19 +72,21 @@ public class LeaveController extends CommonBaseController {
 	 * @return
 	 * @throws Exception 
 	 */
-	@RequestMapping(value ="/create/userId",method = RequestMethod.POST)
+	@RequestMapping(value ="/create", method = RequestMethod.POST)
 	@ResponseBody
 	public Object createLeaveRequest(@RequestBody LeaveManagementDTO leaveManagementListDTO,
-			@PathVariable( value="orgId") String orgId,
-			@PathVariable( value="userId") String userId,
-			HttpServletRequest request) throws Exception{
+			@RequestParam(value="userId", required = false) String userId) throws Exception{
 		Object object= null;
 		try {
-					object = leaveService.Applyleave(leaveManagementListDTO,
-							Integer.valueOf(orgId),Integer.valueOf(userId),
-							getAccessId());
-					return object;
+			if(userId == null){
+				userId  = getAccessId().toString();
+			}
+			if(userId != null){
+				object = leaveService.Applyleave(leaveManagementListDTO, getOrganizationId(), Integer.valueOf(userId), getAccessId());
+			}
+			return object;
 		}catch (Exception ex) {
+			ex.printStackTrace();
 			return setCustomExceptionHandler(ex);
 		}
 	}
@@ -110,15 +99,17 @@ public class LeaveController extends CommonBaseController {
 	 * @return
 	 * @throws Exception 
 	 */
-	@RequestMapping(value = CommonConstants.UPDATE_REQUEST, method = RequestMethod.PUT)
+	@RequestMapping(value = CommonConstants.UPDATE, method = RequestMethod.PUT)
 	@ResponseBody
 	public Object updateStatusForLeaveRequest(@RequestBody List<LeaveManagementDTO> leaveManagementListDTO,
-			@PathVariable( value="orgId") String orgId,
-			@PathVariable( value="userId") String userId,
+			@RequestParam(value="userId", required = false) String userId,
 			HttpServletRequest request) throws Exception{
 		Object object = null;
 		try {
-			object = leaveService.statusChange(leaveManagementListDTO,leaveManagementListDTO,Integer.valueOf(orgId),Integer.valueOf(userId), getAccessId());
+			if(userId == null){
+				userId  = getAccessId().toString();
+			}
+			object = leaveService.statusChange(leaveManagementListDTO,leaveManagementListDTO, getOrganizationId(), Integer.valueOf(userId), getAccessId());
 			return object ;
 		} catch (Exception ex) {
 			return setCustomExceptionHandler(ex);

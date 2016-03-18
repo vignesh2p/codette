@@ -41,10 +41,10 @@ public Integer getIsTaken() {
 public void setIsTaken(Integer isTaken) {
 	this.isTaken = isTaken;
 }
-public StatusDTO getFormStatus() {
+public StatusDTO getStatus() {
 	return status;
 }
-public void setFormStatus(StatusDTO status) {
+public void setStatus(StatusDTO status) {
 	this.status = status;
 }
 

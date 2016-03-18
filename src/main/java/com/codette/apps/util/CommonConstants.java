@@ -25,7 +25,7 @@ public class CommonConstants {
 	public static final String SESSION_BASE_URL = "/session";
 	public static final String USER_BASE_URL = "/user";
 	public static final String ORGANIZATION_BASE_URL = "/organization";
-	public static final String LMS_BASE_URL = "/leaveManagement";
+	public static final String LMS_BASE_URL = "/leave";
 	
 	//Session variable
 	public static final String SESSION_PERSON_ID="_pId";
@@ -58,7 +58,6 @@ public class CommonConstants {
 	// email body
 	public static final String FOOTER = "There you go.. You got an account in schooldays.. Let's understand details on how schooldays works, if"
 			+ "you have any further doubts fee free to contact us -- By Support Team";
-	public static final String CREATE = "/create";
 	public static final String SESSION_EMAILADDRESS = "emailAddress";
 	public static final String STATUS_PENDING = "PENDING";
 	public static final String STATUS_DECLINED = "DECLINED";
@@ -69,8 +68,8 @@ public class CommonConstants {
 	public static final String ROLE_STUDENT = "STUDENT";
 	public static final String ROLE_PARENT = "PARENT";
 	public static final String STATUS_HISTORY = "HISTORY";
-	public static final String CREATE_LEAVE_REQUEST = "/createRequest";
-	public static final String UPDATE_REQUEST = "/updateRequest";
+	public static final String CREATE = "/create";
+	public static final String UPDATE = "/update";
 	public static final String EMAIL_VERIFICATION = "/email-verification";
 	public static final String PASSWORD_RESET_SUBJECT = "School Days password reset";
 	public static final String PASSWORD_RESET_CONTENT = "To log in and access your account, please click on the link below. http://192.168.1.3:8080/#/resetPassword "
@@ -115,4 +114,5 @@ public class CommonConstants {
 	public static final String CLASS_BASE_URL = "/class";
 	public static final String LIST_URL = "/list";
 	public static final String USER_ID = "userId";
+	public static final String STATUS = "status";
 }

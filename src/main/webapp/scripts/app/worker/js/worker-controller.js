@@ -31,13 +31,10 @@
 	        	$scope.mainTemplate('details',tabLabel.toLowerCase());
 	          };
 	          
-	          $scope.mainTemplate = function(type1,type2){
-	        	  console.log('type1---------'+type1+'type2------------->'+type2);
-	  	    		$scope.template1={
-	  						  //   "pageList":"scripts/app/worker/view/"+type1+".html",
-	  						     "pageDetails":"scripts/app/worker/view/"+type2+".html"
-	  						   };  
-	  				 //  angular.element(".org-details-title .dropdown").show();
+	          $scope.mainTemplate = function(pageName){
+	  	    		$scope.template1 ={
+	  	    				"pageDetails":"scripts/app/worker/view/"+pageName+".html"
+	  				};  
 	  			};
 	  			
 	  			$scope.religion = [

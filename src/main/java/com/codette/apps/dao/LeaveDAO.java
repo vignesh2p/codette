@@ -14,7 +14,7 @@ public interface LeaveDAO {
 	
 	public Object getHistoryLeave(Integer orgId, String status,Integer userId,String role)throws Exception;
 
-	public Object applyleave(LeaveManagementDTO leave,Integer orgId,Integer userId,Integer accessId)throws Exception;
+	public Object applyleave(LeaveManagementDTO leave,Integer orgId, Integer userId,Integer accessId)throws Exception;
 
 	public Object  statusChange(List<LeaveManagementDTO> leaveDTO, Integer orgId, Integer userId, Integer accessId) throws Exception;
 	

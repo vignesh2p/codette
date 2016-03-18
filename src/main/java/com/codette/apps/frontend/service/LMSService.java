@@ -3,6 +3,7 @@ package com.codette.apps.frontend.service;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -26,20 +27,22 @@ public class LMSService extends BaseService {
 	@Resource
 	LMSTransator lMSTransator;
 	
-	public List<LeaveManagement> getLMSByStatus(String status, HttpSession session) throws Exception{
+	public List<LeaveManagement> getLMSByStatus(Map<String, String> queryString, HttpSession session) throws Exception{
 	List<LeaveManagementDTO> leaveManagementDTOList = null; 
 	List<LeaveManagement> leaveManagementList = null; 
+	String parameters = "";
 	try {
+		System.out.println("queryString------"+gson.toJson(queryString));
 		HttpEntity<String> requestEntity = prepareGet(session); 
-	
+		parameters = translateSplitParams(queryString);
 		ResponseEntity<Object> response = restTemplate.exchange( getAPIBaseURL()
-						+ CommonConstants.LMS_BASE_URL + CommonConstants.SLASH + status ,
+						+ CommonConstants.LMS_BASE_URL + CommonConstants.LIST_URL + "?" + parameters,
 						HttpMethod.GET, requestEntity, Object.class);
-		System.out.println("response.getBody()>>>>>"+status+">>>>>"+gson.toJson(response.getBody()));
+		
+		System.out.println("response.getBody()-----"+gson.toJson(response.getBody()));
 		leaveManagementDTOList = lMSTransator.convertToListOfLMSDTO(response.getBody()); 
 		leaveManagementList = lMSTransator.translateToLMSList(leaveManagementDTOList);
 	} catch (RestClientException | IOException e) {
-		e.printStackTrace();
 		throw e;
 	}
 	return leaveManagementList;
@@ -61,7 +64,7 @@ public class LMSService extends BaseService {
 			HttpEntity<String> entity = preparePost(postString, session);
 			
 			response = restTemplate.exchange( getAPIBaseURL()
-					+ CommonConstants.LMS_BASE_URL + CommonConstants.CREATE_LEAVE_REQUEST,
+					+ CommonConstants.LMS_BASE_URL + CommonConstants.CREATE,
 					HttpMethod.POST, entity, Object.class);
 
 			return response.getStatusCode();
@@ -88,8 +91,7 @@ public class LMSService extends BaseService {
 		ResponseEntity<Object> response = null;
 		try {
 			HttpEntity<String> entity = preparePut(postString, session);
-			response = restTemplate.exchange(getAPIBaseURL()
-					+ CommonConstants.LMS_BASE_URL + CommonConstants.UPDATE_REQUEST,
+			response = restTemplate.exchange(getAPIBaseURL() + CommonConstants.LMS_BASE_URL + CommonConstants.UPDATE,
 					HttpMethod.PUT, entity, Object.class);
 
 		return response.getStatusCode();

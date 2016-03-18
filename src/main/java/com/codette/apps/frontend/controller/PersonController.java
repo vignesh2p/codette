@@ -73,7 +73,7 @@ public class PersonController extends BaseController{
 	public ResponseEntity<?>  getEvaluationStatus(){
 		Object result=null;
 		try{
-			result= personService.getEvaluationStatus();
+			result = personService.getEvaluationStatus();
 		}catch(Exception ex){
 			return new ResponseEntity<>(baseController.setResponse(MessageUtils.getMessage("error.creating.person"),
 					HttpStatus.INTERNAL_SERVER_ERROR.toString()),HttpStatus.INTERNAL_SERVER_ERROR);

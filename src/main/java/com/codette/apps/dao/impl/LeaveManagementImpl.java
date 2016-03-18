@@ -36,7 +36,7 @@ public class LeaveManagementImpl  extends NamedParameterJdbcDaoSupport implement
                     ID_STATUS, Integer.class);
 				
 			if(!role.equalsIgnoreCase(CommonConstants.ROLE_ADMIN)){
-				LEAVE_FORM = LEAVE_FORM+" AND A.ID_USER = ?";
+				LEAVE_FORM = LEAVE_FORM+" AND A.ID_USER =?";
 				Integer[] inputs = {statusId,userId};
 				object = getJdbcTemplate().query(LEAVE_FORM,inputs, new LeaveManagementRowMapper());
 			}else{
@@ -85,6 +85,7 @@ public class LeaveManagementImpl  extends NamedParameterJdbcDaoSupport implement
 		String ID_STATUS = "SELECT ID FROM status where STATUS =? ";
 		String INSERT_LEAVE = "INSERT INTO `leave_management`(";
 				INSERT_LEAVE = INSERT_LEAVE+"`ID_USER`,";
+				INSERT_LEAVE = INSERT_LEAVE+"`ID_ORGANIZATION`,";
 				if(leave.getStartTime()!=null){
 					INSERT_LEAVE = INSERT_LEAVE+ " `START_TIME`,";
 				}
@@ -103,7 +104,7 @@ public class LeaveManagementImpl  extends NamedParameterJdbcDaoSupport implement
 				+ " `CREATED_BY`) "
 				+ "VALUES (";
 
-					INSERT_LEAVE = INSERT_LEAVE+ +accessId+",";
+					INSERT_LEAVE = INSERT_LEAVE + accessId +","+ orgId +",";
 					if(leave.getStartTime()!=null){
 						INSERT_LEAVE = INSERT_LEAVE+ commonUtil.stringFeilds(leave.getStartTime())+",";
 					}
@@ -127,12 +128,10 @@ public class LeaveManagementImpl  extends NamedParameterJdbcDaoSupport implement
 					
 					if(statusId!= null)
 					{
-						  Object [] inputs = {statusId};
-						getJdbcTemplate().update(INSERT_LEAVE, inputs );		
-					  System.out.println(INSERT_LEAVE);
-							responseBean.setStatus("SUCCESS");
-							responseBean.setMessage("Leave Is applied");
-						
+						Object [] inputs = {statusId};
+	    				getJdbcTemplate().update(INSERT_LEAVE, inputs );		
+    					responseBean.setStatus("SUCCESS");
+						responseBean.setMessage("Leave Is applied");
 					}
 					
 		return responseBean;
@@ -160,11 +159,10 @@ public class LeaveManagementImpl  extends NamedParameterJdbcDaoSupport implement
 			if(leave.getIsTaken() != null){
 				UPDATE_LEAVE = UPDATE_LEAVE+"`IS_TAKEN`="+leave.getIsTaken()+",";
 			}
-			if(leave.getFormStatus() != null){
-				String[] statusInput= {leave.getFormStatus().getStatus()};
-				Integer statusId=  getJdbcTemplate().queryForObject(
-	                    ID_STATUS,statusInput,Integer.class);
-			
+			if(leave.getStatus() != null && leave.getStatus().getStatus() != null){
+				String[] statusInput= {leave.getStatus().getStatus()};
+				Integer statusId = getJdbcTemplate().queryForObject(ID_STATUS, statusInput, Integer.class);
+				System.out.println("statusId---------"+statusId);
 				UPDATE_LEAVE = UPDATE_LEAVE+"`ID_FORM_STATUS`="+statusId+",";
 			}
 			UPDATE_LEAVE = UPDATE_LEAVE+"`UPDATED_BY`="+userId;	

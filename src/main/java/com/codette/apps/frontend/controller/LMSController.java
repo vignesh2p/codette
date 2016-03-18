@@ -1,7 +1,9 @@
 package com.codette.apps.frontend.controller;
 
 import java.text.ParseException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -37,9 +39,11 @@ public class LMSController extends BaseController{
 	@RequestMapping(value= "/{status}", method = RequestMethod.GET)
 	public ResponseEntity<?> getLMSList(@PathVariable(value="status")String status, HttpSession session){
 		List<LeaveManagement> lmsList = null;
+		Map<String, String> queryString = new HashMap<String, String>();
 		try {
-		if(status != null &&!status.isEmpty()){
-				lmsList = lMSService.getLMSByStatus(status, session);
+		if(status != null && !status.isEmpty()){
+			queryString.put(CommonConstants.STATUS, status);
+			lmsList = lMSService.getLMSByStatus(queryString, session);
 		}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -54,7 +58,7 @@ public class LMSController extends BaseController{
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping(value = CommonConstants.CREATE_LEAVE_REQUEST ,method = RequestMethod.POST)
+	@RequestMapping(value = CommonConstants.CREATE ,method = RequestMethod.POST)
 	public ResponseEntity<?> createLeaveRequest(@RequestBody LeaveManagement leaveManagement, HttpSession session, HttpServletRequest request){
 		Object obj = null;
 		try {
@@ -75,7 +79,7 @@ public class LMSController extends BaseController{
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping(value = CommonConstants.UPDATE_REQUEST , method = RequestMethod.PUT)
+	@RequestMapping(value = CommonConstants.UPDATE , method = RequestMethod.PUT)
 	public ResponseEntity<?> updateStatusForLeaveRequest(@RequestBody List<LeaveManagement> leaveManagementList, HttpSession session){
 		Object obj = null;
 		try {
