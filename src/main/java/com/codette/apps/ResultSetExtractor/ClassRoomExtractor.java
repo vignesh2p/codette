@@ -30,23 +30,25 @@ public class ClassRoomExtractor {
 				StaffClassDTO clases = null;
 				UserDTO user = null;
 				while(rs.next()){
-					
 				clases = new StaffClassDTO();
+				
 				user = new UserDTO();
-				clases.setId(rs.getInt("ID_CLASS"));
 				user.setId(rs.getInt("ID_USER"));
 			    clases.setUser(user);
+			    
 				clases.setIsClassTeacher(rs.getInt("IS_CLASS_TEACHER"));
+				
 				ClassesDTO classesDTO = new ClassesDTO();
-				StandardDTO standard = new StandardDTO();
-				standard.setId(rs.getInt("ID_STANDARD"));
-				standard.setStandard(rs.getString("STANDARD"));
+				 classesDTO.setId(rs.getInt("ID_CLASS"));
+					StandardDTO standard = new StandardDTO();
+					standard.setId(rs.getInt("ID_STANDARD"));
+					standard.setStandard(rs.getString("STANDARD"));
 				classesDTO.setStandard(standard);
-				SectionDTO section = new SectionDTO();
-				section.setId(rs.getInt("ID_SECTION"));
-				section.setSection(rs.getString("SECTION"));
+					SectionDTO section = new SectionDTO();
+					section.setId(rs.getInt("ID_SECTION"));
+					section.setSection(rs.getString("SECTION"));
 				classesDTO.setSection(section);
-                clases.setClassRoom(classesDTO);
+                 clases.setClassRoom(classesDTO);
 					
 					classes.add(clases);
 				     

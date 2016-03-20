@@ -66,7 +66,7 @@ public class ClassRoomDAOImpl extends NamedParameterJdbcDaoSupport implements Cl
 		   if(standardId != null && sectionId != null){
 		   classId = checkForClass(standardId,sectionId,orgId);
 		   }else{
-			   throw new FiedValidationException("Section or standard is not seected");
+			   throw new FiedValidationException("Section or standard is not selected");
 		   }
 		if(classId == 0){
 		getNamedParameterJdbcTemplate().update(getCreateClassRoom(standardId,sectionId,orgId,accessId),sql,keyHolder);
