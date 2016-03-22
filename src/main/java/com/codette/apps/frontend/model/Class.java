@@ -3,7 +3,8 @@ package com.codette.apps.frontend.model;
 import java.util.List;
 
 public class Class {
-
+	
+	private Integer id;
 	private Section Section;
 	private Staff classTeacher;
 	private Standard standard;
@@ -12,6 +13,12 @@ public class Class {
 	private List<Staff> staffsList;
 	
 	
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
 	public Staff getClassTeacher() {
 		return classTeacher;
 	}

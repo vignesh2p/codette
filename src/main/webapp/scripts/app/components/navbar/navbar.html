@@ -38,6 +38,9 @@
 						<div class="content ">
 							<lx-dropdown-menu class="aligncenter logoutpop">
 								<ul class="user-options-menu">
+						      		<li class="fs-subhead display-block aligncenter" ng-click="getProfile();opendDialog('profileDialog');" > Profile</li>
+								</ul>
+								<ul class="user-options-menu">
 						      		<li class="md-raised fs-subhead display-block schooldays aligncenter" ng-click="logout()" translate="global.menu.logout" ></li>
 								</ul>
 							</lx-dropdown-menu>
@@ -53,3 +56,8 @@
 	</div>
 	<script></script>
 </div>
+<lx-dialog class="dialog dialog--l" id="profileDialog" auto-close="true" onclose="closingDialog()">
+ <div layout-margin class="white"  resize style="overflow:auto;height:{{windowHeight-115+'px'}} ;">
+    <div ng-include="'scripts/app/profile/view/details.html'" resize></div>
+ </div>
+</lx-dialog>

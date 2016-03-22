@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClientException;
 
+import com.codette.apps.dto.StaffClassDTO;
 import com.codette.apps.dto.UserDTO;
 import com.codette.apps.frontend.model.Student;
 import com.codette.apps.frontend.translator.StudentTranslator;
@@ -63,10 +64,13 @@ public class StudentService extends BaseService{
 				 + CommonConstants.LIST_URL +"?" +parameters, HttpMethod.GET, requestEntity, Object.class);
 		
 		 System.out.println("response.getBody()--"+gson.toJson(response.getBody()));
+		 
+		 List<StaffClassDTO> staffClassDTOList = studentTranslator.convertToStaffClassDTOList(response.getBody());
+		 return studentTranslator.translateToClassList(staffClassDTOList);
 		} catch (RestClientException | IOException e) {
 			throw e;
 		}
-		return response.getBody();
+		
 	}
 
 	public Object getClassesListByStaff(HttpSession session) throws Exception {

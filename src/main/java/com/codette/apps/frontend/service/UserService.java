@@ -117,8 +117,8 @@ public class UserService  extends BaseService {
 			HttpEntity<String> requestEntity = prepareGet(session); 
 			ResponseEntity<Object> response =
 							restTemplate.exchange(getAPIBaseURL()
-							+ CommonConstants.USERS_BASE_URL + CommonConstants.GET_USER 
-							+ CommonConstants.SLASH + userId, HttpMethod.GET, requestEntity, Object.class);
+							+ CommonConstants.USERS_BASE_URL + CommonConstants.SLASH + userId,
+							HttpMethod.GET, requestEntity, Object.class);
 		System.out.println("response.getBody()>>>>>>>"+gson.toJson(response.getBody()));
 			userDTO = userTranslator.translateToUserDTO(response.getBody());
 			user = userTranslator.translateToUser(userDTO, null);

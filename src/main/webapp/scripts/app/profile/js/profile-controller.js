@@ -42,9 +42,10 @@
 		$scope.htmlcontent = "Hello";
 		$scope.disabled = false;
 		
-		$scope.getProfile = function(){
-			var data=profileservice.loaduserDetail();
-			data.then(function(success){						 
+		$scope.getProfile = function(userId){
+			var data= profileservice.loaduserDetail(userId);
+			data.then(function(success){	
+				console.log('sucess-----'+angular.toJson(success));
 				$scope.user = success;
 			});
 			

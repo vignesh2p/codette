@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.codette.apps.frontend.model.User;
 import com.codette.apps.frontend.service.BaseService;
@@ -85,9 +86,11 @@ public class UserController extends BaseController{
 	}
 	
 	@RequestMapping(value="/getProfile")
-	public ResponseEntity<?> getProfileByUserId(HttpSession session){
-		String userId = session.getAttribute(CommonConstants.SESSION_USER_ID).toString();
+	public ResponseEntity<?> getProfileByUserId(@RequestParam(value="userId", required = false )String userId,  HttpSession session){
 		User obj = null;
+		if(userId == null){
+			userId = session.getAttribute(CommonConstants.SESSION_USER_ID).toString();
+		} 
 		try {
 			if(userId != null){
 				obj = userService.getUserById(userId, session);

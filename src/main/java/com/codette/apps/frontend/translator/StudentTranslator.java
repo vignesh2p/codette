@@ -18,6 +18,7 @@ import com.codette.apps.dto.GenderDTO;
 import com.codette.apps.dto.PhoneNumberDTO;
 import com.codette.apps.dto.ReligionDTO;
 import com.codette.apps.dto.SectionDTO;
+import com.codette.apps.dto.StaffClassDTO;
 import com.codette.apps.dto.StandardDTO;
 import com.codette.apps.dto.UserDTO;
 import com.codette.apps.frontend.model.Class;
@@ -37,6 +38,13 @@ public class StudentTranslator  extends BaseTranslator{
 		Type listType = new TypeToken<List<UserDTO>>() {}.getType();
 		List<UserDTO> studentDTOList = gson.fromJson(translateObjectToJson(object), listType);
 		return studentDTOList;
+	}
+	
+	public List<StaffClassDTO> convertToStaffClassDTOList(Object object) {
+		LOGGER.debug("COnverting json to list of StaffClassDTO");
+		Type listType = new TypeToken<List<UserDTO>>() {}.getType();
+		List<StaffClassDTO> staffClassDTOList = gson.fromJson(translateObjectToJson(object), listType);
+		return staffClassDTOList;
 	}
 
 	public List<Student> translateToStudentList(List<UserDTO> studentDTOList) {
@@ -157,6 +165,54 @@ public class StudentTranslator  extends BaseTranslator{
 		}
 		return studentDTO;
 	}
-	
+
+	public List<Class> translateToClassList(List<StaffClassDTO> staffClassDTOList) {
+		if(staffClassDTOList != null && !staffClassDTOList.isEmpty()){
+			List<Class> classList = new ArrayList<>();
+			for(StaffClassDTO staffClassDTO : staffClassDTOList){
+				classList.add(translateToClass(staffClassDTO));
+			}
+			return classList;
+		}
+		return null;
+	}
+
+	public Class translateToClass(StaffClassDTO staffClassDTO) {
+		if(staffClassDTO != null){
+			Class classs = new Class();
+			
+			if(staffClassDTO.getId() != null){
+				classs.setId(staffClassDTO.getId());
+			}
+			
+			if(staffClassDTO.getClassRoom() != null ){
+				Standard standard = new Standard();
+				if(staffClassDTO.getClassRoom().getStandard() != null){
+					if(staffClassDTO.getClassRoom().getStandard().getId() != null)
+						standard.setId(staffClassDTO.getClassRoom().getStandard().getId());
+					
+					if(staffClassDTO.getClassRoom().getStandard().getStandard() != null){
+						standard.setStandard(staffClassDTO.getClassRoom().getStandard().getStandard());
+					}
+					classs.setStandard(standard);
+				}
+				
+				if(staffClassDTO.getClassRoom().getSection() != null){
+					Section section = new Section();
+					if(staffClassDTO.getClassRoom().getSection().getId() != null)
+						section.setId(staffClassDTO.getClassRoom().getSection().getId());
+					
+					if(standard.getStandard() != null){
+						section.setSection(staffClassDTO.getClassRoom().getSection().getSection());
+					}
+					classs.setSection(section);
+				}
+			}
+			return classs;
+		}
+		
+		return null;
+	}
+
 
 }

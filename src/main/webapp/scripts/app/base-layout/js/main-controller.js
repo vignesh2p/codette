@@ -18,6 +18,8 @@
 
   vApp.controller('mainCtrl', [ '$scope','$q', '$compile', '$controller', '$templateCache', '$http', '$rootScope','$timeout','$translate','$location','$mdSidenav','$mdUtil','$log','LxDialogService','LxNotificationService','Upload','LxProgressService','$window','restService','$interval','$document','loginService', 'loginAuthService' , '$state', function($scope,$q, $compile, $controller, $templateCache, $http, $rootScope,$timeout,$translate,$location,$mdSidenav,$mdUtil,$log,LxDialogService,LxNotificationService,Upload,LxProgressService,$window,restService,$interval,$document,loginService,loginAuthService,$state) {
 
+	angular.extend(this, $controller('profileController', { $scope: $scope }));
+	
 	var location= window.location.href.split('#')[1];
     $scope.path=window.location.href.split('#')[1];
     $scope.userName = localStorage.getItem("userName");

@@ -67,11 +67,11 @@ public class UsersController extends CommonBaseController {
 	@RequestMapping(value = "/{userId}", method = RequestMethod.GET) //working good
 	@ResponseBody
 	public Object getUser(@RequestParam( value="orgId", required=false) Integer orgId,
-			HttpServletRequest request,
 			@PathVariable(value="userId") Integer userId) throws Exception{
 		try {
 			return usersService.getUser(getOrganizationId(),userId);
 		} catch (Exception ex) {
+			ex.printStackTrace();
 			return setCustomExceptionHandler(ex);
 		}
 	}

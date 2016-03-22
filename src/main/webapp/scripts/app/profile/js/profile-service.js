@@ -14,8 +14,12 @@
         * Service : get profile Details
         * This service will retrieve the dashboard list
         */
-    	this.loaduserDetail =function(){
-  		  var url ='/api/staff/getProfile';
+    	this.loaduserDetail =function(userId){
+    	  var param ='';
+    	  if(userId){
+    		  param = '?userId='+userId;
+    	  }
+  		  var url ='/api/staff/getProfile'+param;
   		  var deferred = $q.defer();
   		  var data = restService.restCall("",url,'GET');
   		  data.$promise.then(function(response){
