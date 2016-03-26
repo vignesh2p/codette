@@ -24,15 +24,18 @@
     		  $scope.loginResponse = response;
     		  $log.debug("Controller Log success"); 
     		  localStorage.setItem("userName", response.firstName + ' ' +response.lastName);
+    		  $scope.userName = response.firstName + ' ' +response.lastName;
     		  localStorage.setItem("userRole", response.userRole);
     		  loginService.init(true, response.firstName + ' ' +response.lastName);
     		  $scope.authenticationError = false;
     		 // $location.path('/dashboard');
-    		  if(localStorage.getItem('userRole')=='TEACHING STAFF' || localStorage.getItem('userRole')=="NON TEACHING STAFF"){
-    			  $state.go('home.profile');
-    		  }else if(localStorage.getItem('userRole')=='ADMIN'){
+    		  if(localStorage.getItem('userRole')=='TEACHING STAFF' || localStorage.getItem('userRole')=='ADMIN'){
     			  $state.go('home.dashboard');
+    		  }else if( localStorage.getItem('userRole')=="NON TEACHING STAFF"){
+    			  $state.go('home.ntStaffs');
     		  }
+    		  
+    		  
     	  },
     	  function(error){
     		  $log.debug("Controller Log promise" + error.status); 

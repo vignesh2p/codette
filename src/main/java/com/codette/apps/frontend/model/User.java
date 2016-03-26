@@ -6,6 +6,10 @@ public class User extends Person{
 	private String userName;
 	private String userRole;
 	private String imageUrl;
+	private DropDownValue standard;
+	private DropDownValue section;
+	private Class clas;
+	
 	
 	public String getImageUrl() {
 		return imageUrl;
@@ -36,6 +40,24 @@ public class User extends Person{
 	}
 	public void setSessionToken(String sessionToken) {
 		this.sessionToken = sessionToken;
+	}
+	public DropDownValue getStandard() {
+		return standard;
+	}
+	public void setStandard(DropDownValue standard) {
+		this.standard = standard;
+	}
+	public DropDownValue getSection() {
+		return section;
+	}
+	public void setSection(DropDownValue section) {
+		this.section = section;
+	}
+	public Class getClas() {
+		return clas;
+	}
+	public void setClas(Class clas) {
+		this.clas = clas;
 	}
 	
 	

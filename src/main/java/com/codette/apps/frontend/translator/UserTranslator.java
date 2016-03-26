@@ -15,19 +15,21 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
-import com.google.gson.reflect.TypeToken;
 import com.codette.apps.dto.AddressDTO;
+import com.codette.apps.dto.ClassesDTO;
 import com.codette.apps.dto.CommunityDTO;
 import com.codette.apps.dto.DesignationDTO;
 import com.codette.apps.dto.GenderDTO;
 import com.codette.apps.dto.PhoneNumberDTO;
 import com.codette.apps.dto.ReligionDTO;
 import com.codette.apps.dto.RoleDTO;
+import com.codette.apps.dto.SectionDTO;
+import com.codette.apps.dto.StandardDTO;
 import com.codette.apps.dto.UserDTO;
-import com.codette.apps.frontend.model.DropDownValue;
 import com.codette.apps.frontend.model.Organization;
 import com.codette.apps.frontend.model.User;
 import com.codette.apps.util.CommonConstants;
+import com.google.gson.reflect.TypeToken;
 
 
 @Component
@@ -68,12 +70,12 @@ public class UserTranslator extends BaseTranslator{
      * @return
      * @throws ParseException 
      */
-    public List<User> translateToUserList(List<UserDTO> userDTOList, String locale) throws ParseException{
+    public List<User> translateToUserList(List<UserDTO> userDTOList) throws ParseException{
     	LOGGER.debug("Translating UserDTO List to User List");
 		List<User> userList = new ArrayList<User>(); 
 		if(userDTOList != null && !userDTOList.isEmpty()){
 			for(UserDTO userDTO : userDTOList){
-				userList.add(translateToUser(userDTO, locale));
+				userList.add(translateToUser(userDTO));
 			}
 		}
 		return userList;
@@ -86,7 +88,7 @@ public class UserTranslator extends BaseTranslator{
 	 * @return user
      * @throws ParseException 
 	 */
-	public User translateToUser(UserDTO userDTO, String locale) throws ParseException{
+	public User translateToUser(UserDTO userDTO) throws ParseException{
 		LOGGER.info("Converting UserDTO model to User");
 		User user= new User();
 		if(userDTO != null){
@@ -159,7 +161,33 @@ public class UserTranslator extends BaseTranslator{
 				userRole.setRole(CommonConstants.ROLE_NT_STAFF);
 			else if(role.equals("ADMIN"))
 				userRole.setRole(CommonConstants.ROLE_ADMIN);
+			else if(role.equals("STUDENT"))
+				userRole.setRole(CommonConstants.ROLE_STUDENT);
 			userDTO.setRole(userRole);
+			
+			ClassesDTO classDTO = new ClassesDTO();
+			if(user.getStandard() != null){
+				StandardDTO standard = new StandardDTO();
+				if(user.getStandard().getId() != null){
+					standard.setId(Integer.valueOf(user.getStandard().getId()));
+				}
+				if(user.getStandard().getValue() != null){
+					standard.setStandard(user.getStandard().getValue());
+				}
+				classDTO.setStandard(standard);
+			}
+			
+			if(user.getSection() != null){
+				SectionDTO section = new SectionDTO();
+				if(user.getSection().getId() != null){
+					section.setId(Integer.valueOf(user.getSection().getId()));
+				}
+				if(user.getSection().getValue() != null){
+					section.setSection(user.getSection().getValue());
+				}
+				classDTO.setSection(section);
+			}
+			userDTO.setClassRoom(classDTO);
 			
 			if(user.getCommunity() != null) {
 				CommunityDTO communityDTO = new CommunityDTO();

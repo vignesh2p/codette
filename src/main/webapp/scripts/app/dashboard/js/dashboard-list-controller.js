@@ -27,11 +27,11 @@
 	  };*/
 	  $scope.status = 'Absent';
 	  $scope.create = false;
-	  $scope.loadStudentsList = function(standardId, sectionId) {
-		  console.log('loadStudentsList----------'+standardId+'--------sectionId---'+sectionId);
-		  if(standardId != '' && sectionId != ''){
+	  $scope.loadStudentsList = function(classId) {
+		  console.log('classId------'+classId);
+		  if(classId){
 			  $scope.loader = true;
-	          var data = dashboardListService.getStudentsList(standardId, sectionId);
+	          var data = dashboardListService.getStudentsList(classId);
 			  data.then(function(success){
 				  console.log(angular.toJson(success));
 				  $scope.students = success;

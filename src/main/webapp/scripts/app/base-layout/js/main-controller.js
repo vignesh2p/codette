@@ -23,7 +23,7 @@
 	var location= window.location.href.split('#')[1];
     $scope.path=window.location.href.split('#')[1];
     $scope.userName = localStorage.getItem("userName");
-    $scope.userRole = localStorage.getItem("userRole")
+    $scope.userRole = localStorage.getItem("userRole");
     var queryparam ="";
     if(localStorage.getItem("linkParam") != "" && localStorage.getItem("linkParam") != null){
     	queryparam = localStorage.getItem("linkParam").split('?')[1];

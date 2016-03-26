@@ -42,7 +42,7 @@ public class StudentTranslator  extends BaseTranslator{
 	
 	public List<StaffClassDTO> convertToStaffClassDTOList(Object object) {
 		LOGGER.debug("COnverting json to list of StaffClassDTO");
-		Type listType = new TypeToken<List<UserDTO>>() {}.getType();
+		Type listType = new TypeToken<List<StaffClassDTO>>() {}.getType();
 		List<StaffClassDTO> staffClassDTOList = gson.fromJson(translateObjectToJson(object), listType);
 		return staffClassDTOList;
 	}
@@ -181,12 +181,15 @@ public class StudentTranslator  extends BaseTranslator{
 		if(staffClassDTO != null){
 			Class classs = new Class();
 			
-			if(staffClassDTO.getId() != null){
-				classs.setId(staffClassDTO.getId());
-			}
+			
 			
 			if(staffClassDTO.getClassRoom() != null ){
 				Standard standard = new Standard();
+				
+				if(staffClassDTO.getClassRoom().getId() != null){
+					classs.setId(staffClassDTO.getClassRoom().getId());
+				}
+				
 				if(staffClassDTO.getClassRoom().getStandard() != null){
 					if(staffClassDTO.getClassRoom().getStandard().getId() != null)
 						standard.setId(staffClassDTO.getClassRoom().getStandard().getId());

@@ -74,20 +74,19 @@ public class ClassRoomController extends CommonBaseController{
 	  
 	  @RequestMapping(value =  "/createstaffclasses", method = RequestMethod.POST)
 		 @ResponseBody
-		 public Object createHandlingClassforStaff( 
-				 @RequestBody List<StaffClassDTO> staffClasses,
+		 public Object createHandlingClassforStaff(@RequestBody List<StaffClassDTO> staffClasses,
 				 @RequestParam(value ="orgId", required = false) Integer orgId,
 				 @RequestParam(value ="userId",required = false) Integer userId,
-				 HttpServletRequest request, HttpSession session) throws Exception{
+				 HttpSession session) throws Exception{
 				  Object object = null;
 				  String role = getRole();
 				  try{
 				  if(role.equalsIgnoreCase( CommonConstants.TEACHING_STAFF) ){
 					     object =  classRoomService.createHandlingClassforStaff(staffClasses,getOrganizationId(),getAccessId(),role,getAccessId());
 					  }
-				  if(orgId != null && orgId != 0 && userId != null && userId != 0 &&
+				  if(orgId != null && userId != null &&
 				     (role.equalsIgnoreCase(CommonConstants.PRINCIPAL) || role.equalsIgnoreCase(CommonConstants.ADMIN))){
-					     object = classRoomService.createHandlingClassforStaff(staffClasses,getOrganizationId(),userId,role,getAccessId());	  
+					     object = classRoomService.createHandlingClassforStaff(staffClasses, getOrganizationId(), userId, role, getAccessId());	  
 					  }
 				  }catch(Exception e){
 					  setCustomExceptionHandler(e);

@@ -115,4 +115,5 @@ public class CommonConstants {
 	public static final String LIST_URL = "/list";
 	public static final String USER_ID = "userId";
 	public static final String STATUS = "status";
+	public static final String CLASS_ID = "classId";
 }

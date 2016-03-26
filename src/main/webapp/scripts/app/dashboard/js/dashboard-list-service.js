@@ -34,9 +34,9 @@
             return deferred.promise;
         };*/
         
-        this.getStudentsList = function (standardId, sectionId) {
+        this.getStudentsList = function (classId) {
             var deferred = $q.defer();
-  		    var url = 'api/student/standard/'+standardId+'/section/'+sectionId;
+  		    var url = 'api/student/list?classId='+classId;
 		    var data = restService.restCall("",url,'GETLIST');
 			data.$promise.then(function(response){
 				deferred.resolve(response);

@@ -74,7 +74,7 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 				if(user != null){
 					 Integer classId = null;
 					if(user.getRole() != null && user.getRole().getRole().equalsIgnoreCase(CommonConstants.ROLE_STUDENT)){
-						  classId = (Integer)classRoomDAO.createNewClassRoom(orgId,user.getClassRoom().getStandard().getId(),user.getClassRoom().getSection().getId(),
+						  classId = (Integer)classRoomDAO.createNewClassRoom(orgId, user.getClassRoom().getStandard().getId() ,user.getClassRoom().getSection().getId(),
 									 user.getId(),  accessId);
 						}
 					

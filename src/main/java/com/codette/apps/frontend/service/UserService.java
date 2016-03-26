@@ -44,11 +44,11 @@ public class UserService  extends BaseService {
 	 * @return
 	 * @throws IOException
 	 */
-	public List<User> getUsersList(Map<String, String> queryString, String role, HttpSession session, String locale) throws IOException {
+	public List<User> getUsersList(Map<String, String> queryString, String role, HttpSession session) throws IOException {
 		List<UserDTO> userDTOList = null;
 		List<User> userList = null;
 		try {
-			String parameters = translateQueryParams(queryString);
+			String parameters = translateSplitParams(queryString);
 			HttpEntity<String> requestEntity = prepareGet(session); 
 			ResponseEntity<Object> response =
 							restTemplate.exchange(getAPIBaseURL()
@@ -56,7 +56,7 @@ public class UserService  extends BaseService {
 							HttpMethod.GET, requestEntity, Object.class);
 
 			userDTOList = userTranslator.translateToUserDTOList(response.getBody());
-			userList = userTranslator.translateToUserList(userDTOList, locale);
+			userList = userTranslator.translateToUserList(userDTOList);
 		}catch (IOException e) {
 			e.printStackTrace();
 			throw e;
@@ -84,7 +84,7 @@ public class UserService  extends BaseService {
 	 * @throws ParseException 
 	 * @throws IOException
 	 */
-	public Object createUser(User user, String userID, HttpSession session , String role) throws ParseException, IOException {
+	public Object createUser(User user, HttpSession session , String role) throws ParseException, IOException {
 		System.out.println("postString>>>>"+gson.toJson(user));
 		UserDTO userDTO = userTranslator.translateToUserDTO(user, role);
 		String postString = gson.toJson(userDTO);
@@ -121,7 +121,7 @@ public class UserService  extends BaseService {
 							HttpMethod.GET, requestEntity, Object.class);
 		System.out.println("response.getBody()>>>>>>>"+gson.toJson(response.getBody()));
 			userDTO = userTranslator.translateToUserDTO(response.getBody());
-			user = userTranslator.translateToUser(userDTO, null);
+			user = userTranslator.translateToUser(userDTO);
 		}catch (IOException e) {
 			throw e;
 		}catch (JsonSyntaxException e) {

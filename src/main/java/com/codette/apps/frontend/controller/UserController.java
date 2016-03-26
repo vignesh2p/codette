@@ -45,7 +45,7 @@ public class UserController extends BaseController{
 	public ResponseEntity<?> getStaffsList(HttpSession session) throws IOException {
 		 List<User> userList = null;
 			try{
-				userList = userService.getUsersList(null, CommonConstants.ROLE_NT_STAFF, session,locale);
+				userList = userService.getUsersList(null, CommonConstants.ROLE_NT_STAFF, session);
 		}catch(Exception ex){
 			ex.printStackTrace();
 //			return new ResponseEntity<>(setCustomExceptionHandler(ex, MessageUtils.getMessage("error.getting.users")),HttpStatus.INTERNAL_SERVER_ERROR);
@@ -57,7 +57,7 @@ public class UserController extends BaseController{
 	public ResponseEntity<?> getTeachingStaffs(HttpSession session) throws IOException {
 		 List<User> userList = null;
 			try{
-				userList = userService.getUsersList(null,CommonConstants.ROLE_T_STAFF,session,locale);
+				userList = userService.getUsersList(null,CommonConstants.ROLE_T_STAFF,session);
 		}catch(Exception ex){
 			ex.printStackTrace();
 	//		return new ResponseEntity<>(setCustomExceptionHandler(ex, MessageUtils.getMessage("error.getting.users")),HttpStatus.INTERNAL_SERVER_ERROR);
@@ -73,7 +73,7 @@ public class UserController extends BaseController{
 		Object obj = null;
 		try {
 			if(role != null){
-			obj = userService.createUser(user, "1", session, role);
+			obj = userService.createUser(user, session, role);
 			
 			}
 		} catch (IOException e) {

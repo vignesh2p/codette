@@ -85,12 +85,13 @@ public class UsersController extends CommonBaseController {
 			HttpSession session, HttpServletRequest request) throws Exception{ //working good
 		Object object = null;
 		try {
-			if(orgId != null && orgId != 0) {
+			if(orgId != null) {
 				return usersService.createUser(userDTO,orgId, getAccessId());
 			} else {
 				return usersService.createUser(userDTO, getOrganizationId(), getAccessId());
 			}
 		} catch (Exception ex) {
+			ex.printStackTrace();
 				return setCustomExceptionHandler(ex);
 		}
 	}

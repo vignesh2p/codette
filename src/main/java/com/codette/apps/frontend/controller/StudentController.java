@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.codette.apps.frontend.model.Student;
+import com.codette.apps.frontend.model.User;
 import com.codette.apps.frontend.service.StudentService;
 import com.codette.apps.frontend.service.UserService;
 import com.codette.apps.util.CommonConstants;
@@ -37,17 +38,22 @@ public class StudentController extends BaseController {
 	@Resource
 	UserService userService;
 
-	 @RequestMapping(value = "/standard/{standardId}/section/{sectionId}", method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
-	 public ResponseEntity<?> getStudentsList(@PathVariable(value="standardId")String standardId, 
-			 @PathVariable(value="sectionId")String sectionId, HttpSession session){
-		 List<Student> studentsList = null;
+	@RequestMapping(value = "/list")
+	 public ResponseEntity<?> getStudentsList(@RequestParam(value="classId")String classId, HttpSession session){
+		List<User> studentsList = null;
 		try {
 	//		studentsList = studentService.getStudentsList(standardId, sectionId, session);
+			Map<String, String> queryString = new HashMap<>();
+			if(classId != null && !classId.isEmpty()){
+				queryString.put(CommonConstants.CLASS_ID, classId);
+			}
+			studentsList = userService.getUsersList(queryString, CommonConstants.ROLE_STUDENT, session);
+			System.out.println("studentsList-----"+gson.toJson(studentsList));
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		 return new ResponseEntity<List<Student>>(studentsList, HttpStatus.OK);
+		 return new ResponseEntity<List<User>>(studentsList, HttpStatus.OK);
 	 }
 	 
 	 /**
@@ -68,7 +74,9 @@ public class StudentController extends BaseController {
 				queryString.put(CommonConstants.USER_ID, userId);
 			}
 			classesList = studentService.getClassesList(queryString, session);
+			System.out.println("classesList------"+gson.toJson(classesList));
 		} catch (Exception e) {
+			e.printStackTrace();
 			setCustomExceptionHandler(e);
 		}
 		 return new ResponseEntity<Object>(classesList, HttpStatus.OK);
@@ -76,11 +84,11 @@ public class StudentController extends BaseController {
 	 
 	 
 	 @RequestMapping(value ="/create")
-	 public ResponseEntity<?> createStudent(@RequestBody Student student, HttpSession session){
+	 public ResponseEntity<?> createStudent(@RequestBody User student, HttpSession session){
 		 Object obj = null;
 		 System.out.println("student--"+gson.toJson(student));
 		 try {
-		//	 obj = studentService.createStudent(student, session);
+			 userService.createUser(student, session, CommonConstants.ROLE_STUDENT);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

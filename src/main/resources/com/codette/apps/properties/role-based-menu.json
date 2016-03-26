@@ -3,7 +3,7 @@
 		
 		{
 			"menuTitle": "Profile",
-			"viewby": ["ADMIN", "TEACHING STAFF","NON TEACHING STAFF"],
+			"viewby": ["SUPER_USER"],
 			"style":"",
 			"menuItemDisplay": "profile",
 			"icon": "dashboard",
