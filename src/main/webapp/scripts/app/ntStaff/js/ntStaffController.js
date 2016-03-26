@@ -10,6 +10,7 @@
 
 	vApp.controller('ntStaffController', [ '$scope','$translate','restService','$translatePartialLoader','$log','$location','$timeout','$controller','ntStaffservice', function($scope,$translate,restService,$translatePartialLoader,$log,$location,$timeout,$controller,ntStaffservice) {
 		$translate.refresh();
+		angular.extend(this, $controller('profileController', { $scope: $scope }));
 		var tabs = [
 		            { title: 'Users', content: "scripts/app/worker/view/profile.html"},
 		            { title: 'Email Templates',content: "scripts/app/worker/view/engagements.html"},

@@ -11,8 +11,8 @@
  * # dashboardCtrl
  * Controller of the atrium
  */
-  vApp.controller('profileController', [ '$scope','$translate','restService','$translatePartialLoader','$log','$location','$timeout','$controller','profileservice',
-                                 function($scope, $translate, restService, $translatePartialLoader, $log, $location, $timeout, $controller, profileservice) {
+  vApp.controller('profileController', [ '$scope','$translate','restService','$translatePartialLoader','$log','$location','$timeout','$controller','profileservice','$rootScope',
+                                 function($scope, $translate, restService, $translatePartialLoader, $log, $location, $timeout, $controller, profileservice,$rootScope) {
 	  
 	  $translate.refresh();
 	  $scope.ids = [];
@@ -46,7 +46,7 @@
 			var data= profileservice.loaduserDetail(userId);
 			data.then(function(success){	
 				console.log('sucess-----'+angular.toJson(success));
-				$scope.user = success;
+				$rootScope.user = success;
 			});
 			
 		};

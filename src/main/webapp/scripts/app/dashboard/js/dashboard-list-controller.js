@@ -9,9 +9,10 @@
      * Controller of the atrium
      */
 
-    vApp.controller('dashboardListController', ['$scope', '$q', '$compile', '$log', 'restService', 'dashboardListService', '$timeout',
-    		     function ($scope, $q, $compile, $log, restService, dashboardListService,$timeout) {
+    vApp.controller('dashboardListController', ['$scope', '$q', '$compile', '$log', 'restService', 'dashboardListService', '$timeout','$controller',
+    		     function ($scope, $q, $compile, $log, restService, dashboardListService,$timeout,$controller) {
 
+    	angular.extend(this, $controller('profileController', { $scope: $scope }));
         /*
         * Controller : loadDashboardList
         * State: ""
