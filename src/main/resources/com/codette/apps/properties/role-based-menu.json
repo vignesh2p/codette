@@ -48,7 +48,7 @@
 			"viewby": ["ADMIN", "TEACHING STAFF","NON TEACHING STAFF"],
 			"style":"",
 			"menuItemDisplay": "Leave Management System",
-				"icon": "mail",
+			"icon": "mail",
 			"url":"#lms"
 		},
 		{

@@ -59,10 +59,8 @@ public class AttendanceController extends CommonBaseController {
     
    @RequestMapping(value = "/attendencesheet", method = RequestMethod.GET)
 	@ResponseBody
-	public Object getAttendence(
-			@RequestParam( value="orgId" , required = false) Integer orgId,
-			@RequestParam( value="userId" , required = false) Integer userId,
-			HttpServletRequest requests) throws Exception  {
+	public Object getAttendence(@RequestParam( value="orgId" , required = false) Integer orgId,
+			@RequestParam( value="userId" , required = false) Integer userId) throws Exception  {
 	   Object object =null;
 	   try{
 		   if(orgId != null && orgId != 0 && userId != null && orgId != 0){

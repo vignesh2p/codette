@@ -52,7 +52,7 @@
 		  data.then(function(success){
 			  console.log(angular.toJson(success));
 			  $scope.classList = success;
-			  $scope.loadStudentsList($scope.classList[0].standard.id, $scope.classList[0].section.id);
+			  $scope.loadStudentsList(success[0].id);
 		  });
 	  };
 	  

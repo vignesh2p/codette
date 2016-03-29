@@ -37,7 +37,7 @@ public class AttendanceDAOImpl extends NamedParameterJdbcDaoSupport  implements 
 		Integer classId = getClassForStaff( orgId, userId);
 		List<UserDTO> studentsList = getJdbcTemplate().query(getStudentList(orgId,classId),attendenceExtractor.getStudentList());
 		
-		object = getJdbcTemplate().query(getClassForAttendance(orgId,classId),attendenceExtractor.getClassAttendance(studentsList));
+		object = getJdbcTemplate().query(getClassForAttendance(orgId,classId), attendenceExtractor.getClassAttendance(studentsList));
 	return object;
 		
 	}

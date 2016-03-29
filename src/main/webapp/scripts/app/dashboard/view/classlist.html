@@ -1,10 +1,10 @@
  <div>
   <div class="md-padding black-text"  ng-init="loadClassList();">
-    <md-tabs md-dynamic-height md-border-bottom style="    min-height: 50px;">
-      <md-tab ng-repeat="tab in classList"  label="{{tab.standard.standard}} -  {{tab.section.section}}" ng-click="loadStudentsList(tab.id)" ng-init="loadStudentsList(tab.id)">
+    <md-tabs md-dynamic-height md-border-bottom style="min-height: 50px;">
+      <md-tab ng-repeat="tab in classList"  label="{{tab.standard.standard}} -  {{tab.section.section}}" ng-click="loadStudentsList(tab.id)">
       </md-tab>
       </md-tabs>
   </div> 
-   <div  ng-include="'scripts/app/dashboard/view/list.html'"></div>
+   <div  ng-include="'scripts/app/dashboard/view/list.html'" ></div>
 </div>
 

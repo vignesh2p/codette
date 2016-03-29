@@ -1,0 +1,16 @@
+<div layout-margin class="fourColpx ng-scope">
+	<div layout-margin class="col" ng-repeat="exam in exams" ng-mouseenter="edit=true" ng-mouseleave="edit=false">
+		<div layout="row" class="w100p schooldays">
+			<span flex="80" class=" start fs-subhead center p20">{{exam.exam}}</span>
+			<ng-md-icon flex="20" icon="edit"
+				style="cursor: pointer;" size="20" ng-show="edit"></ng-md-icon>
+		</div>
+		<div class="mtop0" layout-margin laout-padding layout="column">
+			<div class="space-around aligncenter">
+				<div class="fs-subhead black-text ">{{exam.classs}}</div>
+				<div class="fs-subhead black-text ">{{exam.subject}}</div>
+				<div class="fs-subhead black-text ">{{exam.time}}</div>
+			</div>
+		</div>
+	</div>
+</div>

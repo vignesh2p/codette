@@ -172,6 +172,9 @@ a.btn:hover {
 	position:relative;
 	margin-left:40px;
 }
+.mtop15{
+	margin-top:15px;
+}
 .mlt0{
 	position:relative;
 	margin-left:0px;
@@ -370,7 +373,9 @@ color :#3F51B5 !important;
 .mtop20 {
 	margin-top: 20px !important;
 }
-
+.mtop0{
+	margin-top: 0px !important;
+}
 .toolbarButton{
 	padding: 55px;
 }
@@ -394,4 +399,13 @@ color :#3F51B5 !important;
 .error {
 	color: red !important; 
 	font-size: x-small;
+}
+
+.background-blue{
+	background-color : #E0F2F1;
+}
+.fourColpx .col{ 
+  float:left;
+  width:22%;
+  border: 1px solid #e0e0e0; 
 }

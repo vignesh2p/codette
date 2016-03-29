@@ -42,14 +42,11 @@ public class StudentController extends BaseController {
 	 public ResponseEntity<?> getStudentsList(@RequestParam(value="classId")String classId, HttpSession session){
 		List<User> studentsList = null;
 		try {
-	//		studentsList = studentService.getStudentsList(standardId, sectionId, session);
 			Map<String, String> queryString = new HashMap<>();
 			if(classId != null && !classId.isEmpty()){
 				queryString.put(CommonConstants.CLASS_ID, classId);
 			}
 			studentsList = userService.getUsersList(queryString, CommonConstants.ROLE_STUDENT, session);
-			System.out.println("studentsList-----"+gson.toJson(studentsList));
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -111,5 +108,18 @@ public class StudentController extends BaseController {
 		return new ResponseEntity<List<Student>>(studentList , HttpStatus.ACCEPTED);
 	 }
 	 
-	 
+	 @RequestMapping(value = "/attendence")
+	 public ResponseEntity<?> getAttendenceList(@RequestParam(value="classId")String classId, HttpSession session){
+		List<User> studentsList = null;
+		try {
+			Map<String, String> queryString = new HashMap<>();
+			if(classId != null && !classId.isEmpty()){
+				queryString.put(CommonConstants.CLASS_ID, classId);
+			}
+			studentsList = userService.getUsersList(queryString, CommonConstants.ROLE_STUDENT, session);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		 return new ResponseEntity<List<User>>(studentsList, HttpStatus.OK);
+	 }
 }
