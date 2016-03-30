@@ -1,105 +1,100 @@
-<div resize style="height:{{windowHeight-150+'px'}} ;" ng-init="edit=false;">
-		<div layout-margin layout-padding flex-container="column">
-		<div flex-item layout-margin layout-padding flex-container="row" >
-			<div  flex="30">
-			<div layout="column">
-				<div class="md-headline  black-t" style="color:#3f51b5">{{user.firstName}} {{user.lastName}}</div>
-				<div layout="row">
-					<div flex="10">
-						<i class="mdi mdi-gender-male" style="color: #3f51b5;" ng-if="user.gender == 'MALE'"></i>
-						<i class="mdi mdi-gender-female" style="color: #FF4081;"  ng-if="user.gender == 'FEMALE'"></i>
+<div resize style="height: {{windowHeight-150+'px'"
+	ng-init="edit=false;">
+	<div layout-margin layout-padding flex-container="column">
+		<div flex-item layout-margin layout-padding flex-container="row">
+			<div flex="30">
+				<div layout="column">
+					<div class="md-headline  black-t" style="color: #3f51b5">{{user.firstName}}
+						{{user.lastName}}</div>
+					<div layout="row">
+						<div flex="10">
+							<i class="mdi mdi-gender-male" style="color: #3f51b5;"
+								ng-if="user.gender == 'MALE'"></i> <i
+								class="mdi mdi-gender-female" style="color: #FF4081;"
+								ng-if="user.gender == 'FEMALE'"></i>
+						</div>
+						<div flex="90">
+							<span class="fs-subhead  black-t">{{user.gender}}</span>
+						</div>
 					</div>
-				<div flex="90">
-					<span class="fs-subhead  black-t" >{{user.gender}}</span>
+					<!-- <div class="fs-subhead  black-t">{{user.designation}}</div> -->
+					<span class="fs-subhead  black-t">{{user.dateOfBirth}}</span>
 				</div>
-				</div>
-				<!-- <div class="fs-subhead  black-t">{{user.designation}}</div> -->
-				<span class="fs-subhead  black-t" >{{user.dateOfBirth}}</span>
-			</div>			 
-	        </div> 
-	        <div  flex="40">
-			 	<img layout-margin layout-padding src="/assets/images/profile.jpg" alt="" class="circle aligncenter" style="width:150px;height:150px">
-			 </div>
-			 <div layout-fill layout-margin flex="20" class="frt">
-        	</div>
+			</div>
+			<div flex="40">
+				<img layout-margin layout-padding src="/assets/images/profile.jpg"
+					alt="" class="circle aligncenter"
+					style="width: 150px; height: 150px">
+			</div>
+			<div layout-fill layout-margin flex="20" class="frt"></div>
 		</div>
 		<md-divider layout-fill></md-divider>
 		<div flex-item layout-margin layout-padding>
-	 	 		<div layout-margin layout-padding flex-container="row" >
-   					<div  flex="50"  class="fs-subhead black-text">
-   						<md-input-container >
-	      					<label class="caption">Email</label>
-	      					<input ng-model="user.emailAddresses" type="emailAddresses" required ng-blur="updateProfile(user.emailAddress, 'emailAddress' )">
-	   					 </md-input-container>
-   					</div>
-	   				<div  flex="50"  class="fs-subhead black-text">
-	   					<md-input-container>
-	      				 	 <label class="caption">Address</label>
-	       					 <textarea ng-model="user.addresses" columns="1" md-maxlength="150" ng-blur="updateProfile(user.addresses, 'address')"></textarea>
-	      				</md-input-container>
-	   				</div>
-   				</div>
-	 	<div layout-margin layout-padding flex-container="row">
-   					<div  flex="50"  class="fs-subhead black-text">
-   							<md-input-container >
-	      				 	 <label class="caption">Biography</label>
-	       					 <textarea ng-model="user.bioGraphy" columns="1" md-maxlength="150" ng-blur="updateProfile(user.bioGraphy, 'bioGraphy')"></textarea>
-	      				</md-input-container>
-	   				
-	 				</div>
-	 		<div  flex="50"  class="fs-subhead black-text">
-   							<md-input-container >
-	      				 	 <label class="caption">Experience</label>
-	       					 <input ng-model="user.experience" ng-blur="updateProfile(user.experience, 'experience')"></input>
-	      				</md-input-container>	      				
-	 				</div>		
-	 	</div>
-	 		<div layout-margin layout-padding flex-container="row">
-   					<div  flex="50"  class="fs-subhead black-text">
-   						<md-input-container >
-	      				 	 <label class="caption">Date of Joining</label>
-	       					 <input type="text" pick-a-date="dateOfJoinig" ng-model="user.dateOfJoining" required ng-blur="updateProfile(user.dateOfJoining, 'dateOfJoining')"></input>
-	      				</md-input-container>			
-	 				</div>
-	 				<div  flex="50"  class="fs-subhead black-text">
-   							<md-input-container >
-	      				 	 <label class="caption">FatherName</label>
-	       					 <input ng-model="user.fatherName" disabled></input>
-	      				</md-input-container>
-	 				</div>
-	 		</div>
-	 		<div layout-margin layout-padding flex-container="row" ng-init="loadCommunityList();">
-   					<div  flex="50"  class="fs-subhead black-text">
-   							 <lx-select ng-model="user.community" placeholder="Community" choices="communityList" floating-label required class="caption">
-            					<lx-select-selected>
-               						 {{ $selected.value }}
-           						 </lx-select-selected>
-           						 <lx-select-choices>
-                					{{ $choice.value }}
-            					 </lx-select-choices>
-        					 </lx-select>
-   					
-	 				</div>
-	 		<div  flex="50"  class="fs-subhead black-text" ng-init="loadReligionList();">
-   							<lx-select ng-model="user.religion" placeholder="Religion" choices="religionList" floating-label required class="caption">
-            					<lx-select-selected>
-               						 {{ $selected.value }}
-           						 </lx-select-selected>
-           						 <lx-select-choices class="black-text">
-                					{{ $choice.value }}
-            					 </lx-select-choices>
-        					 </lx-select>
-	 				</div>
-	 	
-	 	</div>
-	 		<div layout-margin layout-padding flex-container="row">
-   				<div  flex="50"  class="fs-subhead black-text">
-	 				<md-input-container >
-	 	 				 <label class="caption">Contact</label>
-	          			<input ng-model="user.contacts" ng-blur="updateProfile(user.contacts, 'contact')">
-	     			</md-input-container> 
-	 			</div>
-	 		</div>	
-	</div>	
+			<div layout-margin layout-padding flex-container="row">
+				<div flex="50" class="fs-subhead black-text">
+					<md-input-container> <label class="caption">Email</label>
+					<input ng-model="user.emailAddresses" type="emailAddresses"
+						required
+						ng-blur="updateProfile(user.emailAddress, 'emailAddress' )">
+					</md-input-container>
+				</div>
+				<div flex="50" class="fs-subhead black-text">
+					<md-input-container> <label class="caption">Address</label>
+					<textarea ng-model="user.addresses" columns="1" md-maxlength="150"
+						ng-blur="updateProfile(user.addresses, 'address')"></textarea> </md-input-container>
+				</div>
+			</div>
+			<div layout-margin layout-padding flex-container="row">
+				<div flex="50" class="fs-subhead black-text">
+					<md-input-container> <label class="caption">Biography</label>
+					<textarea ng-model="user.bioGraphy" columns="1" md-maxlength="150"
+						ng-blur="updateProfile(user.bioGraphy, 'bioGraphy')"></textarea> </md-input-container>
+
+				</div>
+				<div flex="50" class="fs-subhead black-text">
+					<md-input-container> <label class="caption">Experience</label>
+					<input ng-model="user.experience"
+						ng-blur="updateProfile(user.experience, 'experience')"></input> </md-input-container>
+				</div>
+			</div>
+			<div layout-margin layout-padding flex-container="row">
+				<div flex="50" class="fs-subhead black-text">
+					<md-input-container> <label class="caption">Date
+						of Joining</label> <input type="text" pick-a-date="dateOfJoinig"
+						ng-model="user.dateOfJoining" required
+						ng-blur="updateProfile(user.dateOfJoining, 'dateOfJoining')"></input>
+					</md-input-container>
+				</div>
+				<div flex="50" class="fs-subhead black-text">
+					<md-input-container> <label class="caption">FatherName</label>
+					<input ng-model="user.fatherName" disabled></input> </md-input-container>
+				</div>
+			</div>
+			<div layout-margin layout-padding flex-container="row"
+				ng-init="loadCommunityList();">
+				<div flex="50" class="fs-subhead black-text">
+					<lx-select ng-model="user.community" placeholder="Community"
+						choices="communityList" floating-label required class="caption">
+					<lx-select-selected> {{ $selected.value }} </lx-select-selected> <lx-select-choices>
+					{{ $choice.value }} </lx-select-choices> </lx-select>
+
+				</div>
+				<div flex="50" class="fs-subhead black-text"
+					ng-init="loadReligionList();">
+					<lx-select ng-model="user.religion" placeholder="Religion"
+						choices="religionList" floating-label required class="caption">
+					<lx-select-selected> {{ $selected.value }} </lx-select-selected> <lx-select-choices
+						class="black-text"> {{ $choice.value }} </lx-select-choices> </lx-select>
+				</div>
+
+			</div>
+			<div layout-margin layout-padding flex-container="row">
+				<div flex="50" class="fs-subhead black-text">
+					<md-input-container> <label class="caption">Contact</label>
+					<input ng-model="user.contacts"
+						ng-blur="updateProfile(user.contacts, 'contact')"> </md-input-container>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>

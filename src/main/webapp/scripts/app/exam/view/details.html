@@ -1,16 +1,81 @@
 <div layout-margin class="fourColpx ng-scope">
-	<div layout-margin class="col" ng-repeat="exam in exams" ng-mouseenter="edit=true" ng-mouseleave="edit=false">
-		<div layout="row" class="w100p schooldays">
-			<span flex="80" class=" start fs-subhead center p20">{{exam.exam}}</span>
-			<ng-md-icon flex="20" icon="edit"
-				style="cursor: pointer;" size="20" ng-show="edit"></ng-md-icon>
+	<div layout-margin class="col" ng-repeat="exam in exams"
+		ng-mouseenter="hover=true" ng-mouseleave="hover=false">
+		<div layout="row" class="w100p schooldays" ng-init="edit=false">
+			<div flex="80" class="start fs-subhead center p20">
+				<span ng-hide="edit">{{exam.exam}}</span>
+				<div ng-show="edit"> <span
+					class="caption">Exam Name</span> <input ng-model="exam.exam"
+					type="text"></input> </div>
+			</div>
+			<ng-md-icon flex="20" icon="edit" style="cursor: pointer;" size="20"
+				ng-show="hover" ng-click="edit=true; hover= false"></ng-md-icon>
+			<ng-md-icon flex="20" icon="save" style="cursor: pointer;" size="20"
+				ng-show="edit" ng-click="edit=false;"></ng-md-icon>	
 		</div>
 		<div class="mtop0" layout-margin laout-padding layout="column">
 			<div class="space-around aligncenter">
-				<div class="fs-subhead black-text ">{{exam.classs}}</div>
-				<div class="fs-subhead black-text ">{{exam.subject}}</div>
-				<div class="fs-subhead black-text ">{{exam.time}}</div>
+				<div class="fs-subhead black-text ">
+					<span ng-hide="edit">{{exam.classs}}</span>
+					<div ng-show="edit"> <span
+						class="caption">Class</span> <input ng-model="exam.classs"
+						type="text"></input> </div>
+				</div>
+				<div class="fs-subhead black-text ">
+					<span ng-hide="edit">{{exam.subject}}</span>
+					<div ng-show="edit"> <span
+						class="caption">Subject</span> <input ng-model="exam.subject"
+						type="text"></input> </div>
+				</div>
+				<div class="fs-subhead black-text ">
+					<span ng-hide="edit">{{exam.time}}</span>
+					<div ng-show="edit"> <span
+						class="caption">Time</span> <input ng-model="exam.time"
+						type="text"></input> </div>
+				</div>
 			</div>
 		</div>
 	</div>
 </div>
+<lx-dialog class="dialog dialog--l" id="createExam" auto-close="true"
+	onclose="closingDialog()">
+<div class="dialog__header">
+	<div class="toolbar light-blue pl++">
+		<div flex-container="column">
+			<div layout layout-sm="row">
+				<span class="tc-white fs-title"> New Exam </span>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="dialog__content p+">
+	<div layout="row">
+		<div flex="50" layout-padding class="fs-subhead black-text">
+			<md-input-container> <label class="caption">Exam
+				Name</label> <input ng-model="exam.exam" type="text"></input> </md-input-container>
+
+		</div>
+		<div flex="50" layout-padding class="fs-subhead black-text">
+			<md-input-container> <label class="caption">Class</label>
+			<input ng-model="exam.classs" type="text"></input> </md-input-container>
+		</div>
+	</div>
+	<div layout="row">
+		<div flex="50" layout-padding class="fs-subhead black-text">
+			<md-input-container> <label class="caption">Subject</label>
+			<input ng-model="exam.subject" type="text"></input> </md-input-container>
+
+		</div>
+		<div flex="50" layout-padding class="fs-subhead black-text">
+			<md-input-container> <label class="caption">Time</label>
+			<input ng-model="exam.time" type="text"></input> </md-input-container>
+		</div>
+	</div>
+</div>
+<div class="dialog__actions" layout-sm="column">
+	<button layout class="btn btn--m  light-blue darken-2 btn--flat "
+		type="submit" lx-ripple lx-dialog-close ng-click="exams.push(exam);">Save</button>
+	<button layout class="btn btn--m  light-blue darken-2 btn--flat "
+		lx-ripple lx-dialog-close type="button">Cancel</button>
+</div>
+</lx-dialog>

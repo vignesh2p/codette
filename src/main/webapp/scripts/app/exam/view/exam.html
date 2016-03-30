@@ -11,15 +11,13 @@
 			<span class="fs-title display-block space-around center p20">Exam</span>
 		</div>
 		<div flex="20" class="space-around center mtop15">
-			<button
-				class="btn btn--l btn--black btn--fab iconBg rounded"
-				ng-click=""
-				lx-ripple lx-tooltip="Create New Exam" tooltip-position="bottom">
-				<ng-md-icon icon="person_add"></ng-md-icon>
+			<button class="btn btn--l btn--black btn--fab iconBg rounded"
+				ng-click="" lx-ripple lx-tooltip="Create New Exam"
+				tooltip-position="bottom">
+				<ng-md-icon icon="person_add" ng-click="opendDialog('createExam');"></ng-md-icon>
 			</button>
 		</div>
 	</div>
-</div>
 </md-toolbar>
 </div>
 <div class="details" layout-fill layout-wrap
@@ -33,3 +31,5 @@
 		</div>
 	</div>
 </div>
+
+
