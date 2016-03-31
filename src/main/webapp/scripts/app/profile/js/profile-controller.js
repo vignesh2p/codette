@@ -17,7 +17,7 @@
 	  $translate.refresh();
 	  $scope.ids = [];
 	  
-	  if(localStorage.getItem("queryparam") != ""){
+	  if(localStorage.getItem("queryparam") != "" && localStorage.getItem("queryparam") != null){
 		  var orgId = localStorage.getItem("queryparam").split('&');
 		  for(var i=0;i<orgId.length;i++){
 			  $scope.ids.push(orgId[i].split('=')[1]);
