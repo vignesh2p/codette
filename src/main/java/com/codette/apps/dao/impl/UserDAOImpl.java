@@ -492,7 +492,7 @@ public class UserDAOImpl extends NamedParameterJdbcDaoSupport implements UserDAO
 	           }
 		   if(user.getQualification() != null){
 			   INSERT_USER = INSERT_USER+ "`QUALIFICATION`, ";
-			   }else if(!isStudent){
+			   }else if(isTeachingStaff){
 	        	   throw new FiedValidationException("Qualification is empty");
 	           }
 		   if(user.getClassRoom()!= null){
